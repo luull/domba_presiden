@@ -31,18 +31,10 @@ class signinController extends Controller
                 session(['admin_level' => $data->level]);
               
                 $admin_data = $data;
-                return view('admin.dashboard', compact('admin_data'));
+                return redirect('/dashboard');
             }
         } else {
             return redirect('/')->with('message', 'Wrong Username or Password ');
         }
-    }
-    public function dashboard()
-    {
-        if (!session('username') || session('username') == null) {
-            return view('/');
-        }
-        $admin_data = session('admin_data');
-        return view('admin.dashboard', compact('admin_data'));
     }
 }

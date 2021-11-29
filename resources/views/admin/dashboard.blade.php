@@ -24,4 +24,4 @@
 <h1> {{ $admin_data->username }}
 </h1>
 </div>
-@endsection
+@stop
