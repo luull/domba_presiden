@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>@yield('title')</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon.ico')}}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico')}}"/>
     <link href="{{ asset('admin/assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('admin/assets/js/loader.js')}}"></script>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
