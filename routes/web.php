@@ -19,14 +19,15 @@ Route::post('/admin/penimbangan/update', 'admin\penimbanganController@update')->
 Route::get('/admin/penimbangan/delete/{id}', 'admin\penimbanganController@delete')->name('delete_penimbangan');
 Route::get('/admin/penimbangan/find/{id}', 'admin\penimbanganController@find');
 
-Route::get('/stok_pakan', 'admin\stokpakanController@index');
-Route::post('/admin/stok_pakan/create', 'admin\stokpakanController@create')->name('create_stok_pakan');
-Route::post('/admin/stok_pakan/update', 'admin\stokpakanController@update')->name('update_stok_pakan');
-Route::get('/admin/stok_pakan/delete/{id}', 'admin\stokpakanController@delete')->name('delete_stok_pakan');
-Route::get('/admin/stok_pakan/find/{id}', 'admin\stokpakanController@find');
+Route::get('/supplier', 'admin\supplierController@index');
+Route::post('/admin/supplier/create', 'admin\supplierController@create')->name('create_supplier');
+Route::post('/admin/supplier/update', 'admin\supplierController@update')->name('update_supplier');
+Route::get('/admin/supplier/delete/{id}', 'admin\supplierController@delete')->name('delete_supplier');
+Route::get('/admin/supplier/find/{id}', 'admin\supplierController@find');
 
 Route::get('/order_pakan', 'admin\orderpakanController@index');
 Route::post('/admin/order_pakan/create', 'admin\orderpakanController@create')->name('create_order_pakan');
 Route::post('/admin/order_pakan/update', 'admin\orderpakanController@update')->name('update_order_pakan');
 Route::get('/admin/order_pakan/delete/{id}', 'admin\orderpakanController@delete')->name('delete_order_pakan');
 Route::get('/admin/order_pakan/find/{id}', 'admin\orderpakanController@find');
+Route::post('/admin/order_pakan/received', 'admin\orderpakanController@received')->name('received_order_pakan');

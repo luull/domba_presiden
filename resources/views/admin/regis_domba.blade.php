@@ -37,6 +37,7 @@
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th>No</th>
                                                 <th>No Regis</th>
                                                 <th>Berat Awal</th>
                                                 <th>Jenis</th>
@@ -49,8 +50,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php $i=1; ?>
                                             @foreach($data as $d)
                                             <tr>
+                                                <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_regis }}</td>
                                                 <td>{{ $d->berat_awal }} Kg</td>
                                                 <td>{{ $d->jenis }}</td>

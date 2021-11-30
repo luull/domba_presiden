@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StokPakan extends Model
+class Supplier extends Model
 {
-    protected $table = "stok_pakan";
+    protected $table = "supplier";
     protected $guarded = ['id'];
     public $timestamps = false;
 }

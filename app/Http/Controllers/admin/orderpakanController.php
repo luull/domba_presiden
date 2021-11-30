@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\JenisPakan;
 use App\OrderPakan;
+use App\Supplier;
 use Illuminate\Http\Request;
 
 class orderpakanController extends Controller
@@ -13,8 +14,9 @@ class orderpakanController extends Controller
     public function index()
     {
         $jenis_pakan = JenisPakan::get();
+        $supplier = Supplier::get();
         $data = OrderPakan::get();
-        return view('admin.order_pakan', compact('jenis_pakan','data'));
+        return view('admin.order_pakan', compact('jenis_pakan','data','supplier'));
     }
     public function create(Request $request){
         $validasi = $request->validate([
@@ -35,6 +37,8 @@ class orderpakanController extends Controller
                     'tgl_estimasi' => $request->tgl_estimasi,
                     'harga' => $request->harga,
                     'supplier' => $request->supplier,
+                    'status' => '0',
+                    'tgl_terima' => date('Y-m-d')
                 ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Order Pakan Berhasil Ditambahkan ', 'alert' => 'success']);
@@ -96,6 +100,23 @@ class orderpakanController extends Controller
             return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
         } else {
             return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+        }
+    }
+    public function received(Request $request)
+    {
+        if (!empty($request->id)) {
+            $hsl = OrderPakan::where('id', $request->id)->update([
+                'tgl_terima' => $request->tgl_terima,
+                'status' => 1
+            ]);
+                if ($hsl) {
+                    return redirect()->back()->with(['message' => 'Order Pakan Telah Sampai', 'alert' => 'success']);
+                }else {
+                    return redirect()->back()->with(['message' => 'Order Pakan gagal sampai', 'alert' => 'danger']);
+                }
+            
+        } else {
+            return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
         }
     }
 }

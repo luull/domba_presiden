@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/forms/switches.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 </head>
-<body class="form">
+<body class="form" style="background-color:#878686;">
     
 
     <div class="form-container outer">
@@ -24,8 +24,8 @@
                 <div class="form-container">
                     <div class="form-content">
 
-                        <h1 class="">Sign In</h1>
-                        <p class="">Log in to your account to continue.</p>
+                        <h1 class="">Login</h1>
+                        <img src="{{ asset('images/logo-pdp.png') }}" class="img-fluid" style="max-height:250px;"/>
                         @if (session('message'))
                         <div class="alert alert-warning alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="d-sm-flex justify-content-between mb-5">
                                     <div class="field-wrapper">
-                                        <button type="submit" class="btn btn-primary" value="">Log In</button>
+                                        <button type="submit" class="btn btn-default" value="">Log In</button>
                                     </div>
                                 </div>
 
