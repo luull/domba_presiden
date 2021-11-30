@@ -59,7 +59,7 @@
                                                 <td>{{ $d->jenis }}</td>
                                                 <td>{{ $d->kandang }}</td>
                                                 <td>{{ $d->kamar }}</td>
-                                                <td>{{ $d->harga_beli }}</td>
+                                                <td>Rp. {{ $d->harga_beli }}</td>
                                                 <td>{{ $d->supplier }}</td>
                                                 <td>{{ $d->tgl_masuk }}</td>
                                                 <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
@@ -171,7 +171,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">Rp.</span>
                                                 </div>
-                                            <input type="number" name="harga_beli" placeholder="0" class="form-control" required>
+                                            <input type="text" id="rupiah" name="harga_beli" placeholder="0" class="form-control" required>
                                             @error('harga_beli')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
@@ -295,7 +295,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">Rp.</span>
                                                 </div>
-                                            <input type="number" name="harga_beli" id="edit_harga_beli" placeholder="0" class="form-control" required>
+                                            <input type="text" name="harga_beli" id="rupiah2" placeholder="0" class="edit_harga_beli form-control" required>
                                             @error('harga_beli')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
@@ -349,7 +349,7 @@
                        $("#edit_jenis").val(hsl.jenis);
                        $("#edit_kandang").val(hsl.kandang);
                        $("#edit_kamar").val(hsl.kamar);
-                       $("#edit_harga_beli").val(hsl.harga_beli);
+                       $(".edit_harga_beli").val(hsl.harga_beli);
                        $("#edit_supplier").val(hsl.supplier);
                      console.log(hsl.tgl_masuk);
                        $("#editModal").modal();
@@ -358,5 +358,58 @@
             });
             
         })
-    </script>    
+    </script>  
+      <script>
+       /* Tanpa Rupiah */
+            var tanpa_rupiah = document.getElementById('rupiah');
+            tanpa_rupiah.addEventListener('keyup', function(e)
+            {
+                tanpa_rupiah.value = formatRupiah(this.value);
+            });
+            
+            /* Fungsi */
+            function formatRupiah(angka, prefix)
+            {
+                var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split    = number_string.split(','),
+                    sisa     = split[0].length % 3,
+                    rupiah     = split[0].substr(0, sisa),
+                    ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+                    
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+                
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+            }
+	</script>
+    <script type="text/javascript">
+		
+		var rupiah = document.getElementById('rupiah2');
+		rupiah.addEventListener('keyup', function(e){
+			// tambahkan 'Rp.' pada saat form di ketik
+			// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+			rupiah.value = formatRupiah(this.value, 'Rp. ');
+		});
+ 
+		/* Fungsi formatRupiah */
+		function formatRupiah(angka, prefix){
+			var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split   		= number_string.split(','),
+			sisa     		= split[0].length % 3,
+			rupiah     		= split[0].substr(0, sisa),
+			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+ 
+			// tambahkan titik jika yang di input sudah menjadi angka ribuan
+			if(ribuan){
+				separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+ 
+			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+			return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
+		}
+	</script>
 @stop
