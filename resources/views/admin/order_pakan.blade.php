@@ -135,7 +135,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">Rp.</span>
                                                 </div>
-                                            <input type="number" name="harga_beli" placeholder="0" class="form-control" required>
+                                            <input type="number" name="harga" placeholder="0" class="form-control" required>
                                             @error('harga_beli')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
