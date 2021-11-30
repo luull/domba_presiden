@@ -71,6 +71,9 @@
     <script>
       var f1 = flatpickr(document.getElementById('basicFlatpickr'));
     </script>
+    <script>
+      var f1 = flatpickr(document.getElementById('basicFlatpickr2'));
+    </script>
     <script src="{{ asset('admin/plugins/table/datatable/datatables.js')}}"></script>
     <script>
         $('#zero-config').DataTable({
