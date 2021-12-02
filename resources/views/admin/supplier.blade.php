@@ -113,7 +113,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Jenis Supplier</label>
-                                                <input type="text" name="jenis_supplier" placeholder="Jenis supplier" class="form-control" value="{{ old('jenis_supplier') }}" required>
+                                                <select class="form-control" name="jenis_supplier">
+                                                    <option value="Domba">Domba</option>
+                                                    <option value="Pakan">Pakan</option>
+                                                </select>
                                                 @error('jenis_supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -131,18 +134,24 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Kota</label>
-                                                <input type="text" name="kota" placeholder="Kota supplier" class="form-control" value="{{ old('kota') }}" required>
-                                                @error('kota')
+                                                <label>Propinsi</label>
+                                                <select name="propinsi" id="propinsi" class="form-control" name="propinsi" value="{{ old('propinsi') }}" required>
+                                                    @foreach ($province as $prov)
+                                                    <option value="{{$prov->province}}">{{$prov->province}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('propinsi')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Propinsi</label>
-                                                <input type="text" name="propinsi" placeholder="Propinsi supplier" class="form-control" value="{{ old('propinsi') }}" required>
-                                                @error('propinsi')
+                                                <label>Kota</label>
+                                                <select id="kota" name="kota" class="form-control" value="{{ old('kota') }}" required>
+                                                    
+                                                </select>
+                                                @error('kota')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -168,7 +177,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Kontak</label>
-                                                <input type="number" name="kontak" placeholder="Kontak supplier" class="form-control" value="{{ old('kontak') }}" required>
+                                                <input type="text" name="kontak" placeholder="Kontak supplier" class="form-control" value="{{ old('kontak') }}" required>
                                                 @error('kontak')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -221,7 +230,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Jenis Supplier</label>
-                                                <input type="text" name="jenis_supplier" id="edit_jenis_supplier" class="form-control" value="{{ old('jenis_supplier') }}" required>
+                                                <select class="form-control" id="edit_jenis_supplier" name="jenis_supplier">
+                                                    <option value="Domba">Domba</option>
+                                                    <option value="Pakan">Pakan</option>
+                                                </select>
                                                 @error('jenis_supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -239,18 +251,26 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Kota</label>
-                                                <input type="text" name="kota" id="edit_kota" class="form-control" value="{{ old('kota') }}" required>
-                                                @error('kota')
+                                                <label>Propinsi</label>
+                                                <select name="propinsi" id="propinsi" class="edit_propinsi form-control" name="propinsi">
+                                                    @foreach ($province as $prov)
+                                                    <option value="{{$prov->province}}" id="edit_propinsi"  >{{$prov->province}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('propinsi')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Propinsi</label>
-                                                <input type="text" name="propinsi" id="edit_propinsi" class="form-control" value="{{ old('propinsi') }}" required>
-                                                @error('propinsi')
+                                                <label>Kota</label>
+                                                <select id="kota" name="kota" class="edit_kota form-control" > 
+                                                    @foreach ($city as $ct)
+                                                    <option value="{{$ct->city_name.' '.$ct->type}}" id="edit_kota" >{{$ct->city_name.' '.$ct->type}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('kota')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -276,7 +296,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Kontak</label>
-                                                <input type="number" name="kontak" id="edit_kontak" class="form-control" value="{{ old('kontak') }}" required>
+                                                <input type="text" name="kontak" id="edit_kontak" class="form-control" value="{{ old('kontak') }}" required>
                                                 @error('kontak')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -328,8 +348,8 @@
                        $("#edit_jenis_supplier").val(hsl.jenis_supplier);
                        $("#edit_telp").val(hsl.telp);
                        $("#edit_email").val(hsl.email);
-                       $("#edit_kota").val(hsl.kota);
-                       $("#edit_propinsi").val(hsl.propinsi);
+                       $(".edit_kota").val(hsl.kota);
+                       $(".edit_propinsi").val(hsl.propinsi);
                        $("#edit_kontak").val(hsl.kontak);
                        $("#edit_hp").val(hsl.hp);
                        $("#edit_alamat").val(hsl.alamat);
@@ -337,6 +357,40 @@
                    }
                 }
             });
+            
+        })
+    </script>    
+    <script>
+        $(document).ready(function() {
+            $("#propinsi").change(function() {
+            var propinsi = $("#propinsi").val();
+            console.log(propinsi);
+            $.ajax({
+                type: 'get',
+                method: 'get',
+                url: '/city/find/' + propinsi,
+                data: '_token = <?php echo csrf_token() ?>',
+                success: function(hsl) {
+                    if (hsl.code == 404) {
+                        alert(hsl.error);
+
+                    } else {
+                        var data = [];
+                        data = hsl.result;
+                        $("#kota").children().remove().end();
+                        $.each(data, function(i, item) {
+                            $("#kota").append('<option value="' + item.city_name + ' ' + item.type + '">' + item.city_name + ' ' + item.type + '</option>');
+                        })
+                        kecamatan();
+                        $("#kota").focus();
+
+                    }
+                }
+            });
+            })
+            $("#kota").change(function() {
+                kecamatan();
+            })
             
         })
     </script>    

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Supplier;
+use App\City;
+use App\Province;
 use Illuminate\Http\Request;
 
 class supplierController extends Controller
@@ -12,7 +14,9 @@ class supplierController extends Controller
     public function index()
     {
         $data = Supplier::get();
-        return view('admin.supplier', compact('data'));
+        $province = Province::get();
+        $city = City::get();
+        return view('admin.supplier', compact('data','province','city'));
     }
     public function pakan()
     {
@@ -120,5 +124,25 @@ class supplierController extends Controller
         } else {
             return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
         }
+    }
+    public function city_list(Request $req)
+    {
+        $get = Province::where('province', $req->id)->first()->id;
+        $city = City::where('province_id', $get)->get();
+        if (count($city) > 0) {
+            $data = array(
+                'code' => 200,
+                'result' => $city
+            );
+            $code = 200;
+        } else {
+            $code = 404;
+            $data = array(
+                'code' => 404,
+                'error' => 'Province ID not Found'
+            );
+        }
+
+        return  response()->json($data, $code);
     }
 }
