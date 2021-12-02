@@ -11,6 +11,9 @@ class supplierController extends Controller
 
     public function index()
     {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
         $data = Supplier::get();
         return view('admin.supplier', compact('data'));
     }

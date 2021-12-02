@@ -39,11 +39,9 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>No Order</th>
+                                                <th>Supplier</th>
                                                 <th>Tgl Order</th>
                                                 <th>Tgl Estimasi</th>
-                                                <th>Jenis Pakan</th>
-                                                <th>Harga</th>
-                                                <th>Supplier</th>
                                                 <th>Status</th>
                                                 <th class="no-content"></th>
                                             </tr>
@@ -54,18 +52,17 @@
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_order }}</td>
+                                                <td>{{ $d->supplier }}</td>
                                                 <td>{{ $d->tgl_order }}</td>
                                                 <td>{{ $d->tgl_estimasi }}</td>
-                                                <td>{{ $d->jenis_pakan }}</td>
-                                                <td>Rp. {{ $d->harga }}</td>
-                                                <td>{{ $d->supplier }}</td>
                                                 @if($d->status == 1)
                                                 <td><button class="btn btn-default btn-sm disabled"><i class="fa fa-check-circle text-success"></i> <br> Diterima <br> <small>{{ $d->tgl_terima }}</small></button></td>
                                                 @else 
                                                 <td><a href="javascript:void(0);" class="received btn btn-warning btn-rounded" id="e-{{$d->id}}">Terima</a></td>
                                                 @endif
-                                                <td><a href="javascript:void(0);" class="get" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/order_pakan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                                <!-- <td><a href="javascript:void(0);" class="get" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <a href="/admin/order_pakan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td> -->
+                                                <td><a href="/detail_order/{{$d->no_order}}"data-toggle="tooltip" data-placement="top">Detail</a></td>
                                                 
                                             </tr>
                                             @endforeach
@@ -105,7 +102,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+<div class="modal fade" id="addModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,11 +113,7 @@
                 <div class="container">
                 <form  action="{{route('create_order_pakan')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                                
                              
                                     <div class="row">
                                         <div class="col-md-6">
@@ -150,39 +143,12 @@
                                     </div>
                                 
                                     <div class="row">
-                                        <div class="col-md-2">
-                                            
-                                            <div class="form-group mb-3">
-                                                <label>Jenis Pakan</label>
-                                                <select class="form-control" name="jenis_pakan">
-                                                    @foreach($jenis_pakan as $j)
-                                                    <option value="{{ $j->id}}">{{ $j->pakan}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('jenis_pakan')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-md-5">
-                                            <label>Harga Beli</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5">Rp.</span>
-                                                </div>
-                                            <input type="text" name="harga" id="rupiah" class="form-control" required>
-                                            @error('harga')
-                                            <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <div class="form-group mb-3">
                                                 <label>Supplier</label>
                                                 <select class="form-control" name="supplier">
                                                     @foreach($supplier as $s)
-                                                    <option value="{{ $s->id}}">{{ $s->nama_supplier}}</option>
+                                                    <option value="{{ $s->nama_supplier}}">{{ $s->nama_supplier}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('supplier')
@@ -191,7 +157,9 @@
                                             </div>
                                         </div>
                                     </div>
-                              
+                                    <hr>
+                                
+
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
                                         <button type="submit" class="btn btn-primary">Tambah</button>
@@ -214,11 +182,7 @@
                 <div class="container">
                 <form  action="{{route('update_order_pakan')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                             
                                     <input type="hidden" id="edit_id" name="id">
                                     <input type="hidden" id="edit_no_order" name="no_order">
                                     <div class="row">
@@ -255,7 +219,7 @@
                                                 <label>Jenis Pakan</label>
                                                 <select class="form-control" id="edit_jenis_pakan" name="jenis_pakan">
                                                     @foreach($jenis_pakan as $j)
-                                                    <option value="{{ $j->id}}" id="edit_jenis_pakan">{{ $j->pakan}}</option>
+                                                    <option value="{{ $j->pakan}}" id="edit_jenis_pakan">{{ $j->pakan}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('jenis_pakan')
@@ -281,7 +245,7 @@
                                             <label>Supplier</label>
                                                 <select class="form-control" name="supplier" id="edit_supplier">
                                                     @foreach($supplier as $s)
-                                                    <option value="{{ $s->id}}" id="edit_supplier">{{ $s->nama_supplier}}</option>
+                                                    <option value="{{ $s->nama_supplier}}" id="edit_supplier">{{ $s->nama_supplier}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('supplier')
@@ -335,6 +299,9 @@
             });
             
         })
+        var ss = $(".basic").select2({
+            tags: true,
+        });
     </script>    
     <script >
         $(".received").click(function(){
@@ -361,7 +328,7 @@
             
         })
     </script>    
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       /* Tanpa Rupiah */
     var tanpa_rupiah = document.getElementById('rupiah');
     tanpa_rupiah.addEventListener('keyup', function(e)
@@ -413,5 +380,5 @@
 			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 			return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
 		}
-	</script>
+	</script> -->
 @stop

@@ -12,6 +12,9 @@ class penimbanganController extends Controller
 
     public function index()
     {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
         $data_domba = RegisDomba::get();
         $data= Penimbangan::get();
         return view('admin.penimbangan', compact('data_domba','data'));

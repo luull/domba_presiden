@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li class="menu">
-                        <a href="/supplier"data-active="{{ Request::is('supplier') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('/penimbangan_domba') ? 'true' : 'false' }}"  class="dropdown-toggle">
+                        <a href="/supplier"data-active="{{ Request::is('supplier') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('/supplier') ? 'true' : 'false' }}"  class="dropdown-toggle">
                             <div class="">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                                 <span>Supplier</span>
@@ -36,12 +36,24 @@
                         </a>
                     </li>
                     <li class="menu">
-                        <a href="/order_pakan"data-active="{{ Request::is('order_pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('/penimbangan_domba') ? 'true' : 'false' }}"  class="dropdown-toggle">
+                        <a href="#pakan" data-toggle="collapse" data-active="{{ Request::is('pakan','order_pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('pakan','order_pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('pakan','order_pakan') ? '' : 'collapsed' }}">
                             <div class="">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-                                <span>Order Pakan</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                <span>Pakan</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
+                        <ul class="collapse submenu list-unstyled {{ Request::is('pakan','order_pakan') ? 'show' : '' }}" id="pakan" data-parent="#accordionExample">
+                            <li class="{{ Request::is('pakan') ? 'active' : '' }}">
+                                <a href="/pakan"> Jenis Pakan </a>
+                            </li>
+                            <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
+                                <a href="/order_pakan"> Order Pakan </a>
+                            </li>
+                         
+                        </ul>
                     </li>
                     <!-- <li class="menu">
                         <a href="#app" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">

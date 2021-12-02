@@ -13,6 +13,9 @@ class regisController extends Controller
 
     public function index()
     {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
         $jenis = JenisDomba::get();
         $kandang = KandangDomba::get();
         $data = RegisDomba::get();

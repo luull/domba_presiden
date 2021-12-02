@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins/table/datatable/dt-global_style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins/select2/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/forms/switches.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
    
     @yield('style')
@@ -94,6 +95,8 @@
     </script>
     <script src="{{ asset('admin/plugins/select2/select2.min.js')}}"></script>
     <script src="{{ asset('admin/plugins/select2/custom-select2.js')}}"></script>
+    <script src="{{ asset('admin/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
+    <script src="{{ asset('admin/plugins/bootstrap-touchspin/custom-bootstrap-touchspin.js')}}"></script>
     @yield('script')
 </body>
 <div class="modal" tabindex="-1" role="dialog" id="mymodal">

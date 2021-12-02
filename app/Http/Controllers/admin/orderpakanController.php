@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\JenisPakan;
 use App\OrderPakan;
 use App\Supplier;
+use App\Pakan;
+use App\Detail;
+use App\Dummy;
 use Illuminate\Http\Request;
 
 class orderpakanController extends Controller
@@ -13,34 +16,46 @@ class orderpakanController extends Controller
 
     public function index()
     {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
         $jenis_pakan = JenisPakan::get();
         $supplier = Supplier::get();
+        $pakan = Pakan::get();
         $data = OrderPakan::get();
-        return view('admin.order_pakan', compact('jenis_pakan','data','supplier'));
+        return view('admin.order_pakan', compact('jenis_pakan','data','supplier','pakan'));
     }
     public function create(Request $request){
         $validasi = $request->validate([
             'tgl_order' => 'required',
-            'jenis_pakan' => 'required',
             'tgl_estimasi' => 'required',
-            'harga' => 'required',
             'supplier' => 'required',
         ]);
         $karakter = '123456789';
-        $generate = substr(str_shuffle($karakter), 0, 6);
-        $hasil = 'PO-'.$generate;
+        $generate = substr(str_shuffle($karakter), 0, 3);
+        $hasil = 'PO-00'.$generate;
+        $hasil2 = 'IVC-00'.$generate;
         if ($validasi) {
                 $hsl = OrderPakan::create([
                     'no_order' => $hasil,
                     'tgl_order' => $request->tgl_order,
-                    'jenis_pakan' => $request->jenis_pakan,
                     'tgl_estimasi' => $request->tgl_estimasi,
-                    'harga' => $request->harga,
+                    'harga' => '0',
                     'supplier' => $request->supplier,
                     'status' => '0',
                     'tgl_terima' => date('Y-m-d')
                 ]);
+                session(['no_order' => $hasil]);
+
+                
                 if ($hsl) {
+                    session(['id_order' => session('no_order')]);
+                    session(['tgl_order' => $request->tgl_order]);
+                    session(['tgl_estimasi' => $request->tgl_estimasi]);
+                    session(['supplier' => $request->supplier]);
+                    session(['tgl_transaksi' => date('Y-m-d')]);
+                    session(['order' => session('admin_username')]);
+
                     return redirect()->back()->with(['message' => 'Order Pakan Berhasil Ditambahkan ', 'alert' => 'success']);
                 }else {
                     return redirect()->back()->with(['message' => 'Order Pakan gagal ditambahkan', 'alert' => 'danger']);
@@ -64,9 +79,7 @@ class orderpakanController extends Controller
         if (!empty($request->id)) {
             $validasi = $request->validate([
                 'tgl_order' => 'required',
-                'jenis_pakan' => 'required',
                 'tgl_estimasi' => 'required',
-                'harga' => 'required',
                 'supplier' => 'required',
             ]);
 

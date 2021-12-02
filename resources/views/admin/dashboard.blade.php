@@ -21,7 +21,7 @@
     </div>
 @section('content')
 <div class="container">
-<h1> {{ $admin_data->username }}
+<h1> {{ session('admin_username') }}
 </h1>
 </div>
 @stop

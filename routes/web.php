@@ -25,9 +25,19 @@ Route::post('/admin/supplier/update', 'admin\supplierController@update')->name('
 Route::get('/admin/supplier/delete/{id}', 'admin\supplierController@delete')->name('delete_supplier');
 Route::get('/admin/supplier/find/{id}', 'admin\supplierController@find');
 
+Route::get('/pakan', 'admin\pakanController@index');
+Route::post('/admin/pakan/create', 'admin\pakanController@create')->name('create_pakan');
+Route::post('/admin/pakan/update', 'admin\pakanController@update')->name('update_pakan');
+Route::get('/admin/pakan/delete/{id}', 'admin\pakanController@delete')->name('delete_pakan');
+Route::get('/admin/pakan/find/{id}', 'admin\pakanController@find');
+
 Route::get('/order_pakan', 'admin\orderpakanController@index');
 Route::post('/admin/order_pakan/create', 'admin\orderpakanController@create')->name('create_order_pakan');
 Route::post('/admin/order_pakan/update', 'admin\orderpakanController@update')->name('update_order_pakan');
 Route::get('/admin/order_pakan/delete/{id}', 'admin\orderpakanController@delete')->name('delete_order_pakan');
 Route::get('/admin/order_pakan/find/{id}', 'admin\orderpakanController@find');
 Route::post('/admin/order_pakan/received', 'admin\orderpakanController@received')->name('received_order_pakan');
+
+Route::get('/detail_order/{id}', 'admin\detailorderController@index')->name('detail_order');
+Route::post('/admin/dummy/create', 'admin\detailorderController@create')->name('create_dummy');
+Route::get('/admin/detail_order/find/{id}', 'admin\detailorderController@find');
