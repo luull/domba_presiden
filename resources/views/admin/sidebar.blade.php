@@ -14,7 +14,7 @@
                      <li class="menu">
                         <a href="#profil" data-toggle="collapse" data-active="{{ Request::is('profil','ubah_password') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('profil','ubah_password') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('profil','ubah_password') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="user"></i>
                                 <span>Profil Admin</span>
                             </div>
                             <div>
@@ -32,33 +32,29 @@
                         </ul>
                     </li>
                     <li class="menu">
-                        <a href="#setting" data-toggle="collapse" data-active="{{ Request::is('setting','ubah_password') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('setting','ubah_password') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('setting','ubah_password') ? '' : 'collapsed' }}">
+                        <a href="#setting" data-toggle="collapse" data-active="{{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                <i data-feather="settings"></i>
                                 <span>Setting</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                        <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('setting','ubah_password') ? 'show' : '' }}" id="setting" data-parent="#accordionExample">
+                        <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? 'show' : '' }}" id="setting" data-parent="#accordionExample">
                             <li class="{{ Request::is('user') ? 'active' : '' }}">
                                 <a href="/user"> User </a>
                             </li>
-                            <li class="{{ Request::is('tabel/jenis-pakan') ? 'active' : '' }}">
-                                <a href="/tabel/jenis-pakan"> Jenis Pakan </a>
+                            <li class="{{ Request::is('satuan_pakan') ? 'active' : '' }}">
+                                <a href="/satuan_pakan"> Satuan Pakan </a>
                                 
                             </li>
-                            <li class="{{ Request::is('tabel/satuan-pakan') ? 'active' : '' }}">
-                                <a href="/table/satuan-pakan"> Satuan Pakan </a>
+                            <li class="{{ Request::is('jenis_domba') ? 'active' : '' }}">
+                                <a href="/jenis_domba"> Jenis Domba </a>
                                 
                             </li>
-                            <li class="{{ Request::is('tabel/jenis-domba') ? 'active' : '' }}">
-                                <a href="/tabel/jenis-domba"> Jenis Domba </a>
-                                
-                            </li>
-                            <li class="{{ Request::is('/tabel/kandang') ? 'active' : '' }}">
-                                <a href="/tabel/kandang">Kandang </a>
+                            <li class="{{ Request::is('kandang_domba') ? 'active' : '' }}">
+                                <a href="/kandang_domba">Kandang </a>
                                 
                             </li>
                            
@@ -66,16 +62,16 @@
                         </ul>
                     </li>
                     <li class="menu">
-                        <a href="#supplier" data-toggle="collapse" data-active="{{ Request::is('supplier','order_supplier') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('supplier','order_supplier') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('supplier','order_supplier') ? '' : 'collapsed' }}">
+                        <a href="#supplier" data-toggle="collapse" data-active="{{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('supplier','supplier/pakan','supplier/domba') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                <i data-feather="truck"></i>
                                 <span>Supplier</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                        <ul class="collapse submenu list-unstyled {{ Request::is('supplier','order_supplier') ? 'show' : '' }}" id="supplier" data-parent="#accordionExample">
+                        <ul class="collapse submenu list-unstyled {{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'show' : '' }}" id="supplier" data-parent="#accordionExample">
                             <li class="{{ Request::is('supplier/pakan') ? 'active' : '' }}">
                                 <a href="/supplier/pakan"> Supplier Pakan </a>
                             </li>
@@ -83,7 +79,7 @@
                                 <a href="/supplier/domba"> Supplier Domba </a>
                             </li>
                             <li class="{{ Request::is('supplier') ? 'active' : '' }}">
-                                <a href="/supplier">Daftar Supplir  </a>
+                                <a href="/supplier">Daftar Supplier  </a>
                             </li>
                          
                         </ul>
@@ -91,24 +87,24 @@
                     
                     
                      <li class="menu">
-                        <a href="#domba" data-toggle="collapse" data-active="{{ Request::is('domba','ubah_password') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('domba','ubah_password') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('domba','ubah_password') ? '' : 'collapsed' }}">
+                        <a href="#domba" data-toggle="collapse" data-active="{{ Request::is('domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('regis_domba','penimbangan_domba','pakan') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="clipboard"></i>
                                 <span>Domba</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                        <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('domba','ubah_password') ? 'show' : '' }}" id="domba" data-parent="#accordionExample">
-                            <li class="{{ Request::is('domba') ? 'active' : '' }}">
+                        <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'show' : '' }}" id="domba" data-parent="#accordionExample">
+                            <li class="{{ Request::is('regis_domba') ? 'active' : '' }}">
                                 <a href="/regis_domba"> Registrasi </a>
                             </li>
-                            <li class="{{ Request::is('ubah_password') ? 'active' : '' }}">
+                            <li class="{{ Request::is('penimbangan_domba') ? 'active' : '' }}">
                                 <a href="/penimbangan_domba"> Penimbangan </a>
                                 
                             </li>
-                            <li class="{{ Request::is('ubah_password') ? 'active' : '' }}">
+                            <li class="{{ Request::is('pakan') ? 'active' : '' }}">
                                 <a href="/pakan"> Pemberian Pakan </a>
                                 
                             </li>
@@ -118,34 +114,30 @@
                     </li>
                     
                     <li class="menu">
-                        <a href="#pakan" data-toggle="collapse" data-active="{{ Request::is('pakan','order_pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('pakan','order_pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('pakan','order_pakan') ? '' : 'collapsed' }}">
+                        <a href="#pakan" data-toggle="collapse" data-active="{{ Request::is('order_pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('order_pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('order_pakan') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="box"></i>
                                 <span>Pakan</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                        <ul class="collapse submenu list-unstyled {{ Request::is('pakan','order_pakan') ? 'show' : '' }}" id="pakan" data-parent="#accordionExample">
-                            <li class="{{ Request::is('pakan') ? 'active' : '' }}">
-                                <a href="/pakan/tabel"> Jenis Pakan </a>
-                            </li>
-                           
+                        <ul class="collapse submenu list-unstyled {{ Request::is('order_pakan') ? 'show' : '' }}" id="pakan" data-parent="#accordionExample">
                             <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
                                 <a href="/order_pakan"> Order Pakan </a>
                             </li>
-                            <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
-                                <a href="/order_pakan"> Penerimaan Pakan </a>
+                            <li class="{{ Request::is('penerimaan_pakan') ? 'active' : '' }}">
+                                <a href="/penerimaan_pakan"> Penerimaan Pakan </a>
                             </li>
-                            <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
-                                <a href="/order_pakan"> Laporan Order Pakan </a>
+                            <li class="{{ Request::is('laporan_pakan') ? 'active' : '' }}">
+                                <a href="/laporan_pakan"> Laporan Order Pakan </a>
                             </li>
-                            <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
-                                <a href="/order_pakan"> Laporan Penerimaan Pakan </a>
+                            <li class="{{ Request::is('laporan_penerimaan_pakan') ? 'active' : '' }}">
+                                <a href="/laporan_penerimaan_pakan"> Laporan Penerimaan Pakan </a>
                             </li>
-                            <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
-                                <a href="/order_pakan"> Stok Pakan </a>
+                            <li class="{{ Request::is('stok_pakan') ? 'active' : '' }}">
+                                <a href="/stok_pakan"> Stok Pakan </a>
                             </li>
                          
                         </ul>
@@ -153,7 +145,7 @@
                     <li class="menu">
                         <a href="#investor" data-toggle="collapse" data-active="{{ Request::is('investor','order_investor') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('investor','order_investor') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('investor','order_investor') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="dollar-sign"></i>
                                 <span>Investor</span>
                             </div>
                             <div>
@@ -176,7 +168,7 @@
                     <li class="menu">
                         <a href="#customer" data-toggle="collapse" data-active="{{ Request::is('customer','order_customer') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('customer','order_customer') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('customer','order_customer') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="users"></i>
                                 <span>Customer</span>
                             </div>
                             <div>
@@ -199,7 +191,7 @@
                     <li class="menu">
                         <a href="#review" data-toggle="collapse" data-active="{{ Request::is('review','order_review') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('review','order_review') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('review','order_review') ? '' : 'collapsed' }}">
                             <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                            <i data-feather="award"></i>
                                 <span>Review</span>
                             </div>
                             <div>

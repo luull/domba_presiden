@@ -43,3 +43,21 @@ Route::post('/admin/order_pakan/received', 'admin\orderpakanController@received'
 Route::get('/detail_order/{id}', 'admin\detailorderController@index')->name('detail_order');
 Route::post('/admin/dummy/create', 'admin\detailorderController@create')->name('create_dummy');
 Route::get('/admin/detail_order/find/{id}', 'admin\detailorderController@find');
+
+Route::get('/jenis_domba', 'admin\jenisdombaController@index');
+Route::post('/admin/jenis_domba/create', 'admin\jenisdombaController@create')->name('create_jenis_domba');
+Route::post('/admin/jenis_domba/update', 'admin\jenisdombaController@update')->name('update_jenis_domba');
+Route::get('/admin/jenis_domba/delete/{id}', 'admin\jenisdombaController@delete')->name('delete_jenis_domba');
+Route::get('/admin/jenis_domba/find/{id}', 'admin\jenisdombaController@find');
+
+Route::get('/kandang_domba', 'admin\kandangdombaController@index');
+Route::post('/admin/kandang_domba/create', 'admin\kandangdombaController@create')->name('create_kandang_domba');
+Route::post('/admin/kandang_domba/update', 'admin\kandangdombaController@update')->name('update_kandang_domba');
+Route::get('/admin/kandang_domba/delete/{id}', 'admin\kandangdombaController@delete')->name('delete_kandang_domba');
+Route::get('/admin/kandang_domba/find/{id}', 'admin\kandangdombaController@find');
+
+Route::get('/satuan_pakan', 'admin\satuanpakanController@index');
+Route::post('/admin/satuan_pakan/create', 'admin\satuanpakanController@create')->name('create_satuan_pakan');
+Route::post('/admin/satuan_pakan/update', 'admin\satuanpakanController@update')->name('update_satuan_pakan');
+Route::get('/admin/satuan_pakan/delete/{id}', 'admin\satuanpakanController@delete')->name('delete_satuan_pakan');
+Route::get('/admin/satuan_pakan/find/{id}', 'admin\satuanpakanController@find');
