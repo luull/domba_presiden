@@ -12,7 +12,7 @@
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Supplier</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>user</span></li>
                             </ol>
                         </nav>
 
@@ -26,7 +26,7 @@
         <div class="row layout-top-spacing">
             <div class="card m-3">
                 <div class="card-header">
-                <h5 class="card-title text-center">DAFTAR INVESTOR</h5>
+                <h5 class="card-title text-center">DAFTAR USER ADMIN</h5>
                 </div>
                 <div class="card-body p-2 pt-3">
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -37,7 +37,7 @@
                                     @endif
                 <div class="widget-content widget-content-area br-6">
                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
-                             Tambah Investor
+                             Tambah User
                              </button>
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -45,7 +45,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th class="no-content"></th>
-                                                <th>Nama </th>
+                                                <th>Inisial</th>
+                                                <th>Nama User</th>
                                                 <th>Alamat</th> 
                                                 <th>Kota</th>
                                                 <th>Propinsi</th>
@@ -61,8 +62,9 @@
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                     <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/supplier/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
-                                            
+                                                <a href="/admin/user/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                              <td>{{ $d->inisial }}</td>
+                                              
                                                 <td>{{ $d->nama }}</td>
                                                 <td>{{ $d->alamat }}</td>
                                                 <td>{{ $d->kota }}</td>
@@ -88,12 +90,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Tambah Investor</h5>
+                <h5 class="modal-title" id="addModalLabel">Tambah User</h5>
                 
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form  action="{{route('create_investor')}}" method="Post" enctype="multipart/form-data">    
+                <form  action="{{route('create_user')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
                                     @if (session('message'))
                                     <div class="alert alert-{{ session('alert') }} fade show">
@@ -103,9 +105,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
-                                                <label>Nama Investor</label>
-                                                <input type="text" name="nama_investor" placeholder="..." class="form-control" required>
-                                                @error('nama_investor')
+                                                <label>Nama user</label>
+                                                <input type="text" name="nama_user" placeholder="..." class="form-control" required>
+                                                @error('nama_user')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -126,12 +128,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Investor</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
                 
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form  action="{{route('update_investor')}}" method="Post" enctype="multipart/form-data">    
+                <form  action="{{route('update_user')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
                                     @if (session('message'))
                                     <div class="alert alert-{{ session('alert') }} fade show">
@@ -142,9 +144,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
-                                                <label>Nama Investor</label>
-                                                <input type="text" id="edit_investor" name="nama_investor" placeholder="..." class="form-control" required>
-                                                @error('nama_investor')
+                                                <label>Nama user</label>
+                                                <input type="text" id="edit_user" name="nama_user" placeholder="..." class="form-control" required>
+                                                @error('nama_user')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -174,7 +176,7 @@
             $.ajax({
                 type:'get',
                 method:'get',
-                url:'/admin/supplier/find/'  + id ,
+                url:'/admin/user/find/'  + id ,
                 data:'_token = <?php echo csrf_token() ?>'   ,
                 success:function(hsl) {
                    if (hsl.error){
@@ -182,7 +184,7 @@
 
                    } else{
                        $("#edit_id").val(id);
-                       $("#edit_investor").val(hsl.nama_investor);
+                       $("#edit_user").val(hsl.nama_user);
                        $("#editModal").modal();
                    }
                 }

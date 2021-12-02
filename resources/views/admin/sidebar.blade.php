@@ -154,7 +154,7 @@
                         </a>
                         <ul class="collapse submenu list-unstyled {{ Request::is('investor','order_investor') ? 'show' : '' }}" id="investor" data-parent="#accordionExample">
                             <li class="{{ Request::is('investor') ? 'active' : '' }}">
-                                <a href="/investor/tabel"> Daftar investor </a>
+                                <a href="/investor"> Daftar investor </a>
                             </li>
                             <li class="{{ Request::is('investor') ? 'active' : '' }}">
                                 <a href="/investor"> Pembelian Domba </a>
@@ -177,7 +177,7 @@
                         </a>
                         <ul class="collapse submenu list-unstyled {{ Request::is('customer','order_customer') ? 'show' : '' }}" id="customer" data-parent="#accordionExample">
                             <li class="{{ Request::is('customer') ? 'active' : '' }}">
-                                <a href="/customer/tabel"> Daftar customer </a>
+                                <a href="/customer"> Daftar customer </a>
                             </li>
                             <li class="{{ Request::is('customer') ? 'active' : '' }}">
                                 <a href="/customer"> Pembelian Domba </a>

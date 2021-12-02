@@ -37,7 +37,7 @@
                                     @endif
                 <div class="widget-content widget-content-area br-6">
                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
-                             Tambah Supplier
+                             Tambah Customer
                              </button>
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -88,12 +88,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Tambah Supplier</h5>
+                <h5 class="modal-title" id="addModalLabel">Tambah Customer</h5>
                 
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form  action="{{route('create_supplier')}}" method="Post" enctype="multipart/form-data">    
+                <form  action="{{route('create_customer')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
                                     @if (session('message'))
                                     <div class="alert alert-{{ session('alert') }} fade show">
@@ -103,9 +103,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
-                                                <label>Nama Supplier</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" required>
-                                                @error('nama_supplier')
+                                                <label>Nama Customer</label>
+                                                <input type="text" name="nama_customer" placeholder="..." class="form-control" required>
+                                                @error('nama_customer')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -126,12 +126,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Supplier</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Customer</h5>
                 
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form  action="{{route('update_supplier')}}" method="Post" enctype="multipart/form-data">    
+                <form  action="{{route('update_customer')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
                                     @if (session('message'))
                                     <div class="alert alert-{{ session('alert') }} fade show">
@@ -142,9 +142,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
-                                                <label>Nama Supplier</label>
-                                                <input type="text" id="edit_supplier" name="nama_supplier" placeholder="..." class="form-control" required>
-                                                @error('nama_supplier')
+                                                <label>Nama Customer</label>
+                                                <input type="text" id="edit_customer" name="nama_customer" placeholder="..." class="form-control" required>
+                                                @error('nama_customer')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -182,7 +182,7 @@
 
                    } else{
                        $("#edit_id").val(id);
-                       $("#edit_supplier").val(hsl.nama_supplier);
+                       $("#edit_customer").val(hsl.nama_customer);
                        $("#editModal").modal();
                    }
                 }
