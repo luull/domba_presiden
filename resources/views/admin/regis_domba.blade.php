@@ -55,11 +55,11 @@
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_regis }}</td>
-                                                <td>{{ $d->berat_awal }} Kg</td>
+                                                <td>{{ number_format($d->berat_awal,2) }} Kg</td>
                                                 <td>{{ $d->jenis }}</td>
                                                 <td>{{ $d->kandang }}</td>
                                                 <td>{{ $d->kamar }}</td>
-                                                <td>Rp. {{ $d->harga_beli }}</td>
+                                                <td>Rp. {{ number_format($d->harga_beli) }}</td>
                                                 <td>{{ $d->supplier }}</td>
                                                 <td>{{ $d->tgl_masuk }}</td>
                                                 <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
@@ -94,7 +94,7 @@
                                     @endif
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
-                                        <input type="text" name="no_regis" placeholder="No Registrasi" class="form-control" required>
+                                        <input type="text" name="no_regis" placeholder="No Registrasi" class="form-control" required value="{{old('no_regis')}}">
                                         @error('no_regis')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
@@ -115,7 +115,7 @@
                                         <div class="col-md-4">
                                             <label>Berat Awal</label>
                                             <div class="input-group mb-4">
-                                            <input type="number" name="berat_awal" placeholder="0.0" class="form-control" required>
+                                            <input type="text" name="berat_awal" placeholder="0.0" class="form-control" required>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">KG</span>
                                                 </div>
@@ -218,7 +218,7 @@
                                     <input type="hidden" id="edit_id" name="id">
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
-                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required>
+                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required value="{{ old('sponsor') }}">
                                         @error('no_regis')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
@@ -239,7 +239,7 @@
                                         <div class="col-md-4">
                                             <label>Berat Awal</label>
                                             <div class="input-group mb-4">
-                                            <input type="number" name="berat_awal" id="edit_berat_awal" placeholder="0.0" class="form-control" required>
+                                            <input type="text" name="berat_awal" id="edit_berat_awal" placeholder="0.0" class="form-control" required>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">KG</span>
                                                 </div>

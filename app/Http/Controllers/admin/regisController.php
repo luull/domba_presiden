@@ -19,43 +19,55 @@ class regisController extends Controller
         $jenis = JenisDomba::get();
         $kandang = KandangDomba::get();
         $data = RegisDomba::get();
-        return view('admin.regis_domba', compact('jenis','kandang','data'));
+        return view('admin.regis_domba', compact('jenis', 'kandang', 'data'));
     }
-    public function regis_domba(Request $request){
-        $validasi = $request->validate([
-            'no_regis' => 'required',
-            'tgl_masuk' => 'required',
-            'berat_awal' => 'required',
-            'jenis' => 'required',
-            'kandang' => 'required',
-            'kamar' => 'required',
-            'harga_beli' => 'required',
-            'supplier' => 'required'
-        ]);
-        if ($validasi) {
+    public function regis_domba(Request $request)
+    {
+        try {
+            $validasi = $request->validate([
+                'no_regis' => 'required',
+                'tgl_masuk' => 'required',
+                'berat_awal' => 'required',
+                'jenis' => 'required',
+                'kandang' => 'required',
+                'kamar' => 'required',
+                'harga_beli' => 'required',
+                'supplier' => 'required'
+            ]);
+            if ($validasi) {
                 $unq = RegisDomba::where('no_regis', $request->no_regis)->first();
-                if($unq){
+                if ($unq) {
                     return redirect()->back()->with(['message' => 'No Registrasi Domba Sudah Terdaftar ', 'alert' => 'warning']);
-                }else {
-                $hsl = RegisDomba::create([
-                    'no_regis' => $request->no_regis,
-                    'tgl_masuk' => $request->tgl_masuk,
-                    'berat_awal' => $request->berat_awal,
-                    'jenis' => $request->jenis,
-                    'kandang' => $request->kandang,
-                    'kamar' => $request->kamar,
-                    'harga_beli' => $request->harga_beli,
-                    'supplier' => $request->supplier,
-                ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil Ditambahkan ', 'alert' => 'success']);
-                }else {
-                    return redirect()->back()->with(['message' => 'Registrasi Domba gagal ditambahkan', 'alert' => 'danger']);
+                } else {
+                    $hrg_beli = str_replace(".", "", $request->harga_beli);
+                    $hrg_beli = str_replace(",", ".", $hrg_beli);
+
+                    $berat = str_replace(".", "", $request->berat_awal);
+                    $berat = str_replace(",", ".", $berat);
+
+                    $hsl = RegisDomba::create([
+                        'no_regis' => $request->no_regis,
+                        'tgl_masuk' => $request->tgl_masuk,
+                        'berat_awal' => $berat,
+                        'jenis' => $request->jenis,
+                        'kandang' => $request->kandang,
+                        'kamar' => $request->kamar,
+                        'harga_beli' => $hrg_beli,
+                        'supplier' => $request->supplier,
+                        'user_input' => session('admin_username'),
+                    ]);
+                    if ($hsl) {
+                        return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil Ditambahkan ', 'alert' => 'success']);
+                    } else {
+                        return redirect()->back()->with(['message' => 'Registrasi Domba gagal ditambahkan', 'alert' => 'danger']);
+                    }
                 }
-                }
-        }
-        else {
-            return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
+            } else {
+                return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
+            }
+        } catch (\Exception $e) {
+
+            return Redirect()->back()->with(['message' => 'Proses Registrasi Domba Gagal, Ket : ' . $e->getMessage(), 'alert' => 'danger'])->withInput($request->all());
         }
     }
     public function find(Request $req)
@@ -82,23 +94,22 @@ class regisController extends Controller
             ]);
 
             if ($validasi) {
-            $hsl = RegisDomba::where('id', $request->id)->update([
-                'no_regis' => $request->no_regis,
-                'tgl_masuk' => $request->tgl_masuk,
-                'berat_awal' => $request->berat_awal,
-                'jenis' => $request->jenis,
-                'kandang' => $request->kandang,
-                'kamar' => $request->kamar,
-                'harga_beli' => $request->harga_beli,
-                'supplier' => $request->supplier,
-            ]);
+                $hsl = RegisDomba::where('id', $request->id)->update([
+                    'no_regis' => $request->no_regis,
+                    'tgl_masuk' => $request->tgl_masuk,
+                    'berat_awal' => $request->berat_awal,
+                    'jenis' => $request->jenis,
+                    'kandang' => $request->kandang,
+                    'kamar' => $request->kamar,
+                    'harga_beli' => $request->harga_beli,
+                    'supplier' => $request->supplier,
+                ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil diubah', 'alert' => 'success']);
-                }else {
+                } else {
                     return redirect()->back()->with(['message' => 'Registrasi Domba gagal diubah', 'alert' => 'danger']);
                 }
-            
-            }else{
+            } else {
                 return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
             }
         } else {
@@ -107,7 +118,7 @@ class regisController extends Controller
     }
     public function delete(Request $req)
     {
-      
+
         $hsl = RegisDomba::find($req->id)->delete();
         if ($hsl) {
             return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);

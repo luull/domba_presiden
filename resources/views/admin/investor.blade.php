@@ -26,7 +26,7 @@
         <div class="row layout-top-spacing">
             <div class="card m-3">
                 <div class="card-header">
-                <h5 class="card-title text-center">DAFTAR SUPPLIER KESELURUHAN</h5>
+                <h5 class="card-title text-center">DAFTAR INVESTOR</h5>
                 </div>
                 <div class="card-body p-2 pt-3">
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -37,7 +37,7 @@
                                     @endif
                 <div class="widget-content widget-content-area br-6">
                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
-                             Tambah Supplier
+                             Tambah Investor
                              </button>
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -45,15 +45,13 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th class="no-content"></th>
-                                                <th>Nama Supplier</th>
-                                                <th>Jenis Supplier</th>
+                                                <th>Nama </th>
                                                 <th>Alamat</th> 
                                                 <th>Kota</th>
                                                 <th>Propinsi</th>
                                                 <th>Telp</th>
                                                 <th>HP</th>
                                                 <th>Email</th>
-                                                <th>Penanggun jawab</th>
                                                 
 
                                             </tr>
@@ -65,15 +63,13 @@
                                                     <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                                 <a href="/admin/supplier/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
                                             
-                                                <td>{{ $d->nama_supplier }}</td>
-                                                <td>{{ $d->jenis_supplier }}</td>
+                                                <td>{{ $d->nama }}</td>
                                                 <td>{{ $d->alamat }}</td>
                                                 <td>{{ $d->kota }}</td>
                                                 <td>{{ $d->propinsi }}</td>
                                                 <td>{{ $d->telp }}</td>
                                                 <td>{{ $d->hp }}</td>
                                                   <td>{{ $d->email }}</td>
-                                                <td>{{ $d->kontak }}</td>
                                               
                                             </tr>
                                             @endforeach

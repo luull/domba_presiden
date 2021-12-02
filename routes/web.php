@@ -20,6 +20,8 @@ Route::get('/admin/penimbangan/delete/{id}', 'admin\penimbanganController@delete
 Route::get('/admin/penimbangan/find/{id}', 'admin\penimbanganController@find');
 
 Route::get('/supplier', 'admin\supplierController@index');
+Route::get('/supplier/pakan', 'admin\supplierController@pakan');
+Route::get('/supplier/domba', 'admin\supplierController@domba');
 Route::post('/admin/supplier/create', 'admin\supplierController@create')->name('create_supplier');
 Route::post('/admin/supplier/update', 'admin\supplierController@update')->name('update_supplier');
 Route::get('/admin/supplier/delete/{id}', 'admin\supplierController@delete')->name('delete_supplier');

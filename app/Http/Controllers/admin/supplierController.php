@@ -11,28 +11,35 @@ class supplierController extends Controller
 
     public function index()
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
-        }
         $data = Supplier::get();
         return view('admin.supplier', compact('data'));
     }
-    public function create(Request $request){
+    public function pakan()
+    {
+        $data = Supplier::where('jenis_supplier', 'like', 'Pakan')->get();
+        return view('admin.supplier-pakan', compact('data'));
+    }
+    public function domba()
+    {
+        $data = Supplier::where('jenis_supplier', 'like', 'Domba')->get();
+        return view('admin.supplier-domba', compact('data'));
+    }
+    public function create(Request $request)
+    {
         $validasi = $request->validate([
             'nama_supplier' => 'required',
         ]);
         if ($validasi) {
-               
-                $hsl = Supplier::create([
-                    'nama_supplier' => $request->nama_supplier,
-                ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Supplier Berhasil Ditambahkan ', 'alert' => 'success']);
-                }else {
-                    return redirect()->back()->with(['message' => 'Supplier gagal ditambahkan', 'alert' => 'danger']);
-                }
-        }
-        else {
+
+            $hsl = Supplier::create([
+                'nama_supplier' => $request->nama_supplier,
+            ]);
+            if ($hsl) {
+                return redirect()->back()->with(['message' => 'Supplier Berhasil Ditambahkan ', 'alert' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Supplier gagal ditambahkan', 'alert' => 'danger']);
+            }
+        } else {
             return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
         }
     }
@@ -53,16 +60,15 @@ class supplierController extends Controller
             ]);
 
             if ($validasi) {
-            $hsl = Supplier::where('id', $request->id)->update([
-                'nama_supplier' => $request->nama_supplier,
-            ]);
+                $hsl = Supplier::where('id', $request->id)->update([
+                    'nama_supplier' => $request->nama_supplier,
+                ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Supplier Berhasil diubah', 'alert' => 'success']);
-                }else {
+                } else {
                     return redirect()->back()->with(['message' => 'Supplier gagal diubah', 'alert' => 'danger']);
                 }
-            
-            }else{
+            } else {
                 return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
             }
         } else {
@@ -71,7 +77,7 @@ class supplierController extends Controller
     }
     public function delete(Request $req)
     {
-      
+
         $hsl = Supplier::find($req->id)->delete();
         if ($hsl) {
             return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
