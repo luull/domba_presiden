@@ -53,7 +53,7 @@
                                                 <th>Telp</th>
                                                 <th>HP</th>
                                                 <th>Email</th>
-                                                <th>Penanggun jawab</th>
+                                                <th>Penanggung jawab</th>
                                                 
 
                                             </tr>
@@ -89,7 +89,7 @@
 
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addModalLabel">Tambah Supplier</h5>
@@ -105,16 +105,94 @@
                                     </div>
                                     @endif
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-8">
                                             <div class="form-group mb-3">
                                                 <label>Nama Supplier</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" required>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
                                                 @error('nama_supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>                          
+                                         <div class="col-md-4">
+                                       
+                                            <div class="form-group mb-3">
+                                                <label>Jenis Supplier</label>
+                                                <input type="text" name="jenis_supplier" placeholder="..." class="form-control" value="{{old('jenis_supplier')}}" required>
+                                                @error('jenis_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat </label>
+                                                <input type="text" name="alamat" placeholder="..." class="form-control" value="{{old('alamat')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Kota</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                       
+                                            <div class="form-group mb-3">
+                                                <label>Propinsi</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>No Telp</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                       
+                                            <div class="form-group mb-3">
+                                                <label>No Handphone</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                       
+                                            <div class="form-group mb-3">
+                                                <label>Alamat email</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                       
+                                            <div class="form-group mb-3">
+                                                <label>Penanggung Jawab</label>
+                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>     
+                                                         
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
                                         <button type="submit" class="btn btn-primary">Tambah</button>

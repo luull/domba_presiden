@@ -27,6 +27,24 @@ Route::post('/admin/supplier/update', 'admin\supplierController@update')->name('
 Route::get('/admin/supplier/delete/{id}', 'admin\supplierController@delete')->name('delete_supplier');
 Route::get('/admin/supplier/find/{id}', 'admin\supplierController@find');
 
+Route::get('/investor', 'admin\investorController@index');
+Route::post('/admin/investor/create', 'admin\investorController@create')->name('create_investor');
+Route::post('/admin/investor/update', 'admin\investorController@update')->name('update_investor');
+Route::get('/admin/investor/delete/{id}', 'admin\investorController@delete')->name('delete_investor');
+Route::get('/admin/investor/find/{id}', 'admin\investorController@find');
+
+Route::get('/customer', 'admin\customerController@index');
+Route::post('/admin/customer/create', 'admin\customerController@create')->name('create_customer');
+Route::post('/admin/customer/update', 'admin\customerController@update')->name('update_customer');
+Route::get('/admin/customer/delete/{id}', 'admin\customerController@delete')->name('delete_customer');
+Route::get('/admin/customer/find/{id}', 'admin\customerController@find');
+
+Route::get('/user', 'admin\userController@index');
+Route::post('/admin/user/create', 'admin\userController@create')->name('create_user');
+Route::post('/admin/user/update', 'admin\userController@update')->name('update_user');
+Route::get('/admin/user/delete/{id}', 'admin\userController@delete')->name('delete_user');
+Route::get('/admin/user/find/{id}', 'admin\userController@find');
+
 Route::get('/pakan', 'admin\pakanController@index');
 Route::post('/admin/pakan/create', 'admin\pakanController@create')->name('create_pakan');
 Route::post('/admin/pakan/update', 'admin\pakanController@update')->name('update_pakan');
