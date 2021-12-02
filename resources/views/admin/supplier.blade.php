@@ -44,7 +44,6 @@
                                             <?php $i=1; ?>
                                             <tr>
                                                 <th>No</th>
-                                                <th class="no-content"></th>
                                                 <th>Nama Supplier</th>
                                                 <th>Jenis Supplier</th>
                                                 <th>Alamat</th> 
@@ -53,7 +52,8 @@
                                                 <th>Telp</th>
                                                 <th>HP</th>
                                                 <th>Email</th>
-                                                <th>Penanggung jawab</th>
+                                                <th>Kontak</th>
+                                                <th class="no-content"></th>
                                                 
 
                                             </tr>
@@ -62,9 +62,6 @@
                                             @foreach($data as $d)
                                             <tr>
                                                 <td>{{ $i++ }}</td>
-                                                    <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/supplier/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
-                                            
                                                 <td>{{ $d->nama_supplier }}</td>
                                                 <td>{{ $d->jenis_supplier }}</td>
                                                 <td>{{ $d->alamat }}</td>
@@ -72,8 +69,11 @@
                                                 <td>{{ $d->propinsi }}</td>
                                                 <td>{{ $d->telp }}</td>
                                                 <td>{{ $d->hp }}</td>
-                                                  <td>{{ $d->email }}</td>
+                                                <td>{{ $d->email }}</td>
                                                 <td>{{ $d->kontak }}</td>
+                                                <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <a href="/admin/supplier/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                            
                                               
                                             </tr>
                                             @endforeach
@@ -99,100 +99,91 @@
                 <div class="container">
                 <form  action="{{route('create_supplier')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                                
                                     <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Nama Supplier</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
+                                                <input type="text" name="nama_supplier" placeholder="Nama supplier" class="form-control" value="{{ old('nama_supplier') }}" required>
                                                 @error('nama_supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                         <div class="col-md-4">
-                                       
+                                        <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Jenis Supplier</label>
-                                                <input type="text" name="jenis_supplier" placeholder="..." class="form-control" value="{{old('jenis_supplier')}}" required>
+                                                <input type="text" name="jenis_supplier" placeholder="Jenis supplier" class="form-control" value="{{ old('jenis_supplier') }}" required>
                                                 @error('jenis_supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        
+                                        <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Alamat </label>
-                                                <input type="text" name="alamat" placeholder="..." class="form-control" value="{{old('alamat')}}" required>
-                                                @error('nama_supplier')
+                                                <label>Email</label>
+                                                <input type="email" name="email" placeholder="Email supplier" class="form-control" value="{{ old('email') }}" required>
+                                                @error('email')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Kota</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
+                                                <input type="text" name="kota" placeholder="Kota supplier" class="form-control" value="{{ old('kota') }}" required>
+                                                @error('kota')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                         <div class="col-md-6">
-                                       
+                                        <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Propinsi</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
+                                                <input type="text" name="propinsi" placeholder="Propinsi supplier" class="form-control" value="{{ old('propinsi') }}" required>
+                                                @error('propinsi')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
-                                                <label>No Telp</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                         <div class="col-md-6">
-                                       
-                                            <div class="form-group mb-3">
-                                                <label>No Handphone</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
+                                                <label>Telp</label>
+                                                <input type="number" name="telp" placeholder="Telp supplier" class="form-control" value="{{ old('telp') }}" required>
+                                                @error('telp')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                       
                                             <div class="form-group mb-3">
-                                                <label>Alamat email</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
+                                                <label>No.Handphone</label>
+                                                <input type="number" name="hp" placeholder="No Handphone supplier" class="form-control" value="{{ old('hp') }}" required>
+                                                @error('hp')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                       
+                                        <div class="col-md-4">
                                             <div class="form-group mb-3">
-                                                <label>Penanggung Jawab</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" value="{{old('nama_supplier')}}" required>
-                                                @error('nama_supplier')
+                                                <label>Kontak</label>
+                                                <input type="number" name="kontak" placeholder="Kontak supplier" class="form-control" value="{{ old('kontak') }}" required>
+                                                @error('kontak')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>     
-                                                         
+                                        <div class="col-md-8">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" placeholder="Alamat supplier" class="form-control" value="{{ old('alamat') }}" required>
+                                                @error('alamat')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>                          
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
                                         <button type="submit" class="btn btn-primary">Tambah</button>
@@ -205,7 +196,7 @@
     </div>
 </div>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit Supplier</h5>
@@ -215,18 +206,87 @@
                 <div class="container">
                 <form  action="{{route('update_supplier')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                               
                                     <input type="hidden" id="edit_id" name="id">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                    <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Nama Supplier</label>
-                                                <input type="text" id="edit_supplier" name="nama_supplier" placeholder="..." class="form-control" required>
+                                                <input type="text" name="nama_supplier" id="edit_nama_supplier" class="form-control" value="{{ old('nama_supplier') }}" required>
                                                 @error('nama_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Jenis Supplier</label>
+                                                <input type="text" name="jenis_supplier" id="edit_jenis_supplier" class="form-control" value="{{ old('jenis_supplier') }}" required>
+                                                @error('jenis_supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label>Email</label>
+                                                <input type="email" name="email" id="edit_email" class="form-control" value="{{ old('email') }}" required>
+                                                @error('email')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label>Kota</label>
+                                                <input type="text" name="kota" id="edit_kota" class="form-control" value="{{ old('kota') }}" required>
+                                                @error('kota')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label>Propinsi</label>
+                                                <input type="text" name="propinsi" id="edit_propinsi" class="form-control" value="{{ old('propinsi') }}" required>
+                                                @error('propinsi')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Telp</label>
+                                                <input type="number" name="telp" id="edit_telp" class="form-control" value="{{ old('telp') }}" required>
+                                                @error('telp')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>No.Handphone</label>
+                                                <input type="number" name="hp" id="edit_hp" class="form-control" value="{{ old('hp') }}" required>
+                                                @error('hp')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label>Kontak</label>
+                                                <input type="number" name="kontak" id="edit_kontak" class="form-control" value="{{ old('kontak') }}" required>
+                                                @error('kontak')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" id="edit_alamat" class="form-control" value="{{ old('alamat') }}" required>
+                                                @error('alamat')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -264,7 +324,15 @@
 
                    } else{
                        $("#edit_id").val(id);
-                       $("#edit_supplier").val(hsl.nama_supplier);
+                       $("#edit_nama_supplier").val(hsl.nama_supplier);
+                       $("#edit_jenis_supplier").val(hsl.jenis_supplier);
+                       $("#edit_telp").val(hsl.telp);
+                       $("#edit_email").val(hsl.email);
+                       $("#edit_kota").val(hsl.kota);
+                       $("#edit_propinsi").val(hsl.propinsi);
+                       $("#edit_kontak").val(hsl.kontak);
+                       $("#edit_hp").val(hsl.hp);
+                       $("#edit_alamat").val(hsl.alamat);
                        $("#editModal").modal();
                    }
                 }

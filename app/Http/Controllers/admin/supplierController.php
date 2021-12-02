@@ -28,11 +28,29 @@ class supplierController extends Controller
     {
         $validasi = $request->validate([
             'nama_supplier' => 'required',
+            'jenis_supplier' => 'required',
+            'alamat' => 'required',
+            'kota' => 'required',
+            'propinsi' => 'required',
+            'telp' => 'required',
+            'hp' => 'required',
+            'email' => 'required',
+            'kontak' => 'required',
         ]);
         if ($validasi) {
 
             $hsl = Supplier::create([
                 'nama_supplier' => $request->nama_supplier,
+                'jenis_supplier' => $request->jenis_supplier,
+                'alamat' => $request->alamat,
+                'kota' => $request->kota,
+                'propinsi' => $request->propinsi,
+                'telp' => $request->telp,
+                'hp' => $request->hp,
+                'email' => $request->email,
+                'kontak' => $request->kontak,
+                'user_input' => session('admin_username'), 
+                'tgl_input' => date('Y-m-d h:i:s'),
             ]);
             if ($hsl) {
                 return redirect()->back()->with(['message' => 'Supplier Berhasil Ditambahkan ', 'alert' => 'success']);
@@ -57,11 +75,29 @@ class supplierController extends Controller
         if (!empty($request->id)) {
             $validasi = $request->validate([
                 'nama_supplier' => 'required',
+                'jenis_supplier' => 'required',
+                'alamat' => 'required',
+                'kota' => 'required',
+                'propinsi' => 'required',
+                'telp' => 'required',
+                'hp' => 'required',
+                'email' => 'required',
+                'kontak' => 'required',
             ]);
 
             if ($validasi) {
                 $hsl = Supplier::where('id', $request->id)->update([
                     'nama_supplier' => $request->nama_supplier,
+                    'jenis_supplier' => $request->jenis_supplier,
+                    'alamat' => $request->alamat,
+                    'kota' => $request->kota,
+                    'propinsi' => $request->propinsi,
+                    'telp' => $request->telp,
+                    'hp' => $request->hp,
+                    'email' => $request->email,
+                    'kontak' => $request->kontak,
+                    'tgl_edit' => date('Y-m-d h:i:s'),
+                    'user_edit' => session('admin_username')
                 ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Supplier Berhasil diubah', 'alert' => 'success']);
