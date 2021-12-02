@@ -118,9 +118,9 @@
 
                                 <div class="widget-content">
 
-                                    <div class="bills-stats">
+                                    <!-- <div class="bills-stats">
                                         <span>Pending</span>
-                                    </div>
+                                    </div> -->
 
                                     <div class="invoice-list">
 
@@ -133,10 +133,10 @@
                                             @endforeach
                                         </div>
 
-                                        <div class="inv-action">
+                                        <!-- <div class="inv-action">
                                             <a href="javascript:void(0);" class="btn btn-outline-primary view-details">View Details</a>
                                             <a href="javascript:void(0);" class="btn btn-outline-primary pay-now">Pay Now $29.51</a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
