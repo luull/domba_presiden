@@ -29,12 +29,17 @@ class signinController extends Controller
                 session(['admin_id' => $data->id]);
                 session(['admin_username' => $data->username]);
                 session(['admin_level' => $data->level]);
-              
+                
                 $admin_data = $data;
                 return redirect('/dashboard');
             }
         } else {
             return redirect('/')->with('message', 'Wrong Username or Password ');
         }
+    }
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/')->with('message', 'Anda telah Keluar ');
     }
 }
