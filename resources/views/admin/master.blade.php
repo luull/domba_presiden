@@ -26,6 +26,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/plugins/font-icons/fontawesome/css/regular.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/plugins/font-icons/fontawesome/css/fontawesome.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/widgets/modules-widgets.css')}}">  
+    <link href="{{ asset('admin/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">  
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
    
     @yield('style')
@@ -101,6 +103,9 @@
     <script src="{{ asset('admin/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
     <script src="{{ asset('admin/plugins/bootstrap-touchspin/custom-bootstrap-touchspin.js')}}"></script>
     <script src="{{ asset('admin/plugins/font-icons/feather/feather.min.js')}}"></script>
+    <script src="{{ asset('admin/assets/js/widgets/modules-widgets.js')}}"></script>
+    <script src="{{ asset('admin/plugins/apex/apexcharts.min.js')}}"></script>
+    <!-- <script src="{{ asset('admin/plugins/apex/custom-apexcharts.js')}}"></script> -->
     <script type="text/javascript">
         feather.replace();
     </script>
