@@ -12,6 +12,7 @@
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="/regis_domba">Domba</a></li>
                                 <li class="breadcrumb-item active" aria-current="page"><span>Statistik Domba</span></li>
                             </ol>
                         </nav>
@@ -23,6 +24,37 @@
     </div>
  @section('content')
     <div class="layout-px-spacing"> 
+        <div class="row layout-top-spacing">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 layout-spacing">
+                <div class="widget infobox-3" style="width:100% !Important;">
+                    <div class="info-icon">
+                        <i data-feather="clipboard"></i>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="info-heading"><b>{{ $data->no_regis}}</b></h5>
+                            <p class="info-text mb-0">Kamar: <b>{{ $data->kamar }}</b></p>
+                            @if($data->status == 0)
+                            <p class="info-text mb-0">Status : <b> Belum Terjual</b></p>
+                            @elseif($data->status == 1)
+                            <p class="info-text mb-0">Status : <b> Booking</b></p>
+                            @else
+                            <p class="info-text mb-0">Status : <b> Terjual</b></p>
+                            @endif
+                            <p class="info-text mb-0">Berat Awal : <b>{{ $data->berat_awal }} Kg</b></p>
+                            <p class="info-text mb-0">Tgl Masuk : <b>{{ $data->tgl_masuk }}</b></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="info-heading"><b>{{ $data->jenis}}</b></h5>
+                            <p class="info-text mb-0">Supplier : <b>{{ $data->supplier }}</b></p>
+                            <p class="info-text mb-0">Kandang : <b>{{ $data->kandang }}</b></p>
+                            <p class="info-text mb-0">Harga : <b>Rp. {{ number_format($data->harga_beli) }}</b></p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+
         <div class="row layout-top-spacing">
                        <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-activity-five">

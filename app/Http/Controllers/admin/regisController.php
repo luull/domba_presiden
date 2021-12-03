@@ -67,7 +67,9 @@ class regisController extends Controller
                         'kamar' => $request->kamar,
                         'harga_beli' => $hrg_beli,
                         'supplier' => $request->supplier,
-                        'user_input' => session('admin_username'),
+                        'status' => 0,
+                        'user_input' => session('admin_username'), 
+                        'tgl_input' => date('Y-m-d h:i:s'),
                     ]);
                     if ($hsl) {
                         return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil Ditambahkan ', 'alert' => 'success']);
@@ -115,7 +117,10 @@ class regisController extends Controller
                     'kandang' => $request->kandang,
                     'kamar' => $request->kamar,
                     'harga_beli' => $request->harga_beli,
+                    'status' => $request->status,
                     'supplier' => $request->supplier,
+                    'tgl_edit' => date('Y-m-d h:i:s'),
+                    'user_edit' => session('admin_username')
                 ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil diubah', 'alert' => 'success']);
