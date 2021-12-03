@@ -98,7 +98,7 @@
                         </a>
                         <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'show' : '' }}" id="domba" data-parent="#accordionExample">
                             <li class="{{ Request::is('regis_domba') ? 'active' : '' }}">
-                                <a href="/regis_domba"> Registrasi </a>
+                                <a href="/regis_domba"> Domba </a>
                             </li>
                             <li class="{{ Request::is('penimbangan_domba') ? 'active' : '' }}">
                                 <a href="/penimbangan_domba"> Penimbangan </a>

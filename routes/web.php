@@ -13,6 +13,7 @@ Route::post('/admin/regis/create', 'admin\regisController@regis_domba')->name('c
 Route::post('/admin/regis/update', 'admin\regisController@update')->name('update_regis');
 Route::get('/admin/regis/delete/{id}', 'admin\regisController@delete')->name('delete_regis');
 Route::get('/admin/regis/find/{id}', 'admin\regisController@find');
+Route::get('/statistik/{id}', 'admin\regisController@statistik');
 
 Route::get('/penimbangan_domba', 'admin\penimbanganController@index');
 Route::post('/admin/penimbangan/create', 'admin\penimbanganController@create')->name('create_penimbangan');

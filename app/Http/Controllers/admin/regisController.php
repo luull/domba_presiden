@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\RegisDomba;
 use App\JenisDomba;
 use App\KandangDomba;
+use App\Penimbangan;
 use Illuminate\Http\Request;
 
 class regisController extends Controller
@@ -18,8 +19,20 @@ class regisController extends Controller
         }
         $jenis = JenisDomba::get();
         $kandang = KandangDomba::get();
+        $penimbangan = Penimbangan::get();
         $data = RegisDomba::get();
-        return view('admin.regis_domba', compact('jenis', 'kandang', 'data'));
+        return view('admin.regis_domba', compact('jenis', 'kandang', 'data','penimbangan'));
+    }
+    public function statistik(Request $request)
+    {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
+        $jenis = JenisDomba::get();
+        $kandang = KandangDomba::get();
+        $penimbangan = Penimbangan::where('no_regis', $request->id)->get();
+        $data = RegisDomba::where('no_regis', $request->id)->first();
+        return view('admin.statistik_domba', compact('jenis', 'kandang', 'data','penimbangan'));
     }
     public function regis_domba(Request $request)
     {
