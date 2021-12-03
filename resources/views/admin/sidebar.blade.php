@@ -143,7 +143,7 @@
                         </ul>
                     </li>
                     <li class="menu">
-                        <a href="#investor" data-toggle="collapse" data-active="{{ Request::is('investor','order_investor') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('investor','order_investor') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('investor','order_investor') ? '' : 'collapsed' }}">
+                        <a href="#investor" data-toggle="collapse" data-active="{{ Request::is('investor','pembelian_domba','daftar_domba') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('investor','pembelian_domba','daftar_domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('investor','pembelian_domba','daftar_domba') ? '' : 'collapsed' }}">
                             <div class="">
                             <i data-feather="dollar-sign"></i>
                                 <span>Investor</span>
@@ -152,15 +152,15 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                        <ul class="collapse submenu list-unstyled {{ Request::is('investor','order_investor') ? 'show' : '' }}" id="investor" data-parent="#accordionExample">
+                        <ul class="collapse submenu list-unstyled {{ Request::is('investor','pembelian_domba','daftar_domba') ? 'show' : '' }}" id="investor" data-parent="#accordionExample">
                             <li class="{{ Request::is('investor') ? 'active' : '' }}">
                                 <a href="/investor"> Daftar investor </a>
                             </li>
                             <li class="{{ Request::is('investor') ? 'active' : '' }}">
-                                <a href="/investor"> Pembelian Domba </a>
+                                <a href="/pembelian_domba"> Pembelian Domba </a>
                             </li>
                             <li class="{{ Request::is('order_investor') ? 'active' : '' }}">
-                                <a href="/order_investor"> Daftar Domba </a>
+                                <a href="/daftar_domba"> Daftar Domba </a>
                             </li>
                          
                         </ul>
@@ -180,7 +180,7 @@
                                 <a href="/customer"> Daftar customer </a>
                             </li>
                             <li class="{{ Request::is('customer') ? 'active' : '' }}">
-                                <a href="/customer"> Pembelian Domba </a>
+                                <a href="/customers"> Pembelian Domba </a>
                             </li>
                             <li class="{{ Request::is('order_customer') ? 'active' : '' }}">
                                 <a href="/order_customer"> Daftar Pembelian </a>

@@ -1,28 +1,50 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Investor;
+use App\City;
+use App\Province;
+use App\Bank;
+use Illuminate\Http\Request;
 
 class investorController extends Controller
 {
+
     public function index()
     {
         $data = Investor::get();
-        return view('admin.investor', compact('data'));
+        $province = Province::get();
+        $city = City::get();
+        $bank = Bank::get();
+        return view('admin.investor', compact('data','province','city','bank'));
     }
-
     public function create(Request $request)
     {
         $validasi = $request->validate([
             'nama' => 'required',
+            'alamat' => 'required',
+            'kota' => 'required',
+            'propinsi' => 'required',
+            'hp' => 'required',
+            'email' => 'required',
+            'kode_bank' => 'required',
+            'no_rekening' => 'required',
         ]);
         if ($validasi) {
 
             $hsl = Investor::create([
                 'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'kota' => $request->kota,
+                'propinsi' => $request->propinsi,
+                'hp' => $request->hp,
+                'email' => $request->email,
+                'kode_bank' => $request->kode_bank,
+                'no_rekening' => $request->no_rekening,
+                'user_input' => session('admin_username'), 
+                'tgl_input' => date('Y-m-d h:i:s'),
             ]);
             if ($hsl) {
                 return redirect()->back()->with(['message' => 'Investor Berhasil Ditambahkan ', 'alert' => 'success']);
@@ -47,11 +69,27 @@ class investorController extends Controller
         if (!empty($request->id)) {
             $validasi = $request->validate([
                 'nama' => 'required',
+                'alamat' => 'required',
+                'kota' => 'required',
+                'propinsi' => 'required',
+                'hp' => 'required',
+                'email' => 'required',
+                'kode_bank' => 'required',
+                'no_rekening' => 'required',
             ]);
 
             if ($validasi) {
                 $hsl = Investor::where('id', $request->id)->update([
                     'nama' => $request->nama,
+                    'alamat' => $request->alamat,
+                    'kota' => $request->kota,
+                    'propinsi' => $request->propinsi,
+                    'hp' => $request->hp,
+                    'email' => $request->email,
+                    'kode_bank' => $request->kode_bank,
+                    'no_rekening' => $request->no_rekening,
+                    'tgl_edit' => date('Y-m-d h:i:s'),
+                    'user_edit' => session('admin_username')
                 ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Investor Berhasil diubah', 'alert' => 'success']);
