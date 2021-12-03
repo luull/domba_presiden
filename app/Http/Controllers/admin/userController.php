@@ -5,29 +5,52 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Province;
+use App\City;
 
 class userController extends Controller
 {
     public function index()
     {
         $data = User::get();
-        return view('admin.user', compact('data'));
+        $province = Province::get();
+        $city = City::get();
+        return view('admin.user', compact('data','province','city'));
     }
 
     public function create(Request $request)
     {
         $validasi = $request->validate([
             'nama' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'alamat' => 'required',
+            'email' => 'required',
+            'propinsi' => 'required',
+            'kota' => 'required',
+            'hp' => 'required',
         ]);
         if ($validasi) {
-
-            $hsl = User::create([
-                'nama' => $request->nama,
-            ]);
-            if ($hsl) {
-                return redirect()->back()->with(['message' => 'User Admin Berhasil Ditambahkan ', 'alert' => 'success']);
+            $unq = User::where('username', $request->username)->first();
+            if ($unq) {
+                return redirect()->back()->with(['message' => 'Username Sudah Terdaftar ', 'alert' => 'warning']);
             } else {
-                return redirect()->back()->with(['message' => 'User Admin gagal ditambahkan', 'alert' => 'danger']);
+                $hsl = User::create([
+                    'username' => $request->username,
+                    'password' => bcrypt($request->password),
+                    'nama' => $request->nama,
+                    'email' => $request->email,
+                    'alamat' => $request->alamat,
+                    'propinsi' => $request->propinsi,
+                    'kota' => $request->kota,
+                    'hp' => $request->hp,
+                    'level' => 1,
+                ]);
+                if ($hsl) {
+                    return redirect()->back()->with(['message' => 'User Admin Berhasil Ditambahkan ', 'alert' => 'success']);
+                } else {
+                    return redirect()->back()->with(['message' => 'User Admin gagal ditambahkan', 'alert' => 'danger']);
+                }
             }
         } else {
             return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
@@ -47,11 +70,23 @@ class userController extends Controller
         if (!empty($request->id)) {
             $validasi = $request->validate([
                 'nama' => 'required',
+                'username' => 'required',
+                'alamat' => 'required',
+                'email' => 'required',
+                'propinsi' => 'required',
+                'kota' => 'required',
+                'hp' => 'required',
             ]);
 
             if ($validasi) {
                 $hsl = User::where('id', $request->id)->update([
+                    'username' => $request->username,
                     'nama' => $request->nama,
+                    'email' => $request->email,
+                    'alamat' => $request->alamat,
+                    'propinsi' => $request->propinsi,
+                    'kota' => $request->kota,
+                    'hp' => $request->hp,
                 ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'User Admin Berhasil diubah', 'alert' => 'success']);

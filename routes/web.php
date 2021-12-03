@@ -5,8 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'auth\signinController@index');
 Route::post('/login', 'auth\signinController@login')->name('action_login');
+Route::get('/logout', 'auth\signinController@logout');
 Route::get('/dashboard', 'admin\dashboardController@index');
 Route::get('/city/find/{id}', 'admin\supplierController@city_list');
+
+Route::get('/profil', 'admin\profilController@index');
+Route::post('/update_profil', 'admin\profilController@update')->name('update_profil');
 
 Route::get('/regis_domba', 'admin\regisController@index');
 Route::post('/admin/regis/create', 'admin\regisController@regis_domba')->name('create_regis');
