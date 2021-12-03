@@ -216,6 +216,7 @@
                                     </div>
                                     @endif
                                     <input type="hidden" id="edit_id" name="id">
+                                    <input type="hidden" id="edit_status" name="status">
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
                                         <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required value="{{ old('sponsor') }}">
@@ -351,6 +352,7 @@
                        $("#edit_kamar").val(hsl.kamar);
                        $(".edit_harga_beli").val(hsl.harga_beli);
                        $("#edit_supplier").val(hsl.supplier);
+                       $("#edit_status").val(hsl.status);
                      console.log(hsl.tgl_masuk);
                        $("#editModal").modal();
                    }

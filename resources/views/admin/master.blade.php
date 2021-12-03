@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="{{ asset('admin/plugins/font-icons/fontawesome/css/regular.css')}}">
     <link rel="stylesheet" href="{{ asset('admin/plugins/font-icons/fontawesome/css/fontawesome.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/widgets/modules-widgets.css')}}">  
-    <link href="{{ asset('admin/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">  
+    <link href="{{ asset('admin/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('admin/assets/css/elements/infobox.css')}}" rel="stylesheet" type="text/css" />  
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
    
     @yield('style')

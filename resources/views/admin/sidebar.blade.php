@@ -87,7 +87,7 @@
                     
                     
                      <li class="menu">
-                        <a href="#domba" data-toggle="collapse" data-active="{{ Request::is('domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('regis_domba','penimbangan_domba','pakan') ? '' : 'collapsed' }}">
+                        <a href="#domba" data-toggle="collapse" data-active="{{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('regis_domba','penimbangan_domba','pakan') ? '' : 'collapsed' }}">
                             <div class="">
                             <i data-feather="clipboard"></i>
                                 <span>Domba</span>
@@ -97,9 +97,6 @@
                             </div>
                         </a>
                         <ul class="list-unstyled  collapse submenu list-unstyled {{ Request::is('regis_domba','penimbangan_domba','pakan') ? 'show' : '' }}" id="domba" data-parent="#accordionExample">
-                            <li class="{{ Request::is('regis_domba') ? 'active' : '' }}">
-                                <a href="/regis_domba"> Domba </a>
-                            </li>
                             <li class="{{ Request::is('penimbangan_domba') ? 'active' : '' }}">
                                 <a href="/penimbangan_domba"> Penimbangan </a>
                                 
@@ -107,6 +104,23 @@
                             <li class="{{ Request::is('pakan') ? 'active' : '' }}">
                                 <a href="/pakan"> Pemberian Pakan </a>
                                 
+                            </li>
+                            <li>
+                                <a href="#subdomba" data-toggle="collapse" aria-expanded="{{ Request::is('regis_domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('regis_domba') ? '' : 'collapsed' }}"> Domba <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <ul class="collapse list-unstyled sub-submenu {{ Request::is('regis_domba') ? 'show' : '' }}" id="subdomba" data-parent="#domba"> 
+                                    <li class="{{ Request::is('regis_domba') ? 'active' : '' }}">
+                                        <a href="/regis_domba"> Domba Keseluruhan </a>
+                                    </li>
+                                    <li>
+                                        <a href="pages_error500.html"> Domba Tersedia </a>
+                                    </li>
+                                    <li>
+                                        <a href="pages_error503.html"> Domba Pemesanan </a>
+                                    </li>
+                                    <li>
+                                        <a href="pages_maintenence.html"> Domba Terjual </a>
+                                    </li>
+                                </ul>
                             </li>
                           
                          
