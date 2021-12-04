@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'auth\signinController@index');
 Route::post('/login', 'auth\signinController@login')->name('action_login');
 Route::get('/logout', 'auth\signinController@logout');
+Route::get('/ubah_password', 'auth\signinController@ubah_password');
+Route::post('/ubah_password', 'auth\signinController@proses_ubah_password')->name('ubah_password');
 Route::get('/dashboard', 'admin\dashboardController@index');
 Route::get('/city/find/{id}', 'admin\supplierController@city_list');
 
