@@ -216,6 +216,42 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                      
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" id="edit_alamat" class="form-control" value="{{ old('alamat') }}" required>
+                                                @error('alamat')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Propinsi</label>
+                                                <select name="propinsi" id="edit_propinsi" class="edit_propinsi form-control">
+                                                    @foreach ($province as $prov)
+                                                    <option value="{{$prov->province}}" >{{$prov->province}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('propinsi')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Kota</label>
+                                                <select id="edit_kota" name="kota" class="edit_kota form-control" > 
+                                                    @foreach ($city as $ct)
+                                                    <option value="{{$ct->city_name.' '.$ct->type}}" id="edit_kota" >{{$ct->city_name.' '.$ct->type}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('kota')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Email</label>
@@ -226,41 +262,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group mb-3">
-                                                <label>Alamat</label>
-                                                <input type="text" name="alamat" id="edit_alamat" class="form-control" value="{{ old('alamat') }}" required>
-                                                @error('alamat')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group mb-3">
-                                                <label>Propinsi</label>
-                                                <select name="propinsi" id="propinsi" class="edit_propinsi form-control">
-                                                    @foreach ($province as $prov)
-                                                    <option value="{{$prov->province}}" id="edit_propinsi"  >{{$prov->province}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('propinsi')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group mb-3">
-                                                <label>Kota</label>
-                                                <select id="kota" name="kota" class="edit_kota form-control" > 
-                                                    @foreach ($city as $ct)
-                                                    <option value="{{$ct->city_name.' '.$ct->type}}" id="edit_kota" >{{$ct->city_name.' '.$ct->type}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('kota')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Hp</label>
                                                 <input type="number" name="hp" id="edit_hp" class="edit_hp form-control" value="{{ old('hp') }}" required>
@@ -289,7 +290,6 @@
         $(".edit").click(function(){
             var idnya=$(this).attr('id').split('-');
             var id=idnya[1];
-            console.log('test');
             
             $.ajax({
                 type:'get',
@@ -305,8 +305,8 @@
                        $("#edit_nama").val(hsl.nama);
                        $("#edit_username").val(hsl.username);
                        $("#edit_alamat").val(hsl.alamat);
-                       $(".edit_propinsi").val(hsl.propinsi);
-                       $(".edit_kota").val(hsl.kota);
+                       $("#edit_propinsi").append('<option value="' + hsl.propinsi +  '"" selected>' + hsl.propinsi+ '</option>');
+                       $("#edit_kota").append('<option value="' + hsl.kota  + '" selected>' + hsl.kota + '</option>');
                        $("#edit_email").val(hsl.email);
                        $(".edit_hp").val(hsl.hp);
                        console.log(hsl.hp);
@@ -321,7 +321,6 @@
         $(document).ready(function() {
             $("#propinsi").change(function() {
             var propinsi = $("#propinsi").val();
-            console.log(propinsi);
             $.ajax({
                 type: 'get',
                 method: 'get',
@@ -345,8 +344,32 @@
                 }
             });
             })
-            $("#kota").change(function() {
-                kecamatan();
+            
+            $("#edit_propinsi").change(function() {
+            var propinsi = $("#edit_propinsi").val();
+            console.log(propinsi);
+            $.ajax({
+                type: 'get',
+                method: 'get',
+                url: '/city/find/' + propinsi,
+                data: '_token = <?php echo csrf_token() ?>',
+                success: function(hsl) {
+                    if (hsl.code == 404) {
+                        alert(hsl.error);
+
+                    } else {
+                        var data = [];
+                        data = hsl.result;
+                        $("#edit_kota").children().remove().end();
+                        $.each(data, function(i, item) {
+                            $("#edit_kota").append('<option value="' + item.city_name + ' ' + item.type + '">' + item.city_name + ' ' + item.type + '</option>');
+                        })
+                        kecamatan();
+                        $("#edit_kota").focus();
+
+                    }
+                }
+            });
             })
             
         })

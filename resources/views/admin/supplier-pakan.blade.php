@@ -38,39 +38,36 @@
                 <div class="widget-content widget-content-area br-6">
                             
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
-                                        <thead>
-                                            <?php $i=1; ?>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Supplier</th>
-                                                <th>Alamat</th> 
-                                                <th>Kota</th>
-                                                <th>Propinsi</th>
-                                                <th>Telp</th>
-                                                <th>HP</th>
-                                                <th>Email</th>
-                                                <th>Penanggun jawab</th>
-                                                
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($data as $d)
-                                            <tr>
-                                                <td>{{ $i++ }}</td>
-                                                <td>{{ $d->nama_supplier }}</td>
-                                                <td>{{ $d->alamat }}</td>
-                                                <td>{{ $d->kota }}</td>
-                                                <td>{{ $d->propinsi }}</td>
-                                                <td>{{ $d->telp }}</td>
-                                                <td>{{ $d->hp }}</td>
-                                                  <td>{{ $d->email }}</td>
-                                                <td>{{ $d->kontak }}</td>
-                                              
-                                            </tr>
-                                            @endforeach
-                                        
-                                        </tbody>
+                                <thead>
+                                    <?php $i=1; ?>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Supplier</th>
+                                        <th>Alamat</th> 
+                                        <th>Kota</th>
+                                        <th>Propinsi</th>
+                                        <th>Telp</th>
+                                        <th>HP</th>
+                                        <th>Email</th>
+                                        <th>Kontak</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data as $d)
+                                    <tr>
+                                        <td>{{ $i++ }}</td>
+                                        <td>{{ $d->nama_supplier }}</td>
+                                        <td>{{ $d->alamat }}</td>
+                                        <td>{{ $d->kota }}</td>
+                                        <td>{{ $d->propinsi }}</td>
+                                        <td>{{ $d->telp }}</td>
+                                        <td>{{ $d->hp }}</td>
+                                        <td>{{ $d->email }}</td>
+                                        <td>{{ $d->kontak }}</td>
+                                    </tr>
+                                    @endforeach
+                                
+                                </tbody>
                                 </table>
                 </div>
             </div>
@@ -78,85 +75,5 @@
             </div>
         </div>
     </div>
-
-
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Tambah Supplier</h5>
-                
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                <form  action="{{route('create_supplier')}}" method="Post" enctype="multipart/form-data">    
-                                    @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>Nama Supplier</label>
-                                                <input type="text" name="nama_supplier" placeholder="..." class="form-control" required>
-                                                @error('nama_supplier')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>                          
-                                    <div class="modal-footer">
-                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-primary">Tambah</button>
-                                    </div>
-                                </form>
-                </div>
-            </div>
-   
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Supplier</h5>
-                
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                <form  action="{{route('update_supplier')}}" method="Post" enctype="multipart/form-data">    
-                                    @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
-                                    <input type="hidden" id="edit_id" name="id">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>Nama Supplier</label>
-                                                <input type="text" id="edit_supplier" name="nama_supplier" placeholder="..." class="form-control" required>
-                                                @error('nama_supplier')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>         
-                              
-                                    <div class="modal-footer">
-                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                    </div>
-                                </form>
-                </div>
-            </div>
-   
-        </div>
-    </div>
-</div>
 @stop
 

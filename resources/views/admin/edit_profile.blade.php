@@ -66,7 +66,11 @@
                                                 <label>Propinsi</label>
                                                 <select name="propinsi" id="propinsi" class="basic form-control">
                                                     @foreach ($province as $prov)
+                                                    @if ($prov->province==$data->propinsi)
+                                                    <option value="{{$data->propinsi}}" selected> {{$data->propinsi}}</option>
+                                                    @else
                                                     <option value="{{$prov->province}}" {{ ( $data->propinsi == $prov->province ) ? 'selected' : '' }}>{{$prov->province}}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                                 @error('propinsi')
@@ -79,7 +83,12 @@
                                                 <label>Kota</label>
                                                 <select id="kota" name="kota" class="basic form-control" > 
                                                     @foreach ($city as $ct)
+                                                    <?PHP $kota=$ct->city_name.' '.$ct->type;?>
+                                                    @if ($kota==$data->kota)
+                                                    <option value="{{$data->kota}}" selected> {{$data->kota}}</option>
+                                                    @else 
                                                     <option value="{{$ct->city_name.' '.$ct->type}}" {{ ( $data->kota == $ct->city_name.' '.$ct->type ) ? 'selected' : '' }}>{{$ct->city_name.' '.$ct->type}}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                                 @error('kota')
@@ -119,3 +128,36 @@
         </div>
     </div>
 @stop
+@section('script')
+<script>
+
+    $(document).ready(function() {
+        
+        $("#propinsi").change(function() {
+        var propinsi = $("#propinsi").val();
+        $.ajax({
+            type: 'get',
+            method: 'get',
+            url: '/city/find/' + propinsi,
+            data: '_token = <?php echo csrf_token() ?>',
+            success: function(hsl) {
+                if (hsl.code == 404) {
+                    alert(hsl.error);
+
+                } else {
+                    var data = [];
+                    data = hsl.result;
+                    $("#kota").children().remove().end();
+                    $.each(data, function(i, item) {
+                        $("#kota").append('<option value="' + item.city_name + ' ' + item.type + '">' + item.city_name + ' ' + item.type + '</option>');
+                    })
+                    kecamatan();
+                    $("#kota").focus();
+
+                }
+            }
+        });
+        })
+    })
+  </script>  
+@endsection

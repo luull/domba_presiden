@@ -87,3 +87,5 @@ Route::post('/admin/satuan_pakan/create', 'admin\satuanpakanController@create')-
 Route::post('/admin/satuan_pakan/update', 'admin\satuanpakanController@update')->name('update_satuan_pakan');
 Route::get('/admin/satuan_pakan/delete/{id}', 'admin\satuanpakanController@delete')->name('delete_satuan_pakan');
 Route::get('/admin/satuan_pakan/find/{id}', 'admin\satuanpakanController@find');
+
+Route::get('/booking', 'admin\bookingController@index');
