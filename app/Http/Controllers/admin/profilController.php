@@ -15,6 +15,7 @@ class profilController extends Controller
         $province = Province::get();
         $city = City::get();
         $data = User::where('username', session('admin_username'))->first();
+        // dd(session('admin_username'));
         return view('admin.edit_profile', compact('data','province','city'));
     }
 

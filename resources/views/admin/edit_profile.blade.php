@@ -66,11 +66,7 @@
                                                 <label>Propinsi</label>
                                                 <select name="propinsi" id="propinsi" class="basic form-control">
                                                     @foreach ($province as $prov)
-                                                    @if ($prov->province_id == $data->propinsi)
-                                                    <option value="{{$prov->province}}" selected >{{$prov->province}}</option>
-                                                    @else 
-                                                    <option value="{{$prov->province}}" >{{$prov->province}}</option>
-                                                    @endif
+                                                    <option value="{{$prov->province}}" {{ ( $data->propinsi == $prov->province ) ? 'selected' : '' }}>{{$prov->province}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('propinsi')
@@ -83,11 +79,7 @@
                                                 <label>Kota</label>
                                                 <select id="kota" name="kota" class="basic form-control" > 
                                                     @foreach ($city as $ct)
-                                                    @if ($ct->city_name.' '.$ct->type == $data->city_name.' '.$ct->type)
-                                                    <option value="{{$ct->city_name.' '.$ct->type}}" selected>{{$ct->city_name.' '.$ct->type}}</option>
-                                                    @else
-                                                    <option value="{{$ct->city_name.' '.$ct->type}}">{{$ct->city_name.' '.$ct->type}}</option>
-                                                    @endif
+                                                    <option value="{{$ct->city_name.' '.$ct->type}}" {{ ( $data->kota == $ct->city_name.' '.$ct->type ) ? 'selected' : '' }}>{{$ct->city_name.' '.$ct->type}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('kota')
