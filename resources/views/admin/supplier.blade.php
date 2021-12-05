@@ -252,9 +252,9 @@
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Propinsi</label>
-                                                <select name="propinsi" id="propinsi" class="edit_propinsi form-control" name="propinsi">
+                                                <select name="propinsi" id="edit_propinsi" class="edit_propinsi form-control">
                                                     @foreach ($province as $prov)
-                                                    <option value="{{$prov->province}}" id="edit_propinsi"  >{{$prov->province}}</option>
+                                                    <option value="{{$prov->province}}" >{{$prov->province}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('propinsi')
@@ -265,7 +265,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Kota</label>
-                                                <select id="kota" name="kota" class="edit_kota form-control" > 
+                                                <select id="edit_kota" name="kota" class="edit_kota form-control" > 
                                                     @foreach ($city as $ct)
                                                     <option value="{{$ct->city_name.' '.$ct->type}}" id="edit_kota" >{{$ct->city_name.' '.$ct->type}}</option>
                                                     @endforeach
@@ -348,8 +348,8 @@
                        $("#edit_jenis_supplier").val(hsl.jenis_supplier);
                        $("#edit_telp").val(hsl.telp);
                        $("#edit_email").val(hsl.email);
-                       $(".edit_kota").val(hsl.kota);
-                       $(".edit_propinsi").val(hsl.propinsi);
+                       $("#edit_propinsi").append('<option value="' + hsl.propinsi +  '"" selected>' + hsl.propinsi+ '</option>');
+                       $("#edit_kota").append('<option value="' + hsl.kota  + '" selected>' + hsl.kota + '</option>');
                        $("#edit_kontak").val(hsl.kontak);
                        $("#edit_hp").val(hsl.hp);
                        $("#edit_alamat").val(hsl.alamat);
@@ -364,7 +364,6 @@
         $(document).ready(function() {
             $("#propinsi").change(function() {
             var propinsi = $("#propinsi").val();
-            console.log(propinsi);
             $.ajax({
                 type: 'get',
                 method: 'get',
@@ -388,10 +387,34 @@
                 }
             });
             })
-            $("#kota").change(function() {
-                kecamatan();
+            
+            $("#edit_propinsi").change(function() {
+            var propinsi = $("#edit_propinsi").val();
+            console.log(propinsi);
+            $.ajax({
+                type: 'get',
+                method: 'get',
+                url: '/city/find/' + propinsi,
+                data: '_token = <?php echo csrf_token() ?>',
+                success: function(hsl) {
+                    if (hsl.code == 404) {
+                        alert(hsl.error);
+
+                    } else {
+                        var data = [];
+                        data = hsl.result;
+                        $("#edit_kota").children().remove().end();
+                        $.each(data, function(i, item) {
+                            $("#edit_kota").append('<option value="' + item.city_name + ' ' + item.type + '">' + item.city_name + ' ' + item.type + '</option>');
+                        })
+                        kecamatan();
+                        $("#edit_kota").focus();
+
+                    }
+                }
+            });
             })
             
         })
-    </script>    
+    </script>       
 @stop
