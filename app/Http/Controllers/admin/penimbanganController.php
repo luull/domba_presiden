@@ -35,7 +35,10 @@ class penimbanganController extends Controller
                     'berat_timbang' => $request->berat_timbang,
                     'vitamin' =>  $request->vitamin
                 ]);
-                if ($hsl) {
+                $update_berat = RegisDomba::where('no_regis', $request->no_regis)->update([
+                    'berat_akhir' => $request->berat_timbang,
+                ]);
+                if ($hsl && $update_berat) {
                     return redirect()->back()->with(['message' => 'Penimbangan Domba Berhasil Ditambahkan ', 'alert' => 'success']);
                 }else {
                     return redirect()->back()->with(['message' => 'Penimbangan Domba gagal ditambahkan', 'alert' => 'danger']);
@@ -73,7 +76,10 @@ class penimbanganController extends Controller
                     'berat_timbang' => $request->berat_timbang,
                     'vitamin' =>  $request->vitamin
                 ]);
-                if ($hsl) {
+                $update_berat = RegisDomba::where('no_regis', $request->no_regis)->update([
+                    'berat_akhir' => $request->berat_timbang,
+                ]);
+                if ($hsl && $update_berat) {
                     return redirect()->back()->with(['message' => 'Penimbangan Domba Berhasil diubah', 'alert' => 'success']);
                 }else {
                     return redirect()->back()->with(['message' => 'Penimbangan Domba gagal diubah', 'alert' => 'danger']);

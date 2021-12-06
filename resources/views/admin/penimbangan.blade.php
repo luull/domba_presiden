@@ -79,11 +79,7 @@
                 <div class="container">
                 <form  action="{{route('create_penimbangan')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                                 
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
                                         <select class="form-control basic" name="no_regis">
@@ -112,7 +108,7 @@
                                         <div class="col-md-4">
                                             <label>Berat timbang</label>
                                             <div class="input-group mb-4">
-                                            <input type="number" name="berat_timbang" placeholder="0.0" class="form-control" required>
+                                            <input type="text" name="berat_timbang" placeholder="0.0" class="form-control" required>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">KG</span>
                                                 </div>
@@ -158,11 +154,7 @@
                 <div class="container">
                 <form action="{{route('update_penimbangan')}}" method="Post" enctype="multipart/form-data">    
                                     @csrf
-                                    @if (session('message'))
-                                    <div class="alert alert-{{ session('alert') }} fade show">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
+                                 
                                     <input type="hidden" id="edit_id" name="id">
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
@@ -187,7 +179,7 @@
                                         <div class="col-md-4">
                                             <label>Berat timbang</label>
                                             <div class="input-group mb-4">
-                                            <input type="number" id="edit_berat_timbang" name="berat_timbang" placeholder="0.0" class="form-control" required>
+                                            <input type="text" id="edit_berat_timbang" name="berat_timbang" placeholder="0.0" class="form-control" required>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5">KG</span>
                                                 </div>
