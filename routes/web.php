@@ -4,6 +4,14 @@ use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'auth\signinController@index');
+Route::get('/pages_maintenence.html', function () {
+    echo '<body style="background:#000">
+     <div style="background:#000;width:100%">
+
+    <img src="images/under_construction_animated.gif" >
+    </div>
+    </body>';
+});
 Route::post('/login', 'auth\signinController@login')->name('action_login');
 Route::get('/logout', 'auth\signinController@logout');
 Route::get('/ubah_password', 'auth\signinController@ubah_password');
@@ -15,13 +23,19 @@ Route::get('/profil', 'admin\profilController@index');
 Route::post('/update_profil', 'admin\profilController@update')->name('update_profil');
 
 Route::get('/regis_domba', 'admin\regisController@index');
+Route::get('/domba', 'admin\regisController@index');
 Route::post('/admin/regis/create', 'admin\regisController@regis_domba')->name('create_regis');
 Route::post('/admin/regis/update', 'admin\regisController@update')->name('update_regis');
 Route::get('/admin/regis/delete/{id}', 'admin\regisController@delete')->name('delete_regis');
 Route::get('/admin/regis/find/{id}', 'admin\regisController@find');
-Route::get('/statistik/{id}', 'admin\regisController@statistik');
+Route::get('/domba/penimbangan', 'admin\penimbanganController@index');
+Route::get('/domba/pemberian-pakan', 'admin\pakanController@pemberian_pakan');
+Route::get('/domba/sold', 'admin\regisController@sold');
+Route::get('/domba/booked', 'admin\regisController@booked');
+Route::get('/domba/available', 'admin\regisController@available');
 
-Route::get('/penimbangan_domba', 'admin\penimbanganController@index');
+Route::get('/domba/detil/{id}', 'admin\regisController@detil');
+
 Route::post('/admin/penimbangan/create', 'admin\penimbanganController@create')->name('create_penimbangan');
 Route::post('/admin/penimbangan/update', 'admin\penimbanganController@update')->name('update_penimbangan');
 Route::get('/admin/penimbangan/delete/{id}', 'admin\penimbanganController@delete')->name('delete_penimbangan');

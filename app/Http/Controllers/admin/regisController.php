@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\RegisDomba;
 use App\JenisDomba;
 use App\KandangDomba;
+use App\Pakan;
+use App\PemberianPakan;
 use App\Penimbangan;
+use App\Supplier;
 use Illuminate\Http\Request;
 
 class regisController extends Controller
@@ -20,10 +23,51 @@ class regisController extends Controller
         $jenis = JenisDomba::get();
         $kandang = KandangDomba::get();
         $penimbangan = Penimbangan::get();
-        $data = RegisDomba::get();
-        return view('admin.regis_domba', compact('jenis', 'kandang', 'data','penimbangan'));
+        $data = RegisDomba::orderBy('id', 'desc')->get();
+        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+        return view('admin.regis_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier'));
     }
-    public function statistik(Request $request)
+    public function sold()
+    {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
+        $jenis = JenisDomba::get();
+        $kandang = KandangDomba::get();
+        $penimbangan = Penimbangan::get();
+        $data = RegisDomba::where('status', 2)->orderBy('id', 'desc')->get();
+        $judul = "DOMBA SOLD";
+        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+    }
+    public function available()
+    {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
+        $jenis = JenisDomba::get();
+        $kandang = KandangDomba::get();
+        $penimbangan = Penimbangan::get();
+        $data = RegisDomba::where('status', 0)->orderBy('id', 'desc')->get();
+        $judul = "DOMBA AVAILABLE";
+        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+    }
+    public function booked()
+    {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
+        $jenis = JenisDomba::get();
+        $kandang = KandangDomba::get();
+        $penimbangan = Penimbangan::get();
+        $data = RegisDomba::where('status', 1)->orderBy('id', 'desc')->get();
+        $judul = "DOMBA BOOKED";
+        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+    }
+
+    public function detil(Request $request)
     {
         if (!session('admin_username') || session('admin_username') == null) {
             return redirect('/');
@@ -32,7 +76,10 @@ class regisController extends Controller
         $kandang = KandangDomba::get();
         $penimbangan = Penimbangan::where('no_regis', $request->id)->get();
         $data = RegisDomba::where('no_regis', $request->id)->first();
-        return view('admin.statistik_domba', compact('jenis', 'kandang', 'data','penimbangan'));
+        $pakan = PemberianPakan::where('no_regis', $request->id)->get();
+
+
+        return view('admin.detil_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'pakan'));
     }
     public function regis_domba(Request $request)
     {
@@ -68,7 +115,7 @@ class regisController extends Controller
                         'harga_beli' => $hrg_beli,
                         'supplier' => $request->supplier,
                         'status' => 0,
-                        'user_input' => session('admin_username'), 
+                        'user_input' => session('admin_username'),
                         'tgl_input' => date('Y-m-d h:i:s'),
                     ]);
                     if ($hsl) {

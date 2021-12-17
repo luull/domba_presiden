@@ -51,10 +51,16 @@
                                                 <th>Propinsi</th>
                                                 <th>HP</th>
                                                 <th>Email</th>
+                                                <th>Hak Akses</th>
+                                            
                                                 <th class="no-content"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php  
+                                               $akses=array('','System Administrator','Farm Administrator','Farm Manager');
+         
+                                            @endphp 
                                             @foreach($data as $d)
                                             <tr>
                                                 <td>{{ $i++ }}</td>
@@ -65,6 +71,8 @@
                                                 <td>{{ $d->propinsi }}</td>
                                                 <td>{{ $d->hp }}</td>
                                                 <td>{{ $d->email }}</td>
+                                                 <td>{{ $akses[$d->level] }}</td>
+                                               
                                                 <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                                 <a href="/admin/user/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
                                             </tr>
@@ -138,7 +146,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Propinsi</label>
                                                 <select name="propinsi" id="propinsi" class="form-control" value="{{ old('propinsi') }}" required>
@@ -151,7 +159,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Kota</label>
                                                 <select id="kota" name="kota" class="form-control" value="{{ old('kota') }}" required>
@@ -163,11 +171,25 @@
                                             </div>
                                         </div>
                                             
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                              <div class="form-group mb-3">
                                                     <label>Hp</label>
                                                     <input type="number" name="hp" id="edit_hp" class="form-control" value="{{ old('hp') }}" required>
                                                     @error('hp')
+                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                             <div class="form-group mb-3">
+                                                    <label>Hak Akses</label>
+                                                    <select name="level" class="form-control" required>
+                                                        <option value="3" selected>Farm Manager</option>
+                                                        <option value="2">Farm Administrator</option>
+                                                        <option value="1">System Administrator</option>
+                                                        
+                                                    </select>
+                                                    @error('level')
                                                     <div class="text-danger mt-1">{{ $message }}</div>
                                                     @enderror
                                              </div>
@@ -198,15 +220,7 @@
                               
                                     <input type="hidden" id="edit_id" name="id">
                                     <div class="row">
-                                    <div class="col-md-6">
-                                            <div class="form-group mb-3">
-                                                <label>Username</label>
-                                                <input type="text" name="username" id="edit_username"  class="form-control"  value="{{ old('username') }}" required> 
-                                                @error('username')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                   
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Nama Lengkap</label>
@@ -216,7 +230,15 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                      
+                                      <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Email</label>
+                                                <input type="email" name="email" id="edit_email" class="form-control" value="{{ old('email') }}" required>
+                                                @error('email')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group mb-3">
                                                 <label>Alamat</label>
@@ -252,15 +274,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group mb-3">
-                                                <label>Email</label>
-                                                <input type="email" name="email" id="edit_email" class="form-control" value="{{ old('email') }}" required>
-                                                @error('email')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Hp</label>
@@ -269,6 +283,20 @@
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                             <div class="form-group mb-3">
+                                                    <label>Hak Akses</label>
+                                                    <select name="level" id="edit_level" class="form-control" required>
+                                                        <option value="3" selected>Farm Manager</option>
+                                                        <option value="2">Farm Administrator</option>
+                                                        <option value="1">System Administrator</option>
+                                                        
+                                                    </select>
+                                                    @error('level')
+                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                             </div>
                                         </div>
                                     </div>         
                               
@@ -290,7 +318,7 @@
         $(".edit").click(function(){
             var idnya=$(this).attr('id').split('-');
             var id=idnya[1];
-            
+            var akses=['','System Administrator','Farm Administrator','Farm Manager'];
             $.ajax({
                 type:'get',
                 method:'get',
@@ -308,8 +336,8 @@
                        $("#edit_propinsi").append('<option value="' + hsl.propinsi +  '"" selected>' + hsl.propinsi+ '</option>');
                        $("#edit_kota").append('<option value="' + hsl.kota  + '" selected>' + hsl.kota + '</option>');
                        $("#edit_email").val(hsl.email);
+                       $("#edit_level").append('<option value="' + hsl.level  + '" selected>' + akses[hsl.level] + '</option>');
                        $(".edit_hp").val(hsl.hp);
-                       console.log(hsl.hp);
                        $("#editModal").modal();
                    }
                 }
@@ -347,7 +375,6 @@
             
             $("#edit_propinsi").change(function() {
             var propinsi = $("#edit_propinsi").val();
-            console.log(propinsi);
             $.ajax({
                 type: 'get',
                 method: 'get',

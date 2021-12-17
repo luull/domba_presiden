@@ -16,7 +16,7 @@ class supplierController extends Controller
         $data = Supplier::get();
         $province = Province::get();
         $city = City::get();
-        return view('admin.supplier', compact('data','province','city'));
+        return view('admin.supplier', compact('data', 'province', 'city'));
     }
     public function pakan()
     {
@@ -53,7 +53,7 @@ class supplierController extends Controller
                 'hp' => $request->hp,
                 'email' => $request->email,
                 'kontak' => $request->kontak,
-                'user_input' => session('admin_username'), 
+                'user_input' => session('admin_username'),
                 'tgl_input' => date('Y-m-d h:i:s'),
             ]);
             if ($hsl) {
@@ -83,7 +83,6 @@ class supplierController extends Controller
                 'alamat' => 'required',
                 'kota' => 'required',
                 'propinsi' => 'required',
-                'telp' => 'required',
                 'hp' => 'required',
                 'email' => 'required',
                 'kontak' => 'required',

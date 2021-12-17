@@ -159,7 +159,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Telp</label>
-                                                <input type="number" name="telp" placeholder="Telp supplier" class="form-control" value="{{ old('telp') }}" required>
+                                                <input type="number" name="telp" placeholder="Telp supplier" class="form-control" value="{{ old('telp') }}" >
                                                 @error('telp')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror

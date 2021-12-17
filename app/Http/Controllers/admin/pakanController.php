@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\KandangDomba;
 use App\Satuan;
 use App\Pakan;
+use App\PemberianPakan;
+use App\RegisDomba;
 use Illuminate\Http\Request;
 
 class PakanController extends Controller
@@ -17,9 +20,21 @@ class PakanController extends Controller
         }
         $satuan = Satuan::get();
         $data = Pakan::get();
-        return view('admin.pakan', compact('data','satuan'));
+        return view('admin.pakan', compact('data', 'satuan'));
     }
-    public function create(Request $request){
+    public function pemberian_pakan()
+    {
+        if (!session('admin_username') || session('admin_username') == null) {
+            return redirect('/');
+        }
+        $data_domba = RegisDomba::get();
+        $data = PemberianPakan::get();
+        $kandang = KandangDomba::get();
+
+        return view('admin.pemberian_pakan', compact('data_domba', 'data', 'kandang'));
+    }
+    public function create(Request $request)
+    {
         $validasi = $request->validate([
             'nama_pakan' => 'required',
             'stok_pakan' => 'required',
@@ -28,23 +43,22 @@ class PakanController extends Controller
         ]);
         $karakter = '123456789';
         $generate = substr(str_shuffle($karakter), 0, 3);
-        $hasil = 'BP-00'.$generate;
+        $hasil = 'BP-00' . $generate;
         if ($validasi) {
-               
-                $hsl = Pakan::create([
-                    'kode_pakan' => $hasil,
-                    'nama_pakan' => $request->nama_pakan,
-                    'stok_pakan' => $request->stok_pakan,
-                    'satuan_pakan' => $request->satuan_pakan,
-                    'harga_pakan' => $request->harga_pakan,
-                ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Jenis Pakan Berhasil Ditambahkan ', 'alert' => 'success']);
-                }else {
-                    return redirect()->back()->with(['message' => 'Jenis Pakan gagal ditambahkan', 'alert' => 'danger']);
-                }
-        }
-        else {
+
+            $hsl = Pakan::create([
+                'kode_pakan' => $hasil,
+                'nama_pakan' => $request->nama_pakan,
+                'stok_pakan' => $request->stok_pakan,
+                'satuan_pakan' => $request->satuan_pakan,
+                'harga_pakan' => $request->harga_pakan,
+            ]);
+            if ($hsl) {
+                return redirect()->back()->with(['message' => 'Jenis Pakan Berhasil Ditambahkan ', 'alert' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Jenis Pakan gagal ditambahkan', 'alert' => 'danger']);
+            }
+        } else {
             return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
         }
     }
@@ -68,20 +82,19 @@ class PakanController extends Controller
             ]);
 
             if ($validasi) {
-            $hsl = Pakan::where('id', $request->id)->update([
+                $hsl = Pakan::where('id', $request->id)->update([
                     'kode_pakan' => $request->kode_pakan,
                     'nama_pakan' => $request->nama_pakan,
                     'stok_pakan' => $request->stok_pakan,
                     'satuan_pakan' => $request->satuan_pakan,
                     'harga_pakan' => $request->harga_pakan,
-            ]);
+                ]);
                 if ($hsl) {
                     return redirect()->back()->with(['message' => 'Jenis Pakan Berhasil diubah', 'alert' => 'success']);
-                }else {
+                } else {
                     return redirect()->back()->with(['message' => 'Jenis Pakan gagal diubah', 'alert' => 'danger']);
                 }
-            
-            }else{
+            } else {
                 return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
             }
         } else {
@@ -90,7 +103,7 @@ class PakanController extends Controller
     }
     public function delete(Request $req)
     {
-      
+
         $hsl = Pakan::find($req->id)->delete();
         if ($hsl) {
             return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);

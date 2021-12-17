@@ -38,7 +38,8 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>No Regis</th>
+                                                <th>No Registrasi</th>
+                                                <th>Status</th>
                                                 <th>Berat Awal</th>
                                                 <th>Jenis</th>
                                                 <th>Kandang</th>
@@ -50,11 +51,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; ?>
+                                            <?php $i=1;
+                                            $status=array('Available','Booked','Sold') ?>
                                             @foreach($data as $d)
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_regis }}</td>
+                                                <td>{{ $status[$d->status] }}</td>
                                                 <td>{{ number_format($d->berat_awal,2) }} Kg</td>
                                                 <td>{{ $d->jenis }}</td>
                                                 <td>{{ $d->kandang }}</td>
@@ -64,7 +67,7 @@
                                                 <td>{{ $d->tgl_masuk }}</td>
                                                 <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                                 <a href="/admin/regis/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a>
-                                                <a href="/statistik/{{$d->no_regis}}"><i data-feather="list"></i></a>
+                                                <a href="/domba/detil/{{$d->no_regis}}"><i data-feather="list"></i></a>
                                             </td>
                                             </tr>
                                             @endforeach
@@ -104,7 +107,7 @@
                                             <label>Tanggal Masuk</label>
                                             <div class="input-group mb-4">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5">@</span>
+                                                    <span class="input-group-text" id="basic-addon5"><i class="fa fa-calendar"></i> </span>
                                                 </div>
                                                 <input id="basicFlatpickr" name="tgl_masuk" value="2020-09-04" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Tanggal Masuk">
                                                 @error('tgl_masuk')
@@ -180,7 +183,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Nama Supplier</label>
-                                                <input type="text" name="supplier" class="form-control" required>
+                                                <select name="supplier" class="form-control" required>
+                                                @foreach($supplier as $s)
+                                                    <option value="{{ $s->nama_supplier}}">{{ $s->nama_supplier}}</option>
+                                                @endforeach
+                                                </select>
                                                 @error('supplier')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror

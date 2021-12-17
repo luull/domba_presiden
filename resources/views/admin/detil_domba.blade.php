@@ -13,7 +13,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
                                 <li class="breadcrumb-item"><a href="/regis_domba">Domba</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Statistik Domba</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>Data Detil Domba</span></li>
                             </ol>
                         </nav>
 
@@ -25,54 +25,38 @@
  @section('content')
     <div class="layout-px-spacing"> 
         <div class="row layout-top-spacing">
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 layout-spacing">
+            <div class="col-md-8 ">
                 <div class="widget infobox-3" style="width:100% !Important;">
                     <div class="info-icon">
                         <i data-feather="clipboard"></i>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5 class="info-heading"><b>{{ $data->no_regis}}</b></h5>
-                            <p class="info-text mb-0">Kamar: <b>{{ $data->kamar }}</b></p>
-                            @if($data->status == 0)
-                            <p class="info-text mb-0">Status : <b> Belum Terjual</b></p>
-                            @elseif($data->status == 1)
-                            <p class="info-text mb-0">Status : <b> Booking</b></p>
-                            @else
-                            <p class="info-text mb-0">Status : <b> Terjual</b></p>
-                            @endif
-                            <p class="info-text mb-0">Berat Awal : <b>{{ $data->berat_awal }} Kg</b></p>
-                            <p class="info-text mb-0">Tgl Masuk : <b>{{ $data->tgl_masuk }}</b></p>
+                            <h5>DETIL DOMBA</h5>
+                            <HR>
+                            <div class="col-md-12">
+                            <table class="table table-responsive">
+                                <tr><td>No Registrasi</td><td>{{ $data->no_regis}}</td></tr>
+                                <tr><td>Status</td><td>{{ $data->status_domba->keterangan}}</td></tr>
+                                <tr><td>Tgl Masuk</td><td>{{ $data->tgl_masuk}}</td></tr>
+                                <tr><td>Supplier</td><td>{{ $data->supplier}}</td></tr>
+                                <tr><td>Berat Awal</td><td>{{ $data->berat_awal}} Kg</td></tr>
+                                <tr><td>Jenis Domba</td><td>{{ $data->jenis}}</td></tr>
+                                <tr><td>Kandang</td><td>{{ $data->kandang}}</td></tr>
+                                <tr><td>Kamar</td><td>{{ $data->kamar}}</td></tr>
+                                <tr><td>Harga</td><td>Rp. {{ number_format($data->harga_beli)}}</td></tr>
+                                
+                                
+                            </table>  
                         </div>
-                        <div class="col-md-6">
-                            <h5 class="info-heading"><b>{{ $data->jenis}}</b></h5>
-                            <p class="info-text mb-0">Supplier : <b>{{ $data->supplier }}</b></p>
-                            <p class="info-text mb-0">Kandang : <b>{{ $data->kandang }}</b></p>
-                            <p class="info-text mb-0">Harga : <b>Rp. {{ number_format($data->harga_beli) }}</b></p>
-                        </div>
-                    </div>
-                </div>
-             </div>
-        </div>
+                </DIV>  
+                  
+            </DIV>
+        </DIV>   
 
         <div class="row layout-top-spacing">
-                       <div class="col-xl-3 col-lg-5 col-md-6 col-sm-12 col-12 layout-spacing">
+                       <div class="col-md-4 layout-spacing">
                             <div class="widget widget-activity-five">
                             <div class="widget-heading">
-                                <h5 class="">Penimbangan</h5>
-
-                                <div class="task-action">
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="pendingTask" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="pendingTask" style="will-change: transform;">
-                                            <a class="dropdown-item" href="javascript:void(0);">View All</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Mark as Read</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h5 class="">DATA PENIMBANGAN</h5>
                             </div>
 
                                 <div class="widget-content">
@@ -105,19 +89,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
-                                            <div class="item-timeline timeline-new">
-                                                @if($data->status == 0)
-                                                <div class="t-dot">
-                                                    <div class="t-warning"><i data-feather="tag"></i></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Status : <a href="javscript:void(0);"><span>Belum Terjual</span></a></h5>
-                                                    </div>
-                                                    <p>Jenis : {{ $data->jenis}}</p>
-                                                </div>
-                                                @endif
-                                            </div>                                
+                                                                         
                                         </div>                                    
                                     </div>
 
@@ -126,7 +98,43 @@
                             </div>
                         </div>
                     
-        </div>
+    
+                       <div class="col-md-8 layout-spacing">
+                            <div class="widget widget-activity-five">
+                            <div class="widget-heading">
+                                <h5 class="">PEMBERIAN PAKAN</h5>
+                            </div>
+                            @if ($pakan)
+                                <div class="widget-content">
+
+                                            <table class="table table-responsive">
+                                                 <tr><th>Tanggal</th>
+                                                    <th>Kandang</th>
+                                                    <th>Jadwal</th>
+                                                    <th>Berat Badan</th>
+                                                    <th>Total Pakan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($pakan as $pkn)
+                                                <tr><td>{{$pkn->tanggal}}</td>
+                                                    <td>{{$pkn->kandang}}</td>
+                                                    <td>{{$pkn->jadwal}}</td>
+                                                    <td>{{number_format($pkn->total_berat_domba,2)}}</td>
+                                                    <td>{{number_format($pkn->total_pakan,2)}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                            </table>                             
+                                                                         
+
+
+                              
+                            </div>
+                            @endif
+                        </div>
+                    
+        
     </div>
 @stop
 

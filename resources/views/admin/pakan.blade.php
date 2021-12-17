@@ -32,7 +32,7 @@
                                     @endif
                 <div class="widget-content widget-content-area br-6">
                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
-                             Tambah Pakan
+                             Pemberian Pakan
                              </button>
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -41,7 +41,11 @@
                                                 <th>No</th>
                                                 <th>Kode Pakan</th>
                                                 <th>Jenis Pakan</th>
-                                                <th>Stok Pakan</th>
+                                                <th>Stok Awal</th>
+                                                <th>Stok Masuk</th>
+                                                <th>Stok Incoming</th>
+                                                <th>Stok Keluar</th>
+                                                <th>Stok Akhir</th>
                                                 <th>Harga Pakan</th>
                                                 <th>Satuan Pakan</th>
                                                 <th class="no-content"></th>
@@ -53,6 +57,10 @@
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->kode_pakan }}</td>
                                                 <td>{{ $d->nama_pakan }}</td>
+                                                <td>{{ $d->stok_pakan }}</td>
+                                                <td>{{ $d->stok_pakan }}</td>
+                                                <td>{{ $d->stok_pakan }}</td>
+                                                <td>{{ $d->stok_pakan }}</td>
                                                 <td>{{ $d->stok_pakan }}</td>
                                                 <td>Rp.{{ $d->harga_pakan }}</td>
                                                 <td>{{ $d->satuan_pakan }}</td>
@@ -73,7 +81,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Tambah Pakan</h5>
+                <h5 class="modal-title" id="addModalLabel">Pemberian Pakan</h5>
                 
             </div>
             <div class="modal-body">
@@ -132,7 +140,7 @@
                                     </div>                          
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-primary">Tambah</button>
+                                        <button type="submit" class="btn btn-primary">Proses</button>
                                     </div>
                                 </form>
                 </div>
