@@ -10,6 +10,7 @@ use App\Pakan;
 use App\PemberianPakan;
 use App\Penimbangan;
 use App\Supplier;
+use Exception;
 use Illuminate\Http\Request;
 
 class regisController extends Controller
@@ -17,69 +18,99 @@ class regisController extends Controller
 
     public function index()
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
+        try {
+
+
+            if (!session('admin_username') || session('admin_username') == null) {
+                return redirect('/');
+            }
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::orderBy('id', 'desc')->get();
+            $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.regis_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
-        $jenis = JenisDomba::get();
-        $kandang = KandangDomba::get();
-        $penimbangan = Penimbangan::get();
-        $data = RegisDomba::orderBy('id', 'desc')->get();
-        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
-        return view('admin.regis_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier'));
     }
     public function sold()
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
+        try {
+
+
+            if (!session('admin_username') || session('admin_username') == null) {
+                return redirect('/');
+            }
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::where('status', 2)->orderBy('id', 'desc')->get();
+            $judul = "DOMBA SOLD";
+            $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
-        $jenis = JenisDomba::get();
-        $kandang = KandangDomba::get();
-        $penimbangan = Penimbangan::get();
-        $data = RegisDomba::where('status', 2)->orderBy('id', 'desc')->get();
-        $judul = "DOMBA SOLD";
-        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
-        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
     }
     public function available()
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
+        try {
+
+
+            if (!session('admin_username') || session('admin_username') == null) {
+                return redirect('/');
+            }
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::where('status', 0)->orderBy('id', 'desc')->get();
+            $judul = "DOMBA AVAILABLE";
+            $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
-        $jenis = JenisDomba::get();
-        $kandang = KandangDomba::get();
-        $penimbangan = Penimbangan::get();
-        $data = RegisDomba::where('status', 0)->orderBy('id', 'desc')->get();
-        $judul = "DOMBA AVAILABLE";
-        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
-        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
     }
     public function booked()
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
+        try {
+
+
+            if (!session('admin_username') || session('admin_username') == null) {
+                return redirect('/');
+            }
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::where('status', 1)->orderBy('id', 'desc')->get();
+            $judul = "DOMBA BOOKED";
+            $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
-        $jenis = JenisDomba::get();
-        $kandang = KandangDomba::get();
-        $penimbangan = Penimbangan::get();
-        $data = RegisDomba::where('status', 1)->orderBy('id', 'desc')->get();
-        $judul = "DOMBA BOOKED";
-        $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
-        return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
     }
 
     public function detil(Request $request)
     {
-        if (!session('admin_username') || session('admin_username') == null) {
-            return redirect('/');
+        try {
+
+
+            if (!session('admin_username') || session('admin_username') == null) {
+                return redirect('/');
+            }
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::where('no_regis', $request->id)->get();
+            $data = RegisDomba::where('no_regis', $request->id)->first();
+            $pakan = PemberianPakan::where('no_regis', $request->id)->get();
+
+
+            return view('admin.detil_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'pakan'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
-        $jenis = JenisDomba::get();
-        $kandang = KandangDomba::get();
-        $penimbangan = Penimbangan::where('no_regis', $request->id)->get();
-        $data = RegisDomba::where('no_regis', $request->id)->first();
-        $pakan = PemberianPakan::where('no_regis', $request->id)->get();
-
-
-        return view('admin.detil_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'pakan'));
     }
     public function regis_domba(Request $request)
     {
@@ -143,52 +174,63 @@ class regisController extends Controller
     }
     public function update(Request $request)
     {
-        if (!empty($request->id)) {
-            $validasi = $request->validate([
-                'no_regis' => 'required',
-                'tgl_masuk' => 'required',
-                'berat_awal' => 'required',
-                'jenis' => 'required',
-                'kandang' => 'required',
-                'kamar' => 'required',
-                'harga_beli' => 'required',
-                'supplier' => 'required'
-            ]);
+        try {
 
-            if ($validasi) {
-                $hsl = RegisDomba::where('id', $request->id)->update([
-                    'no_regis' => $request->no_regis,
-                    'tgl_masuk' => $request->tgl_masuk,
-                    'berat_awal' => $request->berat_awal,
-                    'jenis' => $request->jenis,
-                    'kandang' => $request->kandang,
-                    'kamar' => $request->kamar,
-                    'harga_beli' => $request->harga_beli,
-                    'status' => $request->status,
-                    'supplier' => $request->supplier,
-                    'tgl_edit' => date('Y-m-d h:i:s'),
-                    'user_edit' => session('admin_username')
+
+            if (!empty($request->id)) {
+                $validasi = $request->validate([
+                    'no_regis' => 'required',
+                    'tgl_masuk' => 'required',
+                    'berat_awal' => 'required',
+                    'jenis' => 'required',
+                    'kandang' => 'required',
+                    'kamar' => 'required',
+                    'harga_beli' => 'required',
+                    'supplier' => 'required'
                 ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil diubah', 'alert' => 'success']);
+
+                if ($validasi) {
+                    $hsl = RegisDomba::where('id', $request->id)->update([
+                        'no_regis' => $request->no_regis,
+                        'tgl_masuk' => $request->tgl_masuk,
+                        'berat_awal' => $request->berat_awal,
+                        'jenis' => $request->jenis,
+                        'kandang' => $request->kandang,
+                        'kamar' => $request->kamar,
+                        'harga_beli' => $request->harga_beli,
+                        'status' => $request->status,
+                        'supplier' => $request->supplier,
+                        'tgl_edit' => date('Y-m-d h:i:s'),
+                        'user_edit' => session('admin_username')
+                    ]);
+                    if ($hsl) {
+                        return redirect()->back()->with(['message' => 'Registrasi Domba Berhasil diubah', 'alert' => 'success']);
+                    } else {
+                        return redirect()->back()->with(['message' => 'Registrasi Domba gagal diubah', 'alert' => 'danger']);
+                    }
                 } else {
-                    return redirect()->back()->with(['message' => 'Registrasi Domba gagal diubah', 'alert' => 'danger']);
+                    return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
                 }
             } else {
-                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
+                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
             }
-        } else {
-            return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
     public function delete(Request $req)
     {
+        try {
 
-        $hsl = RegisDomba::find($req->id)->delete();
-        if ($hsl) {
-            return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
-        } else {
-            return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+
+            $hsl = RegisDomba::find($req->id)->delete();
+            if ($hsl) {
+                return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
 }

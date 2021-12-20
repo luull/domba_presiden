@@ -1,63 +1,19 @@
 <?PHP
-function replace_dt_member($wp, $member)
-{
-    $wp = str_replace('{{nama}}', $member->nama, $wp);
-    $wp = str_replace('{{kota}}', $member->city->city_name, $wp);
-    $wp = str_replace('{{propinsi}}', $member->province->province, $wp);
-    $wp = str_replace('{{kecamatan}}', $member->subdistrict->subdistrict_name, $wp);
-    $wp = str_replace('{{kelurahan}}', $member->kelurahan, $wp);
-    $wp = str_replace('{{alamat}}', $member->alamat, $wp);
-    $wp = str_replace('{{email}}', $member->email, $wp);
-    $wp = str_replace('{{telp}}', $member->telp, $wp);
-    $wp = str_replace('{{hp}}', $member->hp, $wp);
-    $wp = str_replace('{{ig}}', $member->ig, $wp);
-    $wp = str_replace('{{wa}}', $member->wa, $wp);
-    $wp = str_replace('{{fb}}', $member->fb, $wp);
-    $wp = str_replace('{{twitter}}', $member->twitter, $wp);
-    $wp = str_replace('{{tube}}', $member->tube, $wp);
-    $wp = str_replace('{{perusahaan}}', $member->perusahaan, $wp);
-    $wp = str_replace('{{pekerjaan}}', $member->pekerjaan, $wp);
-    $wp = str_replace('{{jabatan}}', $member->jabatan, $wp);
 
-    return $wp;
-}
-function save_event_log_member($data)
-{
-    DB::insert('insert into event_log_member ( member_id,path,refferal,ip,description) values (?, ?,?,?,?)', $data);
-}
-function save_event_log_admin($data)
-{
-    DB::insert('insert into event_log ( user_id,path,refferal,ip,description) values (?, ?,?,?,?)', $data);
-}
+use App\Penimbangan;
 
-function save_page_traffic_member($data)
+function berat_akhir($id, $ba)
 {
-    DB::insert('insert into page_traffic_member ( member_id,path,refferal,ip) values (?, ?,?,?)', $data);
-}
+    $berat = $ba;
+    $dt = Penimbangan::where('no_regis', $id)->orderBy('tgl_timbang', 'desc')->first();
 
-function youtube_thumb_url($url)
-{
-    if (!filter_var($url, FILTER_VALIDATE_URL)) {
-        // URL is Not valid
-        return false;
+    if ($dt == null) {
+        $berat = $ba;
+    } else {
+        $berat = $dt->berat_timbang;
     }
-    $domain = parse_url($url, PHP_URL_HOST);
-    if ($domain == 'www.youtube.com' or $domain == 'youtube.com') // http://www.youtube.com/watch?v=t7rtVX0bcj8&feature=topvideos_film
-    {
-        if ($querystring = parse_url($url, PHP_URL_QUERY)) {
-            //parse_str($querystring);
-            if (!empty($v)) return "https://img.youtube.com/vi/$v/0.jpg";
-            else return false;
-        } else return false;
-    } elseif ($domain == 'youtu.be') // something like http://youtu.be/t7rtVX0bcj8
-    {
-        $v = str_replace('/', '', parse_url($url, PHP_URL_PATH));
-        return (empty($v)) ? false : "https://img.youtube.com/vi/$v/0.jpg";
-    } else
-
-        return false;
+    return $berat;
 }
-
 function only_month($tgl)
 {
     $bln = substr($tgl, 5, 2);

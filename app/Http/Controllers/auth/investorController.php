@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Investor;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
-class signinController extends Controller
+class investorController extends Controller
 {
 
     public function index()
     {
-        return view('auth.signin');
+        return view('auth.investor');
     }
     public function login(Request $request)
     {
@@ -23,17 +24,17 @@ class signinController extends Controller
         ]);
         $uid = $request->username;
         $pwd = $request->password;
-        $data = User::where('username', $uid)->first();
+
+        $data = Investor::where('username', $uid)->first();
         if ($data) {
             if (Hash::check($pwd, $data->password)) {
-                session(['login_sukses' => true]);
-                session(['admin_id' => $data->id]);
-                session(['admin_username' => $data->username]);
-                session(['admin_nama' => $data->nama]);
-                session(['admin_level' => $data->level]);
+                session(['login_investor_sukses' => true]);
+                session(['investor_id' => $data->id]);
+                session(['investor_username' => $data->username]);
+                session(['investor_nama' => $data->nama]);
 
-                $admin_data = $data;
-                return redirect('/dashboard');
+                session(['data_investor' => $data]);
+                return redirect('/dashboard-investor');
             } else {
 
                 return redirect()->back()->with('message', 'Username atau Password Salah ');
@@ -45,11 +46,11 @@ class signinController extends Controller
     public function logout(Request $request)
     {
         $request->session()->flush();
-        return redirect('/')->with('message', 'Anda telah Keluar ');
+        return redirect('/login-investor')->with('message', 'Anda telah Keluar ');
     }
     public function ubah_password()
     {
-        return view('admin.ubah_password');
+        return view('investor.ubah_password_investor');
     }
     public function proses_ubah_password(Request $request)
     {
@@ -62,29 +63,29 @@ class signinController extends Controller
         $old = $request->old_password;
         $pwd = $request->password;
         $pwd2 = $request->password1;
-        $data = User::where('username', session('admin_username'))->first();
-        $getid = User::where('username', session('admin_username'))->first()->id;
+        $data = Investor::where('username', session('investor_username'))->first();
+        $getid = Investor::where('username', session('investor_username'))->first()->id;
         if ($data) {
             if (Hash::check($old, $data->password)) {
                 if (Hash::check($pwd, $data->password)) {
-                    return redirect('/ubah_password')->with('message', 'Password sama dengan yang lama');
+                    return redirect('/investor/ubah_password')->with('message', 'Password sama dengan yang lama');
                 } elseif (Hash::check($pwd2, $data->password)) {
-                    return redirect('/ubah_password')->with('message', 'Password sama dengan yang lama');
+                    return redirect('/investor/ubah_password')->with('message', 'Password sama dengan yang lama');
                 } else {
                     if ($pwd != $pwd2) {
-                        return redirect('/ubah_password')->with('message', 'Password tidak sama');
+                        return redirect('/investor/ubah_password')->with('message', 'Password tidak sama');
                     } else {
-                        $hsl = User::where('id', $getid)->update([
+                        $hsl = investor::where('id', $getid)->update([
                             'password' => bcrypt($pwd)
                         ]);
                         if ($hsl) {
                             $request->session()->flush();
-                            return redirect('/')->with('message', 'Silahkan login kembali dengan password baru');
+                            return redirect('/login-investor')->with('message', 'Silahkan login kembali dengan password baru');
                         }
                     }
                 }
             } else {
-                return redirect('/ubah_password')->with('message', 'Password lama salah');
+                return redirect('/investor/ubah_password')->with('message', 'Password lama salah');
             }
         }
     }

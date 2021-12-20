@@ -3,6 +3,8 @@
 use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/login', 'auth\signinController@index');
+Route::get('/login-investor', 'auth\investorController@index');
 Route::get('/', 'auth\signinController@index');
 Route::get('/pages_maintenence.html', function () {
     echo '<body style="background:#000">
@@ -13,10 +15,17 @@ Route::get('/pages_maintenence.html', function () {
     </body>';
 });
 Route::post('/login', 'auth\signinController@login')->name('action_login');
+Route::post('/login-investor', 'auth\investorController@login')->name('action_investor_login');
 Route::get('/logout', 'auth\signinController@logout');
+Route::get('/investor/logout', 'auth\investorController@logout');
 Route::get('/ubah_password', 'auth\signinController@ubah_password');
 Route::post('/ubah_password', 'auth\signinController@proses_ubah_password')->name('ubah_password');
+Route::get('/investor/ubah_password', 'auth\investorController@ubah_password');
+Route::post('/investor/ubah_password', 'auth\investorController@proses_ubah_password')->name('ubah_password_investor');
+Route::get('/investor/profil', 'admin\investorController@edit_profil');
+Route::post('/investor/profil', 'admin\investorController@proses_edit_profil')->name('proses_edit_profil');
 Route::get('/dashboard', 'admin\dashboardController@index');
+Route::get('/dashboard-investor', 'admin\dashboardController@dashboard_investor');
 Route::get('/city/find/{id}', 'admin\supplierController@city_list');
 
 Route::get('/profil', 'admin\profilController@index');
@@ -33,6 +42,11 @@ Route::get('/domba/pemberian-pakan', 'admin\pakanController@pemberian_pakan');
 Route::get('/domba/sold', 'admin\regisController@sold');
 Route::get('/domba/booked', 'admin\regisController@booked');
 Route::get('/domba/available', 'admin\regisController@available');
+Route::get('/investor/domba/sold', 'admin\investorController@domba_sold');
+Route::get('/investor/domba/booked', 'admin\investorController@domba_booked');
+Route::get('/investor/domba/available', 'admin\investorController@domba_available');
+Route::get('/investor/domba/detil/{id}', 'admin\investorController@detil_domba');
+Route::get('/investor/domba', 'admin\investorController@domba_booked');
 
 Route::get('/domba/detil/{id}', 'admin\regisController@detil');
 

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class loginMiddleware
+class investorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class loginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!session('login_sukses')) {
-            return redirect('/login');
+        if (!session('login_investor_sukses')) {
+            return redirect('/investor/');
         }
         return $next($request);
     }

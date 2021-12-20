@@ -187,6 +187,7 @@
                                                         <option value="3" selected>Farm Manager</option>
                                                         <option value="2">Farm Administrator</option>
                                                         <option value="1">System Administrator</option>
+                                                        <option value="9" selected>Investor</option>
                                                         
                                                     </select>
                                                     @error('level')
@@ -291,7 +292,8 @@
                                                         <option value="3" selected>Farm Manager</option>
                                                         <option value="2">Farm Administrator</option>
                                                         <option value="1">System Administrator</option>
-                                                        
+                                                        <option value="9" selected>Investor</option>
+                                                           
                                                     </select>
                                                     @error('level')
                                                     <div class="text-danger mt-1">{{ $message }}</div>

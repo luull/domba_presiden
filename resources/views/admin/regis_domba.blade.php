@@ -41,6 +41,7 @@
                                                 <th>No Registrasi</th>
                                                 <th>Status</th>
                                                 <th>Berat Awal</th>
+                                                <th>Berat Akhir</th>
                                                 <th>Jenis</th>
                                                 <th>Kandang</th>
                                                 <th>Kamar</th>
@@ -54,11 +55,16 @@
                                             <?php $i=1;
                                             $status=array('Available','Booked','Sold') ?>
                                             @foreach($data as $d)
+                                            <?PHP
+                                            $berat_akhir=berat_akhir($d->no_regis,$d->berat_awal); 
+                              
+                                            ?>
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_regis }}</td>
                                                 <td>{{ $status[$d->status] }}</td>
                                                 <td>{{ number_format($d->berat_awal,2) }} Kg</td>
+                                                <td>{{ number_format($berat_akhir,2) }} Kg</td>
                                                 <td>{{ $d->jenis }}</td>
                                                 <td>{{ $d->kandang }}</td>
                                                 <td>{{ $d->kamar }}</td>

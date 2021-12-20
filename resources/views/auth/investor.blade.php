@@ -24,7 +24,7 @@
                 <div class="form-container">
                     <div class="form-content">
 
-                        <h1 class="">Login Admin</h1>
+                        <h1 class="">Login Investor</h1>
                         <img src="{{ asset('images/logo-pdp.png') }}" class="img-fluid" style="max-height:250px;"/>
                         @if (session('message'))
                         <div class="alert alert-warning alert-dismissible fade show">
@@ -32,7 +32,7 @@
                             </button> {{ session('message') }}</div>
                         @endif
                       <div class="container">
-                      <form class="text-left" action="{{ route('action_login') }}" method="POST">
+                      <form class="text-left" action="{{ route('action_investor_login') }}" method="POST">
                       @csrf
                             <div class="form">
                                 <div id="username-field" class="field-wrapper input">

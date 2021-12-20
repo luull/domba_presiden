@@ -99,6 +99,25 @@
                                     @csrf
                                 
                                     <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Username</label>
+                                                <input type="text" name="username" placeholder="Username" class="form-control" value="{{ old('username') }}" required>
+                                                @error('username')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Password</label>
+                                                <input type="text" name="password" placeholder="Password" class="form-control" value="{{ old('password') }}" required>
+                                                @error('password')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Nama Investor</label>
@@ -118,6 +137,15 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                         <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" placeholder="Alamat" class="form-control" value="{{ old('alamat') }}" required>
+                                                @error('alamat')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Propinsi</label>
@@ -131,6 +159,7 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-4">
                                             <div class="form-group mb-3">
                                                 <label>Kota</label>
@@ -167,21 +196,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>No Rekening</label>
-                                                <input type="text" name="no_rekening" placeholder="No Rekening" class="form-control" value="{{ old('kontak') }}" required>
+                                                <input type="text" name="no_rekening" placeholder="No Rekening" class="form-control" value="{{ old('no_rekening') }}" required>
                                                 @error('no_rekening')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>Alamat</label>
-                                                <input type="text" name="alamat" placeholder="Alamat" class="form-control" value="{{ old('alamat') }}" required>
-                                                @error('alamat')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                       
                                     </div>                          
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
@@ -223,6 +244,15 @@
                                                 <label>Email</label>
                                                 <input type="email" name="email" id="edit_email" class="form-control" value="{{ old('email') }}" required>
                                                 @error('email')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Alamat</label>
+                                                <input type="text" name="alamat" id="edit_alamat" class="form-control" value="{{ old('alamat') }}" required>
+                                                @error('alamat')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -278,21 +308,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>No Rekening</label>
-                                                <input type="text" id="edit_no_rekening"  name="no_rekening" placeholder="No Rekening" class="form-control" value="{{ old('kontak') }}" required>
+                                                <input type="text" id="edit_no_rekening"  name="no_rekening" placeholder="No Rekening" class="form-control" value="{{ old('no_rekening') }}" required>
                                                 @error('no_rekening')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group mb-3">
-                                                <label>Alamat</label>
-                                                <input type="text" name="alamat" id="edit_alamat" class="form-control" value="{{ old('alamat') }}" required>
-                                                @error('alamat')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        
                                     </div>         
                               
                                     <div class="modal-footer">
@@ -330,7 +352,6 @@
                        $("#edit_email").val(hsl.email);
                        $("#edit_propinsi").append('<option value="' + hsl.propinsi +  '"" selected>' + hsl.propinsi+ '</option>');
                        $("#edit_kota").append('<option value="' + hsl.kota  + '" selected>' + hsl.kota + '</option>');
-                       $("#edit_kontak").val(hsl.kontak);
                        $("#edit_hp").val(hsl.hp);
                        $("#edit_kode_bank").val(hsl.kode_bank);
                        $("#edit_no_rekening").val(hsl.no_rekening);

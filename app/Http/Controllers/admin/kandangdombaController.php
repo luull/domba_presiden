@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\KandangDomba;
+use Exception;
 use Illuminate\Http\Request;
 
 class kandangdombaController extends Controller
@@ -11,26 +12,35 @@ class kandangdombaController extends Controller
 
     public function index()
     {
-        $data = KandangDomba::get();
-        return view('admin.kandang', compact('data'));
+        try {
+
+            $data = KandangDomba::get();
+            return view('admin.kandang', compact('data'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
     public function create(Request $request)
     {
-        $validasi = $request->validate([
-            'kandang' => 'required',
-        ]);
-        if ($validasi) {
-
-            $hsl = KandangDomba::create([
-                'kandang' => $request->kandang,
+        try {
+            $validasi = $request->validate([
+                'kandang' => 'required',
             ]);
-            if ($hsl) {
-                return redirect()->back()->with(['message' => 'Kandang Domba Berhasil Ditambahkan ', 'alert' => 'success']);
+            if ($validasi) {
+
+                $hsl = KandangDomba::create([
+                    'kandang' => $request->kandang,
+                ]);
+                if ($hsl) {
+                    return redirect()->back()->with(['message' => 'Kandang Domba Berhasil Ditambahkan ', 'alert' => 'success']);
+                } else {
+                    return redirect()->back()->with(['message' => 'Kandang Domba gagal ditambahkan', 'alert' => 'danger']);
+                }
             } else {
-                return redirect()->back()->with(['message' => 'Kandang Domba gagal ditambahkan', 'alert' => 'danger']);
+                return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
             }
-        } else {
-            return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
     public function find(Request $req)
@@ -44,35 +54,46 @@ class kandangdombaController extends Controller
     }
     public function update(Request $request)
     {
-        if (!empty($request->id)) {
-            $validasi = $request->validate([
-                'kandang' => 'required',
-            ]);
+        try {
 
-            if ($validasi) {
-                $hsl = KandangDomba::where('id', $request->id)->update([
-                    'kandang' => $request->kandang,
+
+            if (!empty($request->id)) {
+                $validasi = $request->validate([
+                    'kandang' => 'required',
                 ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Kandang Domba Berhasil diubah', 'alert' => 'success']);
+
+                if ($validasi) {
+                    $hsl = KandangDomba::where('id', $request->id)->update([
+                        'kandang' => $request->kandang,
+                    ]);
+                    if ($hsl) {
+                        return redirect()->back()->with(['message' => 'Kandang Domba Berhasil diubah', 'alert' => 'success']);
+                    } else {
+                        return redirect()->back()->with(['message' => 'Kandang Domba gagal diubah', 'alert' => 'danger']);
+                    }
                 } else {
-                    return redirect()->back()->with(['message' => 'Kandang Domba gagal diubah', 'alert' => 'danger']);
+                    return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
                 }
             } else {
-                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
+                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
             }
-        } else {
-            return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
     public function delete(Request $req)
     {
+        try {
 
-        $hsl = KandangDomba::find($req->id)->delete();
-        if ($hsl) {
-            return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
-        } else {
-            return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+
+            $hsl = KandangDomba::find($req->id)->delete();
+            if ($hsl) {
+                return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
 }

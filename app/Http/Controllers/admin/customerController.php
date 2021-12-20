@@ -7,6 +7,7 @@ use App\Customer;
 use App\City;
 use App\Province;
 use App\Bank;
+use Exception;
 use Illuminate\Http\Request;
 
 class customerController extends Controller
@@ -14,11 +15,17 @@ class customerController extends Controller
 
     public function index()
     {
-        $data = Customer::get();
-        $province = Province::get();
-        $city = City::get();
-        $bank = Bank::get();
-        return view('admin.customer', compact('data','province','city','bank'));
+        try {
+
+
+            $data = Customer::get();
+            $province = Province::get();
+            $city = City::get();
+            $bank = Bank::get();
+            return view('admin.customer', compact('data', 'province', 'city', 'bank'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
     public function create(Request $request)
     {
@@ -43,7 +50,7 @@ class customerController extends Controller
                 'email' => $request->email,
                 'kode_bank' => $request->kode_bank,
                 'no_rekening' => $request->no_rekening,
-                'user_input' => session('admin_username'), 
+                'user_input' => session('admin_username'),
                 'tgl_input' => date('Y-m-d h:i:s'),
             ]);
             if ($hsl) {

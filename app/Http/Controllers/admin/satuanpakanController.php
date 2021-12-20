@@ -11,26 +11,38 @@ class satuanpakanController extends Controller
 
     public function index()
     {
-        $data = Satuan::get();
-        return view('admin.satuan_pakan', compact('data'));
+        try {
+
+
+            $data = Satuan::get();
+            return view('admin.satuan_pakan', compact('data'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
     }
     public function create(Request $request)
     {
-        $validasi = $request->validate([
-            'satuan' => 'required',
-        ]);
-        if ($validasi) {
+        try {
 
-            $hsl = Satuan::create([
-                'satuan' => $request->satuan,
+
+            $validasi = $request->validate([
+                'satuan' => 'required',
             ]);
-            if ($hsl) {
-                return redirect()->back()->with(['message' => 'Satuan Berhasil Ditambahkan ', 'alert' => 'success']);
+            if ($validasi) {
+
+                $hsl = Satuan::create([
+                    'satuan' => $request->satuan,
+                ]);
+                if ($hsl) {
+                    return redirect()->back()->with(['message' => 'Satuan Berhasil Ditambahkan ', 'alert' => 'success']);
+                } else {
+                    return redirect()->back()->with(['message' => 'Satuan gagal ditambahkan', 'alert' => 'danger']);
+                }
             } else {
-                return redirect()->back()->with(['message' => 'Satuan gagal ditambahkan', 'alert' => 'danger']);
+                return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
             }
-        } else {
-            return redirect()->back()->with(['message' => 'Data yang diinputan belum lengkap ', 'alert' => 'danger']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
     public function find(Request $req)
@@ -44,35 +56,46 @@ class satuanpakanController extends Controller
     }
     public function update(Request $request)
     {
-        if (!empty($request->id)) {
-            $validasi = $request->validate([
-                'satuan' => 'required',
-            ]);
+        try {
 
-            if ($validasi) {
-                $hsl = Satuan::where('id', $request->id)->update([
-                    'satuan' => $request->satuan,
+
+            if (!empty($request->id)) {
+                $validasi = $request->validate([
+                    'satuan' => 'required',
                 ]);
-                if ($hsl) {
-                    return redirect()->back()->with(['message' => 'Satuan Pakan Berhasil diubah', 'alert' => 'success']);
+
+                if ($validasi) {
+                    $hsl = Satuan::where('id', $request->id)->update([
+                        'satuan' => $request->satuan,
+                    ]);
+                    if ($hsl) {
+                        return redirect()->back()->with(['message' => 'Satuan Pakan Berhasil diubah', 'alert' => 'success']);
+                    } else {
+                        return redirect()->back()->with(['message' => 'Satuan Pakan gagal diubah', 'alert' => 'danger']);
+                    }
                 } else {
-                    return redirect()->back()->with(['message' => 'Satuan Pakan gagal diubah', 'alert' => 'danger']);
+                    return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
                 }
             } else {
-                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap ', 'alert' => 'danger']);
+                return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
             }
-        } else {
-            return redirect()->back()->with(['message' => 'Data yang diubah belum lengkap,idnya kosong ', 'alert' => 'danger']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
     public function delete(Request $req)
     {
+        try {
 
-        $hsl = Satuan::find($req->id)->delete();
-        if ($hsl) {
-            return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
-        } else {
-            return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+
+            $hsl = Satuan::find($req->id)->delete();
+            if ($hsl) {
+                return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
         }
     }
 }
