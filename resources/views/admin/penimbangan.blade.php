@@ -31,10 +31,13 @@
                                     </div>
                                     @endif
                 <div class="widget-content widget-content-area br-6">
-                            <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
+                            <H4 class="text-center p-3">DAFTAR PENIMBANGAN DOMBA</h4>
+               
+                            @if (session('admin_level')<3)
+                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
                              Penimbangan Domba
                              </button>
-                          
+                             @endif
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
                                             <tr>
@@ -42,8 +45,10 @@
                                                 <th>No Regis</th>
                                                 <th>Berat Timbang</th>
                                                 <th>Vitamin</th>
-                                                <th>Tgl Timbang</th>
+                                                <th>Tanggal Timbang</th>
+                                                 @if (session('admin_level')<3)
                                                 <th class="no-content"></th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -54,9 +59,13 @@
                                                 <td>{{ $d->no_regis }}</td>
                                                 <td>{{ $d->berat_timbang }} Kg</td>
                                                 <td>{{ $d->vitamin }}</td>
-                                                <td>{{ $d->tgl_timbang }}</td>
-                                                <td><a href="#" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <td>{{ convert_tgl1($d->tgl_timbang )}}</td>
+                                             @if (session('admin_level')<3)
+                                                 <td>
+                                                
+                                                <a href="#" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                                 <a href="/admin/penimbangan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                            @endif
                                             </tr>
                                             @endforeach
                                         
@@ -82,7 +91,7 @@
                                  
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
-                                        <select class="form-control basic" name="no_regis">
+                                        <select class="form-control basic no-regis" id="no_regis" name="no_regis" >
                                             @foreach($data_domba as $d)
                                             <option value="{{$d->no_regis}}">{{$d->no_regis}}</option>
                                             @endforeach
@@ -91,6 +100,12 @@
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                         <!-- <input type="text" name="no_regis" placeholder="No Registrasi" class="form-control" required> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                      <div class="col-md-12" id="data_terakhir">
+                                      </div>
+                                    </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -120,13 +135,15 @@
                                     </div> 
                                     <label>Penambahan Vitamin atau Suplemen</label>
                                     <div class="form-group">
+   
+
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="ya" name="vitamin" value="YA" class="custom-control-input">
-                                            <label class="custom-control-label" for="ya">Ya</label>
+                                            <input type="radio" id="YA" checked name="vitamin" value="YA" class="custom-control-input">
+                                            <label class="custom-control-label" for="YA">Ya</label>
                                             </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="tidak" name="vitamin" value="TIDAK" class="custom-control-input">
-                                            <label class="custom-control-label" for="tidak">Tidak</label>
+                                            <input type="radio"  id="TIDAK" name="vitamin" value="TIDAK" class="custom-control-input">
+                                            <label class="custom-control-label" for="TIDAK">Tidak</label>
                                         </div>
                                         @error('vitamin')
                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -134,7 +151,7 @@
                                     </div>                             
                                     <div class="modal-footer">
                                         <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-primary">Timbang</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                     </form>
                     </div>
@@ -158,11 +175,12 @@
                                     <input type="hidden" id="edit_id" name="id">
                                     <div class="form-group mb-3">
                                         <label>No Registrasi</label>
-                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required>
+                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control no-regis" required>
                                         @error('no_regis')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                              
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label>Tanggal timbang</label>
@@ -192,12 +210,12 @@
                                     <label>Penambahan Vitamin atau Suplemen</label>
                                     <div class="form-group">
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="ya2" name="vitamin" value="YA" class="custom-control-input">
-                                            <label class="custom-control-label" for="ya2">Ya</label>
+                                            <input type="radio" id="YA" name="vitamin" value="YA" class="custom-control-input">
+                                            <label class="custom-control-label" for="YA">Ya</label>
                                             </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="tidak2" name="vitamin" value="TIDAK" class="custom-control-input">
-                                            <label class="custom-control-label" for="tidak2">Tidak</label>
+                                            <input type="radio" id="TIDAK" name="vitamin" value="TIDAK" class="custom-control-input">
+                                            <label class="custom-control-label" for="TIDAK">Tidak</label>
                                         </div>
                                         @error('vitamin')
                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -218,6 +236,16 @@
 
 @section('script')
     <script>
+         var no_regis=$("#no_regis").val();
+           
+            timbangan_terakhir(no_regis);
+         var f2 = flatpickr(document.getElementById('edit_tgl_timbang'), {
+             dateFormat: "d-m-Y",
+        });
+       var f1 = flatpickr(document.getElementById('basicFlatpickr'), {
+             dateFormat: "d-m-Y",
+        });
+       
         $(".edit").click(function(){
             var idnya=$(this).attr('id').split('-');
             var id=idnya[1];
@@ -231,16 +259,15 @@
                        alert(hsl.message);
 
                    } else{
+                        var a_tgl_timbang=hsl.tgl_timbang.split("-");
+                       var tgl_timbang=a_tgl_timbang[2] + "-" + a_tgl_timbang[1] + "-" + a_tgl_timbang[0];
+                     
                        $("#edit_id").val(id);
                        $("#edit_no_regis").val(hsl.no_regis);
-                       $("#edit_tgl_timbang").val(hsl.tgl_timbang);
+                       $("#edit_tgl_timbang").val(tgl_timbang);
                        $("#edit_berat_timbang").val(hsl.berat_timbang);
                        $(".edit_vitamin").val(hsl.vitamin);
-                       console.log(hsl.tgl_timbang);
-                       console.log(hsl.no_regis);
-                       console.log(hsl.berat_timbang);
-                       console.log(hsl.vitamin);
-                       console.log(hsl.id);
+                       $("#" + hsl.vitamin ).attr('checked','checked');
                        $("#editModal").modal();
                    }
                 }
@@ -250,6 +277,29 @@
         $(".basic").select2({
             tags: true
         });
+         $(".no-regis").change(function(){
+             var no_regis=$(this).val();
+           
+            timbangan_terakhir(no_regis);
+        })
+        function covert_tgl(tgl){
+            var a_tgl=tgl.split("-");
+            return a_tgl[2] + "-" + a_tgl[1] + "-" + a_tgl[0];
+        }
+        function timbangan_terakhir(no_regis){
+            $.ajax({
+                type:'get',
+                method:'get',
+                url:'/domba/timbangan-terakhir/' + no_regis ,
+                data:'_token = <?php echo csrf_token() ?>'  + '&no_regis=' + no_regis  ,
+                success:function(hsl) {
+                    data='Penimbagan Terakhir<br><table class="table table-danger"> <tr><td>Tgl Penimbangan</td><td>: ' + covert_tgl(hsl.tgl_timbang) + '</td>';
+                    data+='<td>Berat </td><td>: '+ hsl.berat_timbang +'</td><td>Vitamin </td><td>: ' + hsl.vitamin +'</td></tr></table>'
+                        $("#data_terakhir").html(data);
+                  
+                } 
+            })
+        }
     </script>   
  
 @stop

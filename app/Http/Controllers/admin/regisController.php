@@ -12,6 +12,7 @@ use App\Penimbangan;
 use App\Supplier;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class regisController extends Controller
 {
@@ -30,6 +31,53 @@ class regisController extends Controller
             $data = RegisDomba::orderBy('id', 'desc')->get();
             $supplier = Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
             return view('admin.regis_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+    public function domba_per_kandang()
+    {
+        $kandang = KandangDomba::get();
+
+        return view('admin.domba_per_kandang', compact('kandang'));
+    }
+    public function domba_per_kandang1(Request $req)
+    {
+        try {
+
+
+
+            $jenis = JenisDomba::get();
+            $kandang = KandangDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::where('status', '<', 2)->WHERE('kandang', $req->kandang)->orderBy('id', 'desc')->get();
+            $judul = "DAFTAR DOMBA PERKANDANG<br> " . strtoupper($req->kandang);
+            $supplier =  Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.laporan_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'supplier', 'judul'));
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => $e->getMessage()]);
+        }
+    }
+    public function domba_per_kamar()
+    {
+        $kamar = DB::select('select kamar from regis_domba group by kamar');
+        $kandang = KandangDomba::get();
+        return view('admin.domba_per_kamar', compact('kamar', 'kandang'));
+    }
+    public function domba_per_kamar1(Request $req)
+    {
+        try {
+
+
+
+            $jenis = JenisDomba::get();
+            $penimbangan = Penimbangan::get();
+            $data = RegisDomba::where('status', '<', 2)->WHERE('kamar', $req->kamar)
+                ->WHERE('kandang', $req->kandang)
+                ->orderBy('id', 'desc')->get();
+            $judul = "DAFTAR DOMBA PERKAMAR<br>" . strtoupper($req->kandang) . " KAMAR " . strtoupper($req->kamar);
+            $supplier =  Supplier::where('jenis_supplier', 'like', 'Domba')->orderBy('nama_supplier', 'asc')->get();
+            return view('admin.laporan_domba', compact('jenis',  'data', 'penimbangan', 'supplier', 'judul'));
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }
@@ -104,7 +152,7 @@ class regisController extends Controller
             $kandang = KandangDomba::get();
             $penimbangan = Penimbangan::where('no_regis', $request->id)->get();
             $data = RegisDomba::where('no_regis', $request->id)->first();
-            $pakan = PemberianPakan::where('no_regis', $request->id)->get();
+            $pakan = PemberianPakan::where('kandang', $data->kandang)->get();
 
 
             return view('admin.detil_domba', compact('jenis', 'kandang', 'data', 'penimbangan', 'pakan'));
@@ -121,7 +169,7 @@ class regisController extends Controller
                 'berat_awal' => 'required',
                 'jenis' => 'required',
                 'kandang' => 'required',
-                'kamar' => 'required',
+                'kamar' => 'required|integer',
                 'harga_beli' => 'required',
                 'supplier' => 'required'
             ]);
@@ -133,17 +181,20 @@ class regisController extends Controller
                     $hrg_beli = str_replace(".", "", $request->harga_beli);
                     $hrg_beli = str_replace(",", ".", $hrg_beli);
 
-                    $berat = str_replace(".", "", $request->berat_awal);
-                    $berat = str_replace(",", ".", $berat);
-
+                    $hrg_jual = $hrg_beli;
+                    $tgl_masuk = convertTgl($request->tgl_masuk, "-");
+                    if ($tgl_masuk > tgl_sekarang()) {
+                        return redirect()->back()->with(['message' => 'Tanggal Registrasi Melebihi Tanggal hari ini ', 'alert' => 'warning']);
+                    }
                     $hsl = RegisDomba::create([
                         'no_regis' => $request->no_regis,
-                        'tgl_masuk' => $request->tgl_masuk,
-                        'berat_awal' => $berat,
+                        'tgl_masuk' => $tgl_masuk,
+                        'berat_awal' => $request->berat_awal,
                         'jenis' => $request->jenis,
                         'kandang' => $request->kandang,
                         'kamar' => $request->kamar,
                         'harga_beli' => $hrg_beli,
+                        'harga_jual' => $hrg_jual,
                         'supplier' => $request->supplier,
                         'status' => 0,
                         'user_input' => session('admin_username'),
@@ -178,26 +229,38 @@ class regisController extends Controller
 
 
             if (!empty($request->id)) {
+
                 $validasi = $request->validate([
                     'no_regis' => 'required',
                     'tgl_masuk' => 'required',
                     'berat_awal' => 'required',
                     'jenis' => 'required',
-                    'kandang' => 'required',
+                    'kamar' => 'required|integer',
                     'kamar' => 'required',
                     'harga_beli' => 'required',
                     'supplier' => 'required'
                 ]);
 
+
                 if ($validasi) {
+
+                    $harga_beli = str_replace(".", "", $request->harga_beli);
+                    $harga_beli = str_replace(",", ".", $harga_beli);
+                    $harga_jual = str_replace(".", "", $request->harga_jual);
+                    $harga_jual = str_replace(",", ".", $harga_jual);
+                    $tgl_masuk = convertTgl($request->tgl_masuk, "-");
+                    if ($tgl_masuk > tgl_sekarang()) {
+                        return redirect()->back()->with(['message' => 'Tanggal Registrasi Melebihi Tanggal hari ini ', 'alert' => 'warning']);
+                    }
                     $hsl = RegisDomba::where('id', $request->id)->update([
                         'no_regis' => $request->no_regis,
-                        'tgl_masuk' => $request->tgl_masuk,
+                        'tgl_masuk' => $tgl_masuk,
                         'berat_awal' => $request->berat_awal,
                         'jenis' => $request->jenis,
                         'kandang' => $request->kandang,
                         'kamar' => $request->kamar,
-                        'harga_beli' => $request->harga_beli,
+                        'harga_beli' => $harga_beli,
+                        'harga_jual' => $harga_jual,
                         'status' => $request->status,
                         'supplier' => $request->supplier,
                         'tgl_edit' => date('Y-m-d h:i:s'),
@@ -232,5 +295,33 @@ class regisController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage()]);
         }
+    }
+
+    public function total_berat_per_kandang(Request $req)
+    {
+        $kandang = $req->kandang;
+        $domba = RegisDomba::where('kandang', $kandang)->get();
+        $berat = 0;
+        $total_berat = 0;
+        foreach ($domba as $d) {
+            $berat = berat_akhir($d->id, $d->berat_awal);
+            if ($berat <> $d->berat_akhir) {
+                DB::update('update regis_domba set berat_akhir = ? where no_regis = ?', [$berat, $d->no_regis]);
+            }
+            $total_berat = $total_berat + $berat;
+        }
+        $total_berat = number_format($total_berat, 2);
+
+        return response()->json($total_berat);
+    }
+    public function total_berat_per_kamar(Request $req)
+    {
+        $kandang = $req->kandang;
+        $kamar = $req->kamar;
+        $total_berat = RegisDomba::where('kandang', $kandang)
+            ->where('kamar', $kamar)->sum('berat_akhir');
+        $total_berat = number_format($total_berat, 2);
+
+        return response()->json($total_berat);
     }
 }

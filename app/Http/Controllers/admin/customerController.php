@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Customer;
 use App\City;
 use App\Province;
-use App\Bank;
+use App\Listbank;
+use App\H_jual;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class customerController extends Controller
             $data = Customer::get();
             $province = Province::get();
             $city = City::get();
-            $bank = Bank::get();
+            $bank = Listbank::get();
             return view('admin.customer', compact('data', 'province', 'city', 'bank'));
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage()]);
@@ -40,7 +41,10 @@ class customerController extends Controller
             'no_rekening' => 'required',
         ]);
         if ($validasi) {
-
+            $cek = Customer::where('nama', $request->nama)->first();
+            if ($cek) {
+                return redirect()->back()->with(['message' => 'Nama Customer ' . $request->nama . ' sudah terdaftar', 'alert' => 'danger']);
+            }
             $hsl = Customer::create([
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
@@ -119,5 +123,34 @@ class customerController extends Controller
         } else {
             return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
         }
+    }
+    public function order_list(Request $req)
+    {
+        $req->validate([
+            'tanggal' => 'required'
+        ]);
+        $a_tgl = explode(" to ", $req->tanggal);
+        $cust_id = $req->cust_id;
+        $tg1 = convertTgl($a_tgl[0], "-");
+        $tg2 = convertTgl($a_tgl[1], "-");
+        if (empty($cust_id)) {
+            $cust_name = "";
+            $data = H_jual::where('tgl_transaksi', '>=', $tg1)
+                ->where('tgl_transaksi', '<=', $tg2)->get();
+        } else {
+            $customer = Customer::where('id', $cust_id)->first();
+            $cust_name = $customer->nama;
+            $data = H_jual::where('tgl_transaksi', '>=', $tg1)
+                ->where('tgl_transaksi', '<=', $tg2)
+                ->where('id_customer', $cust_id)->get();
+        }
+
+        return view('admin.customer_order_list', compact('data', 'tg1', 'tg2', 'cust_id', 'cust_name'));
+    }
+    public function order_list1()
+    {
+        $customer = Customer::get();
+
+        return view('admin.penjualan_customer_per_tgl', compact('customer'));
     }
 }

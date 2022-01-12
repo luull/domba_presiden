@@ -53,13 +53,15 @@ class supplierController extends Controller
                 'alamat' => 'required',
                 'kota' => 'required',
                 'propinsi' => 'required',
-                'telp' => 'required',
                 'hp' => 'required',
                 'email' => 'required',
                 'kontak' => 'required',
             ]);
             if ($validasi) {
-
+                $cek = Supplier::where('nama_supplier', $request->nama_supplier)->first();
+                if ($cek) {
+                    return redirect()->back()->with(['message' => 'Nama Supplier ' . $request->nama_supplier . ' sudah terdaftar', 'alert' => 'danger']);
+                }
                 $hsl = Supplier::create([
                     'nama_supplier' => $request->nama_supplier,
                     'jenis_supplier' => $request->jenis_supplier,
@@ -112,6 +114,7 @@ class supplierController extends Controller
                 ]);
 
                 if ($validasi) {
+
                     $hsl = Supplier::where('id', $request->id)->update([
                         'nama_supplier' => $request->nama_supplier,
                         'jenis_supplier' => $request->jenis_supplier,

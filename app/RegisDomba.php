@@ -13,4 +13,8 @@ class RegisDomba extends Model
     {
         return $this->hasOne(Status_domba::class, 'status', 'status');
     }
+    public function dummy_jual()
+    {
+        return $this->belongsTo(Dummy_jual::class, 'no_regis', 'no_regis');
+    }
 }

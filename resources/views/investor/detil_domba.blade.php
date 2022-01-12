@@ -36,9 +36,8 @@
                             <table class="table table-responsive">
                                 <tr><td>No Registrasi</td><td>{{ $data->no_regis}}</td></tr>
                                 <tr><td>Status</td><td>{{ $data->status_domba->keterangan}}</td></tr>
-                                <tr><td>Tgl Masuk</td><td>{{ $data->tgl_masuk}}</td></tr>
-                                <tr><td>Supplier</td><td>{{ $data->supplier}}</td></tr>
-                                <tr><td>Berat Awal</td><td>{{ $data->berat_awal}} Kg</td></tr>
+                                <tr><td>Tgl Masuk</td><td>{{ $data->tgl_masuk_investor}}</td></tr>
+                                <tr><td>Berat Awal</td><td>{{ $data->berat_awal_investor}} Kg</td></tr>
                                 <tr><td>Jenis Domba</td><td>{{ $data->jenis}}</td></tr>
                                 <tr><td>Kandang</td><td>{{ $data->kandang}}</td></tr>
                                 <tr><td>Kamar</td><td>{{ $data->kamar}}</td></tr>
@@ -71,9 +70,9 @@
                                                 </div>
                                                 <div class="t-content">
                                                     <div class="t-uppercontent">
-                                                        <h5>Berat Awal : <a href="javscript:void(0);"><span>{{ $data->berat_awal }} Kg</span></a></h5>
+                                                        <h5>Berat Awal : <a href="javscript:void(0);"><span>{{ $data->berat_awal_investor }} Kg</span></a></h5>
                                                     </div>
-                                                    <p>{{ $data->tgl_masuk}}</p>
+                                                    <p>{{ $data->tgl_masuk_investor}}</p>
                                                 </div>
                                             </div>
                                             @foreach($penimbangan as $p)

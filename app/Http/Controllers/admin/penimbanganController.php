@@ -20,7 +20,7 @@ class penimbanganController extends Controller
                 return redirect('/');
             }
             $data_domba = RegisDomba::get();
-            $data = Penimbangan::get();
+            $data = Penimbangan::orderBy('id', 'desc')->get();
             return view('admin.penimbangan', compact('data_domba', 'data'));
         } catch (Exception $e) {
             return redirect()->back()->with(['message' => $e->getMessage()]);
@@ -38,11 +38,14 @@ class penimbanganController extends Controller
                 'vitamin' => 'required',
             ]);
             if ($validasi) {
-
+                $tgl_timbang = convertTgl($request->tgl_timbang, "-");
+                if ($tgl_timbang > tgl_sekarang()) {
+                    return redirect()->back()->with(['message' => 'Tanggal timbang melebihi tanggal sekarang ', 'alert' => 'danger']);
+                }
                 $hsl = Penimbangan::create([
 
                     'no_regis' => $request->no_regis,
-                    'tgl_timbang' => $request->tgl_timbang,
+                    'tgl_timbang' => $tgl_timbang,
                     'berat_timbang' => $request->berat_timbang,
                     'vitamin' =>  $request->vitamin
                 ]);
@@ -70,11 +73,19 @@ class penimbanganController extends Controller
             return response()->json(['message' => 'Data tidak ditemukan', 'error' => true]);
         }
     }
+    public function timbangan_terakhir(Request $req)
+    {
+        $hsl = Penimbangan::where('no_regis', $req->id)->orderBy('tgl_timbang', 'desc')->orderBy('id', 'desc')->first();
+        if ($hsl) {
+            return response()->json($hsl);
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan', 'error' => true]);
+        }
+    }
 
     public function update(Request $request)
     {
         try {
-
 
             if (!empty($request->id)) {
                 $validasi = $request->validate([
@@ -85,16 +96,21 @@ class penimbanganController extends Controller
                 ]);
 
                 if ($validasi) {
+                    $tgl_timbang = convertTgl($request->tgl_timbang, "-'");
+
+                    if ($tgl_timbang > tgl_sekarang()) {
+                        return redirect()->back()->with(['message' => 'Tanggal timbang melebihi tanggal sekarang ', 'alert' => 'danger']);
+                    }
                     $hsl = Penimbangan::where('id', $request->id)->update([
                         'no_regis' => $request->no_regis,
-                        'tgl_timbang' => $request->tgl_timbang,
+                        'tgl_timbang' => $tgl_timbang,
                         'berat_timbang' => $request->berat_timbang,
                         'vitamin' =>  $request->vitamin
                     ]);
                     $update_berat = RegisDomba::where('no_regis', $request->no_regis)->update([
                         'berat_akhir' => $request->berat_timbang,
                     ]);
-                    if ($hsl && $update_berat) {
+                    if ($hsl) {
                         return redirect()->back()->with(['message' => 'Penimbangan Domba Berhasil diubah', 'alert' => 'success']);
                     } else {
                         return redirect()->back()->with(['message' => 'Penimbangan Domba gagal diubah', 'alert' => 'danger']);

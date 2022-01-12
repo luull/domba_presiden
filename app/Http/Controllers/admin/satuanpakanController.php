@@ -29,7 +29,10 @@ class satuanpakanController extends Controller
                 'satuan' => 'required',
             ]);
             if ($validasi) {
-
+                $cek = Satuan::where('satuan', $request->satuan)->first();
+                if ($cek) {
+                    return redirect()->back()->with(['message' => 'Satuan ' . $request->satuan . ' sudah terdaftar', 'alert' => 'danger']);
+                }
                 $hsl = Satuan::create([
                     'satuan' => $request->satuan,
                 ]);

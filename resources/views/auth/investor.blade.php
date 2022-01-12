@@ -27,7 +27,7 @@
                         <h1 class="">Login Investor</h1>
                         <img src="{{ asset('images/logo-pdp.png') }}" class="img-fluid" style="max-height:250px;"/>
                         @if (session('message'))
-                        <div class="alert alert-warning alert-dismissible fade show">
+                        <div class="alert alert-success alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
                             </button> {{ session('message') }}</div>
                         @endif
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="d-sm-flex justify-content-between mb-5">
                                     <div class="field-wrapper">
-                                        <button type="submit" class="btn btn-default" value="">Log In</button>
+                                        <button type="submit" class="btn btn-success" value="">Log In</button>
                                     </div>
                                 </div>
 

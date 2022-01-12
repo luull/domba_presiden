@@ -31,9 +31,12 @@
                                     </div>
                                     @endif
                 <div class="widget-content widget-content-area br-6">
-                            <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
-                             Pemberian Pakan
+                    <h3 class="text-center p-3">DAFTAR JENIS PAKAN</H3>
+                             @if (session('admin_level')<3)
+                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
+                             Tambah Jenis Pakan
                              </button>
+                             @endif
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
                                             <?php $i=1; ?>
@@ -41,14 +44,16 @@
                                                 <th>No</th>
                                                 <th>Kode Pakan</th>
                                                 <th>Jenis Pakan</th>
+                                                <th>Satuan Pakan</th>
+                                                <th>Harga Pakan</th>
                                                 <th>Stok Awal</th>
                                                 <th>Stok Masuk</th>
                                                 <th>Stok Incoming</th>
                                                 <th>Stok Keluar</th>
                                                 <th>Stok Akhir</th>
-                                                <th>Harga Pakan</th>
-                                                <th>Satuan Pakan</th>
+                                                 @if (session('admin_level')<3)
                                                 <th class="no-content"></th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,15 +62,17 @@
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->kode_pakan }}</td>
                                                 <td>{{ $d->nama_pakan }}</td>
-                                                <td>{{ $d->stok_pakan }}</td>
-                                                <td>{{ $d->stok_pakan }}</td>
-                                                <td>{{ $d->stok_pakan }}</td>
-                                                <td>{{ $d->stok_pakan }}</td>
-                                                <td>{{ $d->stok_pakan }}</td>
-                                                <td>Rp.{{ $d->harga_pakan }}</td>
                                                 <td>{{ $d->satuan_pakan }}</td>
-                                                <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <td>Rp.{{ $d->harga_pakan }}</td>
+                                                <td>{{ $d->stok_awal }}</td>
+                                                <td>{{ $d->stok_masuk }}</td>
+                                                <td><a href="/pakan/incoming/{{ $d->kode_pakan }}">{{ $d->incoming }}</a></td>
+                                                <td>{{ $d->stok_keluar }}</td>
+                                                <td>{{ $d->stok }}</td>
+                                                @if (session('admin_level')<3)
+                                                 <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                                 <a href="/admin/pakan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         
@@ -81,7 +88,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Pemberian Pakan</h5>
+                <h5 class="modal-title" id="addModalLabel">Penambahan Jenis Pakan</h5>
                 
             </div>
             <div class="modal-body">
@@ -105,8 +112,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
-                                                <label>Stok Pakan</label>
-                                                <input type="number" name="stok_pakan" placeholder="0" class="form-control" required>
+                                                <label>Stok Awal Pakan</label>
+                                                <input type="text" name="stok_pakan"  class="form-control" value="0" required>
                                                 @error('stok_pakan')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -135,6 +142,19 @@
                                             @error('harga')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
+                                            </div>
+                                        </div>
+                                         <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Supplier</label>
+                                                <select  name="supplier" class="form-control" required>
+                                                    @foreach ($supplier as $item)
+                                                        <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
+                                                    @endforeach
+                                                </select>    
+                                                @error('supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>                          
@@ -179,7 +199,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
-                                                <label>Stok Pakan</label>
+                                                <label>Stok Awal</label>
                                                 <input type="number" name="stok_pakan" id="edit_stok_pakan" placeholder="0" class="form-control" required>
                                                 @error('stok_pakan')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
@@ -210,6 +230,19 @@
                                             @error('harga')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Supplier</label>
+                                                <select  name="supplier" class="form-control" id="edit_supplier" required>
+                                                    @foreach ($supplier as $item)
+                                                        <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
+                                                    @endforeach
+                                                </select>    
+                                                @error('supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>         
@@ -248,8 +281,9 @@
                        $("#edit_kode_pakan").val(hsl.kode_pakan);
                        $(".edit_harga_pakan").val(hsl.harga_pakan);
                        $("#edit_nama_pakan").val(hsl.nama_pakan);
-                       $("#edit_stok_pakan").val(hsl.stok_pakan);
+                       $("#edit_stok_pakan").val(hsl.stok_awal);
                        $("#edit_satuan_pakan").val(hsl.satuan_pakan);
+                       $("#edit_supplier").val(hsl.supplier);
                        $("#editModal").modal();
                    }
                 }

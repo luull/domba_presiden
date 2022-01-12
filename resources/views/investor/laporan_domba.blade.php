@@ -12,8 +12,9 @@
                         <nav class="breadcrumb-one" aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>{{$judul}}</span></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>{{str_replace("<br>","",$judul)}}</span></li>
                             </ol>
+                            
                         </nav>
 
                     </div>
@@ -32,7 +33,7 @@
                                     @endif
                 <div class="widget-content widget-content-area br-6">
                             <h3  class="text-center pt-4 p-2" >
-                            {{$judul}}
+                            {!!$judul!!}
                             </h3>
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -46,14 +47,13 @@
                                                 <th>Kandang</th>
                                                 <th>Kamar</th>
                                                 <th>Harga/Kg</th>
-                                                <th>Supplier</th>
                                                 <th>Tgl Masuk</th>
                                                 <th class="no-content"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $i=1;
-                                            $status=array('Available','Booked','Sold') ?>
+                                            $status=array('Available','Available','Sold') ?>
                                             @foreach($data as $d)
                                             <?PHP
                                             $berat_akhir=berat_akhir($d->no_regis,$d->berat_awal); 
@@ -63,16 +63,15 @@
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->no_regis }}</td>
                                                 <td>{{ $status[$d->status] }}</td>
-                                                <td>{{ number_format($d->berat_awal,2) }} Kg</td>
+                                                <td>{{ number_format($d->berat_awal_investor,2) }} Kg</td>
                                                 <td>{{ number_format($berat_akhir,2) }} Kg</td>
                                                 <td>{{ $d->jenis }}</td>
                                                 <td>{{ $d->kandang }}</td>
                                                 <td>{{ $d->kamar }}</td>
-                                                <td>Rp. {{ number_format($d->harga_beli) }}</td>
-                                                <td>{{ $d->supplier }}</td>
-                                                <td>{{ $d->tgl_masuk }}</td>
+                                                <td>Rp. {{ number_format($d->harga_jual) }}</td>
+                                                <td>{{ $d->tgl_masuk_investor}}</td>
                                                 <td>
-                                                <a href="/domba/detil/{{$d->no_regis}}"><i data-feather="list"></i></a>
+                                                <a href="/investor/domba/detil/{{$d->no_regis}}"><i data-feather="list"></i></a>
                                             </td>
                                             </tr>
                                             @endforeach

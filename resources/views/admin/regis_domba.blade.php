@@ -31,9 +31,12 @@
                                     </div>
                                     @endif
                 <div class="widget-content widget-content-area br-6">
+                <H4 class="text-center p-3">DAFTAR DOMBA KESELURUHAN</h4>
+                            @if (session('admin_level')<3)
                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
                              Registrasi Domba
                              </button>
+                             @endif
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
                                             <tr>
@@ -46,8 +49,10 @@
                                                 <th>Kandang</th>
                                                 <th>Kamar</th>
                                                 <th>Harga Beli</th>
+                                                <th>Harga Jual</th>
                                                 <th>Supplier</th>
                                                 <th>Tgl Masuk</th>
+                                                <th>Pemilik</th>
                                                 <th class="no-content"></th>
                                             </tr>
                                         </thead>
@@ -57,7 +62,7 @@
                                             @foreach($data as $d)
                                             <?PHP
                                             $berat_akhir=berat_akhir($d->no_regis,$d->berat_awal); 
-                              
+                                            $pemilik=pemilik($d->pemilik);
                                             ?>
                                             <tr>
                                                 <td>{{ $i++ }}</td>
@@ -69,10 +74,15 @@
                                                 <td>{{ $d->kandang }}</td>
                                                 <td>{{ $d->kamar }}</td>
                                                 <td>Rp. {{ number_format($d->harga_beli) }}</td>
+                                                <td>Rp. {{ number_format($d->harga_jual) }}</td>
                                                 <td>{{ $d->supplier }}</td>
-                                                <td>{{ $d->tgl_masuk }}</td>
-                                                <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/regis/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a>
+                                                <td>{{ convert_tgl1($d->tgl_masuk) }}</td>
+                                                <td>{{ $pemilik}}</td>
+                                                <td>
+                                                   @if (session('admin_level')<3)
+                                                    <a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                    <a href="/admin/regis/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a>
+                                                    @endif
                                                 <a href="/domba/detil/{{$d->no_regis}}"><i data-feather="list"></i></a>
                                             </td>
                                             </tr>
@@ -115,7 +125,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon5"><i class="fa fa-calendar"></i> </span>
                                                 </div>
-                                                <input id="basicFlatpickr" name="tgl_masuk" value="2020-09-04" class="form-control flatpickr flatpickr-input active" type="text" placeholder="Tanggal Masuk">
+                                                <input id="basicFlatpickr" name="tgl_masuk"  class="form-control flatpickr flatpickr-input active" type="text" placeholder="Tanggal Masuk">
                                                 @error('tgl_masuk')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -166,7 +176,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group mb-3">
                                                 <label>Kamar</label>
-                                                <input type="number" name="kamar" placeholder="00" class="form-control" required>
+                                                <input type="number" id="kamar" name="kamar" placeholder="00" class="form-control kamar" min=0 max=100 required>
                                                 @error('kamar')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -230,15 +240,17 @@
                                     @endif
                                     <input type="hidden" id="edit_id" name="id">
                                     <input type="hidden" id="edit_status" name="status">
-                                    <div class="form-group mb-3">
-                                        <label>No Registrasi</label>
-                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required value="{{ old('sponsor') }}">
-                                        @error('no_regis')
-                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
+                                   <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>No Registrasi</label>
+                                                <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required value="{{ old('sponsor') }}">
+                                                @error('no_regis')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
                                             <label>Tanggal Masuk</label>
                                             <div class="input-group mb-4">
                                                 <div class="input-group-prepend">
@@ -249,6 +261,22 @@
                                             @error('tgl_masuk')
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                    </div> 
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group mb-3">
+                                                <label>Nama Supplier</label>
+                                                <select name="supplier" id="edit_supplier" class="form-control" required>
+                                                    <span id="span_supplier"></span>
+                                                @foreach($supplier as $s)
+                                                    <option value="{{ $s->nama_supplier}}">{{ $s->nama_supplier}}</option>
+                                                @endforeach
+                                                </select>
+                                                @error('supplier')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label>Berat Awal</label>
@@ -262,7 +290,7 @@
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="row">
                                         <div class="col-md-4">
                                         
@@ -278,6 +306,7 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                    
                                         <div class="col-md-5">
                                         
                                             <div class="form-group mb-3">
@@ -295,7 +324,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group mb-3">
                                                 <label>Kamar</label>
-                                                <input type="number" name="kamar" id="edit_kamar" placeholder="00" class="form-control" required>
+                                                <input type="number" name="kamar" id="edit_kamar" placeholder="00"  min=0 max=100 class="form-control kamar " required>
                                                 @error('kamar')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
@@ -316,14 +345,19 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group mb-3">
-                                                <label>Nama Supplier</label>
-                                                <input type="text" name="supplier" id="edit_supplier" class="form-control" required>
-                                                @error('supplier')
-                                                <div class="text-danger mt-1">{{ $message }}</div>
-                                                @enderror
+                                            <label>Harga Jual per-KG</label>
+                                            <div class="input-group mb-4">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon5">Rp.</span>
+                                                </div>
+                                            <input type="text" name="harga_jual" id="rupiah2" placeholder="0" class="edit_harga_jual form-control" required>
+                                            @error('harga_jual')
+                                            <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
                                             </div>
                                         </div>
+                                        
+                                        
                                     </div>
                               
                                     <div class="modal-footer">
@@ -341,10 +375,16 @@
 
 @section('script')
     <script >
+         var f2 = flatpickr(document.getElementById('edit_tgl_masuk'), {
+             dateFormat: "d-m-Y",
+        });
+       var f1 = flatpickr(document.getElementById('basicFlatpickr'), {
+             dateFormat: "d-m-Y",
+        });
+         
         $(".edit").click(function(){
             var idnya=$(this).attr('id').split('-');
             var id=idnya[1];
-            console.log('test');
             
             $.ajax({
                 type:'get',
@@ -356,25 +396,29 @@
                        alert(hsl.message);
 
                    } else{
+                       var a_tgl_masuk=hsl.tgl_masuk.split("-");
+                       var tgl_masuk=a_tgl_masuk[2] + "-" + a_tgl_masuk[1] + "-" + a_tgl_masuk[0];
                        $("#edit_id").val(id);
                        $("#edit_no_regis").val(hsl.no_regis);
-                       $("#edit_tgl_masuk").val(hsl.tgl_masuk);
+                       $("#edit_tgl_masuk").val(tgl_masuk);
                        $("#edit_berat_awal").val(hsl.berat_awal);
                        $("#edit_jenis").val(hsl.jenis);
                        $("#edit_kandang").val(hsl.kandang);
                        $("#edit_kamar").val(hsl.kamar);
                        $(".edit_harga_beli").val(hsl.harga_beli);
-                       $("#edit_supplier").val(hsl.supplier);
+                       $(".edit_harga_jual").val(hsl.harga_jual);
+                       $("#span_supplier").html('<option value="' + hsl.supplier + '" selected>' + hsl.supplier + '</option>');
+                       $("#edit_supplier").val(hsl.supplier);                     
                        $("#edit_status").val(hsl.status);
-                     console.log(hsl.tgl_masuk);
                        $("#editModal").modal();
                    }
                 }
             });
             
         })
-    </script>  
-      <script>
+       
+     
+    
        /* Tanpa Rupiah */
             var tanpa_rupiah = document.getElementById('rupiah');
             tanpa_rupiah.addEventListener('keyup', function(e)

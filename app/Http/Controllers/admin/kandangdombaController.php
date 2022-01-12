@@ -27,7 +27,10 @@ class kandangdombaController extends Controller
                 'kandang' => 'required',
             ]);
             if ($validasi) {
-
+                $cek = KandangDomba::where('kandang', $request->kandang)->first();
+                if ($cek) {
+                    return redirect()->back()->with(['message' => 'Nama Kandang ' . $request->kandang . ' sudah terdaftar', 'alert' => 'danger']);
+                }
                 $hsl = KandangDomba::create([
                     'kandang' => $request->kandang,
                 ]);

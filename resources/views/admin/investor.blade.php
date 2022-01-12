@@ -36,14 +36,17 @@
                                     </div>
                                     @endif
                 <div class="widget-content widget-content-area br-6">
-                            <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
+                             @if (session('admin_level')<3)
+                             <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
                              Tambah Investor
                              </button>
+                             @endif
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
                                             <?php $i=1; ?>
                                             <tr>
                                                 <th>No</th>
+                                                <th>Username</th>
                                                 <th>Nama</th>
                                                 <th>Alamat</th> 
                                                 <th>Kota</th>
@@ -61,6 +64,7 @@
                                             @foreach($data as $d)
                                             <tr>
                                                 <td>{{ $i++ }}</td>
+                                                <td>{{ $d->username}}</td>
                                                 <td>{{ $d->nama}}</td>
                                                 <td>{{ $d->alamat }}</td>
                                                 <td>{{ $d->kota }}</td>
@@ -69,8 +73,13 @@
                                                 <td>{{ $d->email }}</td>
                                                 <td>{{ $d->kode_bank }}</td>
                                                 <td>{{ $d->no_rekening }}</td>
-                                                <td><a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/investor/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                                <td>
+                                                 @if (session('admin_level')<3)
+                                                    <a href="javascript:void(0);" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                    <a href="/admin/investor/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a>
+                                                    <a href="/investor/ubah-password/{{$d->username}}"data-toggle="tooltip" data-placement="top" title="Ubah Password"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></a>
+                                                @endif
+                                                <a href="/investor/{{$d->id}}/domba-list"data-toggle="tooltip" data-placement="top" title="Daftar Domba"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></a></td>
                                             
                                               
                                             </tr>
@@ -393,8 +402,7 @@
             
             $("#edit_propinsi").change(function() {
             var propinsi = $("#edit_propinsi").val();
-            console.log(propinsi);
-            $.ajax({
+             $.ajax({
                 type: 'get',
                 method: 'get',
                 url: '/city/find/' + propinsi,

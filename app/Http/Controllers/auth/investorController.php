@@ -4,10 +4,8 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Investor;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class investorController extends Controller
 {
@@ -45,7 +43,7 @@ class investorController extends Controller
     }
     public function logout(Request $request)
     {
-        $request->session()->flush();
+        session()->forget('login_investor_sukses');
         return redirect('/login-investor')->with('message', 'Anda telah Keluar ');
     }
     public function ubah_password()

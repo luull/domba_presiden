@@ -44,8 +44,9 @@ class signinController extends Controller
     }
     public function logout(Request $request)
     {
-        $request->session()->flush();
-        return redirect('/')->with('message', 'Anda telah Keluar ');
+        session()->forget('login_sukses');
+
+        return redirect('/login')->with('message', 'Anda telah Keluar ');
     }
     public function ubah_password()
     {

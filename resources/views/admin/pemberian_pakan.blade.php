@@ -31,9 +31,13 @@
                                     </div>
                                     @endif
                 <div class="widget-content widget-content-area br-6">
-                            <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
+                            <H4 class="text-center p-3">DAFTAR PEMBERIAN PAKAN</h4>
+               
+                            @if (session('admin_level')<3)
+                           <button type="button" class="btn btn-primary mt-3 ml-3 mb-3 mr-3" data-toggle="modal" data-target="#addModal">
                              Pemberian Pakan Domba
                              </button>
+                             @endif
                           
                             <table id="zero-config" class="table dt-table-hover" style="width:100%">
                                         <thead>
@@ -45,8 +49,10 @@
                                                 <th>Total Berat</th>
                                                 <th>Total Pakan</th>
                                                 <th>Detil Pakan</th>
+                                                 @if (session('admin_level')<3)
                                                 
                                                 <th class="no-content"></th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -55,14 +61,17 @@
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $d->kandang }}</td>
-                                                <td>{{ $d->tanggal }}</td>
+                                                <td>{{ convert_tgl1($d->tanggal) }}</td>
                                                 <td>{{ $d->jadwal }}</td>
                                                 <td>{{ number_format($d->total_berat_domba,2) }}</td>
-                                                <td>{{ number_format($d->total_pakan,2) }}</td>
-                                                <td>{{ $detil_pakan }}</td>
+                                                <td>{{ number_format($d->total_pakan,2) }} {{$d->satuan}}</td>
+                                                <td>{!! $d->detil_pakan !!}</td>
+                                                 @if (session('admin_level')<3)
+                                                <td>
                                                 
-                                                <td><a href="#" class="edit" id="e-{{$d->id}}" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="/admin/penimbangan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                           
+                                                <a href="/domba/pemberian-pakan/delete/{{$d->id}}"data-toggle="tooltip" data-placement="top" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a></td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         
@@ -83,12 +92,12 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                <form  action="{{route('create_penimbangan')}}" method="Post" enctype="multipart/form-data">    
-                                    @csrf
+                    <form action="{{route('proses_pemberian_pakan')}}" method="post">
+                        @csrf
                                 <div class="row mb-2">
-                                  <div class="col-md-6">
+                                  <div class="col-md-4">
                                             <label>Kandang Domba</label>
-                                                <select class="form-control" name="kandang">
+                                                <select class="form-control "  id="kandang_input" name="kandang">
                                                     @foreach($kandang as $k)
                                                     <option value="{{ $k->kandang}}">{{ $k->kandang}}</option>
                                                     @endforeach
@@ -97,7 +106,7 @@
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                             <label>Tanggal</label>
                                             <div class="input-group mb-4">
                                                 <div class="input-group-prepend">
@@ -109,18 +118,16 @@
                                             <div class="text-danger mt-1">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <label>Total Berat Badan</label>
-                                                <input type="text" class="form-control" name="total_berat_domba" >
+                                        <div class="col-md-4">
+                                            <label>Total Berat Terakhir</label>
+                                                <input type="text" class="form-control" name="total_berat_domba" id="total_berat_domba" >
                                                 @error('total_berat_domba')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         
                                        
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label>Jadwal</label>
                                                 <select class="form-control" name="jadwal">
                                                     <option value="Pagi">Pagi</option>
@@ -133,151 +140,152 @@
                                                 @enderror
                                             </div>
                                         
-                                    </div> 
-                                     <div class="row mb-2">
-                                        
-                                        
                                        
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label>Total Pakan</label>
                                                 <input type="text" class="form-control" name="total_pakan">
                                                 @error('total_pakan')
                                                 <div class="text-danger mt-1">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            <div class="col-md-4">
+                                            <label>Satuan</label>
+                                                 <select class="form-control" name="satuan" id="satuan">
+                                                    @foreach($satuan as $s)
+                                                    <option value="{{ $s->satuan}}">{{ $s->satuan}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('satuan')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         
-                                    </div>                            
-                                    <div class="modal-footer">
-                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-primary">Proses</button>
-                                    </div>
-                    </form>
-                    </div>
-            </div>
-   
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Pemberian Pakan</h5>
-                
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                <form action="{{route('update_penimbangan')}}" method="Post" enctype="multipart/form-data">    
-                                    @csrf
-                                 
-                                    <input type="hidden" id="edit_id" name="id">
-                                    <div class="form-group mb-3">
-                                        <label>No Registrasi</label>
-                                        <input type="text" name="no_regis" id="edit_no_regis" placeholder="No Registrasi" class="form-control" required>
-                                        @error('no_regis')
-                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <label>Tanggal</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5"><i class="fa fa-calendar"></span>
-                                                </div>
-                                                <input type="date" name="tanggal" id="edit_tanggal" class="form-control flatpickr flatpickr-input active" placeholder="Tanggal timbang">
-                                            </div>
-                                            @error('tgl_timbang')
-                                            <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Total Berat Badan</label>
-                                            <div class="input-group mb-4">
-                                            <input type="text" id="edit_berat_timbang" name="berat_timbang" placeholder="0.0" class="form-control" required>
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5">KG</span>
-                                                </div>
-                                            </div>
-                                            @error('berat_timbang')
-                                            <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                     </div> 
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <label>Tanggal</label>
-                                            <div class="input-group mb-4">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5"><i class="fa fa-calendar"></span>
-                                                </div>
-                                                <input type="date" name="tanggal" id="edit_tanggal" class="form-control flatpickr flatpickr-input active" placeholder="Tanggal timbang">
+                                   
+                                    <div class="row mt-2 mb-2">
+                                    <div class="col-md-6">
+                                            <label>Jenis Pakan</label>
+                                                 <select class="form-control" name="jenis_pakan" id="jenis_pakan">
+                                                    @foreach($pakan as $j)
+                                                    <option value="{{$j->id}}">{{$j->kode_pakan}} : {{ $j->nama_pakan}} </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('jenis_pakan')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('tgl_timbang')
-                                            <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Total Berat Badan</label>
-                                            <div class="input-group mb-4">
-                                            <input type="text" id="edit_berat_timbang" name="berat_timbang" placeholder="0.0" class="form-control" required>
+                                        <div class="col-md-5">
+                                            <label>Jumlah</label>
+                                                 
+                                            <div class="input-group mb-6">
+                                                <input type="number" name="jml" id="jml" placeholder="00" class="form-control" required>
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon5">KG</span>
+                                                    <span class="input-group-text" >{{$j->satuan_pakan}}</span>
                                                 </div>
-                                            </div>
-                                            @error('berat_timbang')
-                                            <div class="text-danger mt-1">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div> 
+                                                      <a href="#"  class=" btn btn-primary btn-sm" onclick="pilih()"">Tambah</a>
                                       
-                                    <div class="modal-footer">
-                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                                        <button type="submit" class="btn btn-success">Simpan</button>
+                                                @error('jml')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                    </div>   
+                                    <div class="row mb-2">
+                                        
+                                             
+                                       
+                                        <div class="mt-3 col-md-12">
+                                            <label>Daftar Detil Pakan</label>
+                                        
+                                            <div id="tabel_detil_pakan">   
+                                            </div>
+                                        </tbody>
+                                    </table>
+                                        
+                                           
+                                        
+                                    </div>       
+                                </div>
+                            </div>                     
+                                    <div class="modal-footer pt-2">
+                                        <button type="submit" class="btn btn-primary">Proses</button>
+                                     <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
+                                       
                                     </div>
-                                </form>
-                </div>
+                    </div>
+                </form>
             </div>
    
         </div>
     </div>
 </div>
+
 @stop
 
 @section('script')
     <script>
-        $(".edit").click(function(){
-            var idnya=$(this).attr('id').split('-');
-            var id=idnya[1];
+        $(document).ready(function(){
+            total_berat_per_kandang()
+        })
+       var f1 = flatpickr(document.getElementById('basicFlatpickr'), {
+             dateFormat: "d-m-Y",
+        });
+        $("#btnTambah").click(function(){
+            var id=$("#jenis_pakan").val();
+            var jml=$("#jml").val();
+        })
+        $("#kandang_input").change(function(){
+           total_berat_per_kandang()
+        })
+        function total_berat_per_kandang(){
+             var kandang=$("#kandang_input").val();
             $.ajax({
                 type:'get',
                 method:'get',
-                url:'/admin/penimbangan/find/'  + id ,
-                data:'_token = <?php echo csrf_token() ?>'   ,
+                url:'/domba/berat-per-kandang' ,
+                data:'_token = <?php echo csrf_token() ?>'  + '&kandang=' + kandang  ,
                 success:function(hsl) {
-                   if (hsl.error){
-                       alert(hsl.message);
+                   $("#total_berat_domba").val(hsl)
+                  
+                } 
+            })
+        }
+        function pilih(){
+        var id=$("#jenis_pakan").val();
+                    var jml=$("#jml").val();
+                    var tgl=$("#basicFlatpickr").val()
+                    $.ajax({
+                        type:'get',
+                        method:'get',
+                        url:'/pakan/detil_pakan/add' ,
+                        data:'_token = <?php echo csrf_token() ?>'  + '&id=' + id + '&jml=' + jml +'&tanggal=' + tgl ,
+                        success:function(hasil) {
+                              if (hasil.status){
 
-                   } else{
-                       $("#edit_id").val(id);
-                       $("#edit_no_regis").val(hsl.no_regis);
-                       $("#edit_tgl_timbang").val(hsl.tgl_timbang);
-                       $("#edit_berat_timbang").val(hsl.berat_timbang);
-                       $(".edit_vitamin").val(hsl.vitamin);
-                       console.log(hsl.tgl_timbang);
-                       console.log(hsl.no_regis);
-                       console.log(hsl.berat_timbang);
-                       console.log(hsl.vitamin);
-                       console.log(hsl.id);
-                       $("#editModal").modal();
-                   }
-                }
-            });
-            
-        })
-        $(".basic").select2({
-            tags: true
-        });
+                                html='<table id="zero-config" class="table dt-table-hover" style="width:100%">';
+                                html=html + '<thead> <tr><th>No</th><th>Kode Pakan</th><th>Jenis Pakan</th><th>Satuan Pakan</th><th>Jumlah Pakan</th></tr>';
+                                html=html + '</thead><tbody>';
+                                hsl=hasil.data;
+                                for (i=0; i<hsl.length;i++){
+                                    no =i+1;
+                                    html=html+ '<tr><td>' + no + '</td><td>' + hsl[i].kode_pakan + '</td>';
+                                    html=html+ '<td>' + hsl[i].jenis_pakan + '</td>';
+                                    html=html+ '<td>' + hsl[i].satuan + '</td>';
+                                    html=html+ '<td>' + hsl[i].jml + '</td></tr>';
+                                    
+                                }
+                                html=html + '</tbody></table>';
+                            $("#tabel_detil_pakan").html(html)
+                            }else{
+                                alert(hasil.message)
+                            }
+                        
+                        } 
+                    })
+        }
+        
     </script>   
  
 @stop

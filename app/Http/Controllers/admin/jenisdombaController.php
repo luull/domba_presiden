@@ -30,7 +30,10 @@ class jenisdombaController extends Controller
                 'jenis' => 'required',
             ]);
             if ($validasi) {
-
+                $cek = JenisDomba::where('jenis', $request->jenis)->first();
+                if ($cek) {
+                    return redirect()->back()->with(['message' => 'Jenis Domba ' . $request->jenis . ' sudah terdaftar', 'alert' => 'danger']);
+                }
                 $hsl = JenisDomba::create([
                     'jenis' => $request->jenis,
                 ]);

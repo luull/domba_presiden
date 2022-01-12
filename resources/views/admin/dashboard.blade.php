@@ -21,6 +21,7 @@
     </div>
 @section('content')
 <div class="container">
+    @include('admin.daftar_booking')
 
 </h1>
 </div>

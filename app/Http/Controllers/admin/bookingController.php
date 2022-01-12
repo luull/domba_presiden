@@ -15,7 +15,6 @@ class bookingController extends Controller
         $karakter = '123456789';
         $generate = substr(str_shuffle($karakter), 0, 2);
 
-
         $tgl_trans = date('Y-m-d');
         $generatedate = str_replace("-", "", $tgl_trans);
         $hasil = 'TR-00' . $generatedate;

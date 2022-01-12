@@ -16,7 +16,7 @@ class investorMiddleware
     public function handle($request, Closure $next)
     {
         if (!session('login_investor_sukses')) {
-            return redirect('/investor/');
+            return redirect('/login-investor/');
         }
         return $next($request);
     }

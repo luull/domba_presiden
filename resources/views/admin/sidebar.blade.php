@@ -31,6 +31,7 @@
                          
                         </ul>
                     </li>
+                    @if (session('admin_level')==1)
                     <li class="menu">
                         <a href="#setting" data-toggle="collapse" data-active="{{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('jenis_domba','satuan_pakan','kandang_domba') ? '' : 'collapsed' }}">
                             <div class="">
@@ -61,7 +62,9 @@
                          
                         </ul>
                     </li>
+                    @endif
                     <li class="menu">
+                       
                         <a href="#supplier" data-toggle="collapse" data-active="{{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'true' : 'false' }}" aria-expanded="{{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'true' : 'false' }}" class="dropdown-toggle {{ Request::is('supplier','supplier/pakan','supplier/domba') ? '' : 'collapsed' }}">
                             <div class="">
                                 <i data-feather="truck"></i>
@@ -71,10 +74,13 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
+                        
                         <ul class="collapse submenu list-unstyled {{ Request::is('supplier','supplier/pakan','supplier/domba') ? 'show' : '' }}" id="supplier" data-parent="#accordionExample">
-                             <li class="{{ Request::is('supplier') ? 'active' : '' }}">
+                              @if (session('admin_level')<3)
+                              <li class="{{ Request::is('supplier') ? 'active' : '' }}">
                                 <a href="/supplier">Daftar Supplier  </a>
                             </li>
+                            @endif
                             <li class="{{ Request::is('supplier/pakan') ? 'active' : '' }}">
                                 <a href="/supplier/pakan"> Supplier Pakan </a>
                             </li>
@@ -113,6 +119,13 @@
                                     <li>
                                         <a href="/domba/sold"> Domba Sold </a>
                                     </li>
+                                    <li>
+                                        <a href="/domba/per_kandang"> Domba Perkandang </a>
+                                    </li>
+                                    <li>
+                                        <a href="/domba/per_kamar"> Domba Perkamar </a>
+                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li class="{{ Request::is('penimbangan_domba') ? 'active' : '' }}">
@@ -140,17 +153,20 @@
                             </div>
                         </a>
                         <ul class="collapse submenu list-unstyled {{ Request::is('order_pakan') ? 'show' : '' }}" id="pakan" data-parent="#accordionExample">
+                             @if (session('admin_level')<3)
                             <li class="{{ Request::is('order_pakan') ? 'active' : '' }}">
-                                <a href="/order_pakan"> Order Pakan </a>
+                                <a href="/pakan/order"> Order Pakan </a>
                             </li>
+                            
                             <li class="{{ Request::is('penerimaan_pakan') ? 'active' : '' }}">
-                                <a href="/penerimaan_pakan"> Penerimaan Pakan </a>
+                                <a href="/pakan/do"> Penerimaan Pakan </a>
                             </li>
+                            @endif
                             <li class="{{ Request::is('laporan_pakan') ? 'active' : '' }}">
-                                <a href="/laporan_pakan"> Laporan Order Pakan </a>
+                                <a href="/pakan/po-per-tgl"> Laporan Order Pakan </a>
                             </li>
                             <li class="{{ Request::is('laporan_penerimaan_pakan') ? 'active' : '' }}">
-                                <a href="/laporan_penerimaan_pakan"> Laporan Penerimaan Pakan </a>
+                                <a href="/pakan/do-per-tgl"> Laporan Penerimaan Pakan </a>
                             </li>
                             <li class="{{ Request::is('stok_pakan') ? 'active' : '' }}">
                                 <a href="/pakan"> Stok Pakan </a>
@@ -172,12 +188,17 @@
                             <li class="{{ Request::is('investor') ? 'active' : '' }}">
                                 <a href="/investor"> Daftar investor </a>
                             </li>
-                            <li class="{{ Request::is('booking') ? 'active' : '' }}">
-                                <a href="/booking"> Pembelian Domba </a>
+                           
+                            <li class="{{ Request::is('investor/booking-list') ? 'active' : '' }}">
+                                <a href="/investor/booking-list"> Daftar Booking </a>
                             </li>
-                            <li class="{{ Request::is('order_investor') ? 'active' : '' }}">
-                                <a href="/daftar_domba"> Daftar Domba </a>
+                             <li class="{{ Request::is('sold_investor') ? 'active' : '' }}">
+                                <a href="/investor/sold-list"> Domba Terjual </a>
                             </li>
+                             <li class="{{ Request::is('sold_investor') ? 'active' : '' }}">
+                                <a href="/investor/domba-list"> Daftar Domba </a>
+                            </li>
+                            
                          
                         </ul>
                     </li>
@@ -195,11 +216,13 @@
                             <li class="{{ Request::is('customer') ? 'active' : '' }}">
                                 <a href="/customer"> Daftar customer </a>
                             </li>
-                            <li class="{{ Request::is('customer') ? 'active' : '' }}">
-                                <a href="/customers"> Pembelian Domba </a>
+                             @if (session('admin_level')<3)
+                            <li class="{{ Request::is('customer/penjualan') ? 'active' : '' }}">
+                                <a href="/customer/penjualan"> Penjualan Domba </a>
                             </li>
-                            <li class="{{ Request::is('order_customer') ? 'active' : '' }}">
-                                <a href="/order_customer"> Daftar Pembelian </a>
+                            @endif
+                            <li class="{{ Request::is('customer/order-list') ? 'active' : '' }}">
+                                <a href="/customer/order-list">Domba Terjual </a>
                             </li>
                          
                         </ul>
@@ -218,19 +241,21 @@
                              <li class="{{ Request::is('order_review') ? 'active' : '' }}">
                                 <a href="/pakan"> Stok Pakan </a>
                             </li>
-                            <li class="{{ Request::is('review') ? 'active' : '' }}">
-                                <a href="/review/tabel">Populasi Domba </a>
-                            </li>
-                            <li class="{{ Request::is('review') ? 'active' : '' }}">
-                                <a href="/review"> Domba Terjual </a>
-                            </li>
-                           
-                            <li class="{{ Request::is('order_review') ? 'active' : '' }}">
-                                <a href="/order_review">Domba Per Kandang </a>
-                            </li>
-                            <li class="{{ Request::is('order_review') ? 'active' : '' }}">
-                                <a href="/order_review">Domba Per Kamar </a>
-                            </li>
+                            <li>
+                                        <a href="/domba/available"> Domba Avalilable </a>
+                                    </li>
+                                    <li>
+                                        <a href="/domba/booked"> Domba Booked </a>
+                                    </li>
+                                    <li>
+                                        <a href="/domba/sold"> Domba Sold </a>
+                                    </li>
+                                    <li>
+                                        <a href="/domba/per_kandang"> Domba Perkandang </a>
+                                    </li>
+                                    <li>
+                                        <a href="/domba/per_kamar"> Domba Perkamar </a>
+                                    </li>
                          
                         </ul>
                     </li>

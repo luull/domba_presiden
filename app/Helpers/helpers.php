@@ -1,7 +1,46 @@
 <?PHP
 
+use App\Customer;
 use App\Penimbangan;
+use App\Investor;
+use App\Supplier;
+use Illuminate\Support\Facades\DB;
 
+function get_customer_name($id)
+{
+    $hasil = Customer::where('id', $id)->first();
+    if ($hasil) {
+        $nama = $hasil->nama;
+    } else {
+        $nama = "";
+    }
+    return $nama;
+}
+function get_supplier_name($id)
+{
+    $hasil = Supplier::find($id);
+    if ($hasil) {
+        $nama = $hasil->nama_supplier;
+    } else {
+        $nama = "";
+    }
+    return $nama;
+}
+function get_investor_name($id)
+{
+    $hasil = Investor::find($id);
+    if ($hasil) {
+        $nama = $hasil->nama;
+    } else {
+        $nama = "";
+    }
+    return $nama;
+}
+function status_domba($id)
+{
+    $status = array('Available', 'Booked', 'Sold');
+    return $status[$id];
+}
 function berat_akhir($id, $ba)
 {
     $berat = $ba;
@@ -13,6 +52,13 @@ function berat_akhir($id, $ba)
         $berat = $dt->berat_timbang;
     }
     return $berat;
+}
+function get_customer($id)
+{
+    dd($id);
+    $dt = Customer::where('id', $id)->first();
+
+    return $dt->nama;
 }
 function only_month($tgl)
 {
@@ -46,6 +92,12 @@ function only_years($tgl)
     $thn = substr($tgl, 0, 4);
     $sekarang = $thn;
     return $sekarang;
+}
+function convertTgl($tgl, $tanda)
+{
+    $a_tgl = explode($tanda, $tgl);
+    $tanggal = $a_tgl[2] . "-" . $a_tgl[1] . "-" . $a_tgl[0];
+    return $tanggal;
 }
 function convert_tgl($tgl)
 {
@@ -106,8 +158,34 @@ function bulan1($bl)
     return $array_bulan[$bl];
 }
 
-function tglsekarang()
+
+function tgl_sekarang()
 {
-    $tglskr = hari(date('N')) . " " . date('d') . "-" . bulan((int)date('m')) . "-" . date('Y');
-    return $tglskr;
+    $t1 = DB::select("select  curdate() as tgl");
+    $tgl_skrg = $t1[0]->tgl;
+    return $tgl_skrg;
+}
+function tgl_sekarang_full()
+{
+    $t1 = DB::select("select  now() as tgl");
+    $tgl_skrg = $t1[0]->tgl;
+    //$tgl_skrg = Carbon::now()->format('Y-m-d h:i:s');
+    return $tgl_skrg;
+}
+function tgl_invoice()
+{
+    $t1 = DB::select("select  curdate() as tgl");
+    //$tgl = Carbon::now()->format('Y-m-d');
+    $tgl = $tgl_skrg = $t1[0]->tgl;
+    $tgl_skrg = str_replace("-", "", $tgl);
+    return $tgl_skrg;
+}
+function pemilik($id)
+{
+    $pemilik = "PDP";
+    $investor = Investor::where('id', $id)->get();
+    if (count($investor) > 0) {
+        $pemilik = $investor[0]->nama;
+    }
+    return $pemilik;
 }

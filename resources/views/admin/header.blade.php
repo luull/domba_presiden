@@ -21,7 +21,7 @@
 
                 <li class="nav-item dropdown user-profile-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user text-white" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Selamat Datang, {{session('admin_nama')}} <i data-feather="user"></i>
+                         <i data-feather="user"></i>
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                         <div class="">
